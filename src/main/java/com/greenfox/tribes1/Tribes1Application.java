@@ -5,12 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Tribes1Application {
-
+  
   public static void main(String[] args) {
-
+    
     SpringApplication.run(Tribes1Application.class, args);
     System.out.println("Hello World!");
   }
-
+  
 }
-

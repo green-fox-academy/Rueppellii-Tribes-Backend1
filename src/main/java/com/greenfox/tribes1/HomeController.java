@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
-
+  
   @RequestMapping("/")
-  public String setup(){
+  public String setup() {
     return "Jó munkát! :)";
   }
 }
