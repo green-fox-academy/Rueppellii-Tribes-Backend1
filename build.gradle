@@ -28,21 +28,32 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     //  implementation 'org.springframework.boot:spring-boot-starter-security'
+    // testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly System.getenv("database")
     runtimeOnly 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // testImplementation 'org.springframework.security:spring-security-test'
+    compile "org.flywaydb:flyway-core:5.2.4" +
+            ""
+    flywayMigration "com.greenfox.tribes"
 }
 
 flyway {
-    url = 'jdbc:h2:mem:mydb'
-    user = (System.getenv('db_username'))
-    password = (System.getenv('db_password'))
+    schemas = ['fake', 'persons']
+    placeholders = [
+            'keyABC'          : 'valueXYZ',
+            'otherplaceholder': 'value123'
+    ]
+
+
+
+    url = (System.getenv("database"))
+    user = (System.getenv("db_username"))
+    password = (System.getenv("db_password"))
 }
