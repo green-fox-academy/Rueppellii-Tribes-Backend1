@@ -14,16 +14,22 @@ public class ApplicationUserService {
     }
 
     public ApplicationUser findByUsername(String username) {
-        return applicationUserRepository.findByUsername(username);
+        if (applicationUserRepository.findByUsername(username).isPresent()) {
+            return applicationUserRepository.findByUsername(username).get();
+        } else return null;
     }
 
+//    @Krisz! itt eredetileg szét volt válogatva a mezők kitöltése meg a szerepel-e már adatbázisban, és dobott hibát is
+//      ehhez tartozik a NotProvidedAdvice és az ErrorMessage class - használjuk a refaktorálásnál, ezeket is ha kell
     public ApplicationUser saveUserIfValid(ApplicationUser applicationUser) {
-        if ((applicationUserRepository.findByUsername(applicationUser.getUsername()) == null) &&
-            !applicationUser.getUsername().isEmpty() && !applicationUser.getPassword().isEmpty()){
+        if (findByUsername(applicationUser.getUsername()) != null ||
+                applicationUser.getUsername().isEmpty() ||
+                applicationUser.getPassword().isEmpty()){
+            return null;
+        } else {
             saveUser(applicationUser);
             return applicationUser;
         }
-        return null;
     }
 
     public void saveUser(ApplicationUser applicationUser) {
