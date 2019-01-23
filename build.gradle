@@ -7,10 +7,9 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath 'com.h2database:h2:1.4.191'
-        classpath 'mysql:mysql-connector-java:5.1.34'
     }
 }
+
 plugins {
     id "org.flywaydb.flyway" version "5.2.4"
 }
@@ -18,6 +17,8 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+
+
 
 group = 'com.greenfox'
 version = '0.0.1-SNAPSHOT'
@@ -28,31 +29,26 @@ repositories {
 }
 
 dependencies {
-    //  implementation 'org.springframework.boot:spring-boot-starter-security'
-    // testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //  implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly System.getenv("database")
+    runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    compile "org.flywaydb:flyway-core:5.2.4" +
-            ""
-    flywayMigration "com.greenfox.tribes"
+    // testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.modelmapper:modelmapper:2.3.0'
+    // classpath 'mysql:mysql-connector-java:5.1.34'
+    //classpath 'com.h2database:h2:1.4.191'
+
 }
 
 flyway {
-    schemas = ['fake', 'persons']
-    placeholders = [
-            'keyABC'          : 'valueXYZ',
-            'otherplaceholder': 'value123'
-    ]
 
-
-    url = (System.getenv("database"))
-    user = (System.getenv("db_username"))
-    password = (System.getenv("db_password"))
+    url = (System.getenv("DATABASE_URL"))
+    user = (System.getenv("DATABASE_USER"))
+    password = (System.getenv("DATABASE_PASSWORD"))
 }
