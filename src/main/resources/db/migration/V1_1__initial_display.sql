@@ -12,7 +12,7 @@ INSERT INTO Persons(ID, name)
 VALUES(5,'W');
 
 INSERT INTO Persons(ID, name)
-VALUES(6,'Wa');
+VALUES(6,'Whassup');
 
 INSERT INTO Fake(id, name)
-VALUES (1, 'Xy');
+VALUES (7, 'Xy');

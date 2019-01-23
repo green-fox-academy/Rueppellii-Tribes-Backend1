@@ -16,7 +16,6 @@ public class Tribes1Application {
     flyway.baseline();
     //System.getenv("ABC") --> get the env. variable called "ABC"
     flyway.migrate();
-    
   }
   
 }

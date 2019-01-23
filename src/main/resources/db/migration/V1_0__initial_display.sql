@@ -19,4 +19,3 @@ VALUES(3,'W');
 
 INSERT INTO Persons(ID, name)
 VALUES(4,'Wa');
-)

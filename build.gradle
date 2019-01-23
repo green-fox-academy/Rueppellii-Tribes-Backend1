@@ -52,7 +52,6 @@ flyway {
     ]
 
 
-
     url = (System.getenv("database"))
     user = (System.getenv("db_username"))
     password = (System.getenv("db_password"))
