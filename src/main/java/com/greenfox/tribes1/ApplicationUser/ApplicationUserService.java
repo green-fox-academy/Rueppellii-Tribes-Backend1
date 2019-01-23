@@ -1,5 +1,7 @@
 package com.greenfox.tribes1.ApplicationUser;
 
+import com.greenfox.tribes1.Exception.UsernameTakenException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +19,19 @@ public class ApplicationUserService {
     return applicationUserRepository.findByUsername(username).orElse(null);
   }
 
-  //atirni - Krisz & Sol
-  public ApplicationUser saveUserIfValid(ApplicationUser applicationUser) {
-    if (findByUsername(applicationUser.getUsername()) != null ||
-            applicationUser.getUsername().isEmpty() ||
-            applicationUser.getPassword().isEmpty()) {
-      return null;
-    }
-    applicationUserRepository.save(applicationUser);
-    return applicationUser;
+  public ApplicationUser saveUserIfValid(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+    ModelMapper modelMapper = new ModelMapper();
+    ApplicationUser applicationUser = modelMapper.map(applicationUserDTO, ApplicationUser.class);
 
+    if (isUsernameInDB(applicationUserDTO)) {
+      throw new UsernameTakenException("Username already taken, please choose an other one.");
+    }
+
+    return applicationUserRepository.save(applicationUser);
+  }
+
+  public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
+    return applicationUserRepository.findByUsername(applicationUserDTO.getUsername()).isPresent();
   }
 
 }
