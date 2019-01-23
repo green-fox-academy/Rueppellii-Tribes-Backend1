@@ -12,6 +12,7 @@ public class ApplicationUserDTO {
     @NotBlank
     private String username;
     private String password;
+    private String kingdomName;
 
     public ApplicationUserDTO(String username, String password) {
         this.username = username;

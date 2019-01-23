@@ -3,6 +3,7 @@ package com.greenfox.tribes1.ApplicationUser;
 import com.greenfox.tribes1.Exception.UserNotFoundException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Exception.WrongPasswordException;
+import com.greenfox.tribes1.Kingdom.Kingdom;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,11 @@ public class ApplicationUserService {
 
     if (!isUsernameInDB(applicationUserDTO)) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
+
+      if (applicationUserDTO.getKingdomName() == null || applicationUserDTO.getKingdomName().isEmpty()) {
+        userToBeSaved.setKingdom(new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername())));
+      }
+
       return applicationUserRepository.save(userToBeSaved);
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
