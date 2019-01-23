@@ -3,7 +3,6 @@ package com.greenfox.tribes1.ApplicationUser;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Optional;
 
 @Getter
 @Setter

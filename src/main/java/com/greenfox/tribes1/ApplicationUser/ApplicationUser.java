@@ -1,7 +1,6 @@
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

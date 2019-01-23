@@ -14,7 +14,6 @@ public class KingdomService {
         this.kingdomRepository = kingdomRepository;
     }
 
-
     public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
         if (!validKingdomName(kingdom.getName())) {
             throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");

@@ -1,8 +1,5 @@
 package com.greenfox.tribes1.ApplicationUser;
 
-import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import com.greenfox.tribes1.ApplicationUser.ApplicationUserRepository;
-import com.greenfox.tribes1.ApplicationUser.ApplicationUserService;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.KingdomRepository;
 import org.junit.Before;
@@ -50,7 +47,6 @@ public class ApplicationUserServiceTest {
     Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
     assertEquals(testUser, applicationUserService.saveUserIfValid(testUserDTO));
   }
-
 
   @Test
   public void findByUsername() {

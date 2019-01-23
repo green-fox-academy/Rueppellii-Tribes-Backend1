@@ -11,9 +11,9 @@ import javax.validation.Valid;
 
 @RestController
 public class ApplicationUserController {
-  @Autowired
   ApplicationUserService applicationUserService;
 
+  @Autowired
   public ApplicationUserController(ApplicationUserService applicationUserService) {
     this.applicationUserService = applicationUserService;
   }
