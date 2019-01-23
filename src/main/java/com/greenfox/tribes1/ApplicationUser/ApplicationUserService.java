@@ -20,18 +20,20 @@ public class ApplicationUserService {
   }
 
   public ApplicationUser saveUserIfValid(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-    ModelMapper modelMapper = new ModelMapper();
-    ApplicationUser applicationUser = modelMapper.map(applicationUserDTO, ApplicationUser.class);
+    ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
 
-    if (isUsernameInDB(applicationUserDTO)) {
-      throw new UsernameTakenException("Username already taken, please choose an other one.");
+    if (!isUsernameInDB(userToBeSaved)) {
+      return applicationUserRepository.save(userToBeSaved);
     }
-
-    return applicationUserRepository.save(applicationUser);
+    throw new UsernameTakenException("Username already taken, please choose an other one.");
   }
 
-  public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
-    return applicationUserRepository.findByUsername(applicationUserDTO.getUsername()).isPresent();
+  public Boolean isUsernameInDB(ApplicationUser applicationUserDTO) {
+    return applicationUserRepository.findByUsername(applicationUserDTO.getUsername()) != null;
   }
 
+  public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
+    ModelMapper modelMapper = new ModelMapper();
+    return modelMapper.map(applicationUserDTO, ApplicationUser.class);
+  }
 }

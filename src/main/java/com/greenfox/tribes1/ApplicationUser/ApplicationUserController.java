@@ -20,7 +20,17 @@ public class ApplicationUserController {
 
   @PostMapping("/register")
   public void register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-    applicationUserService.saveUserIfValid(applicationUserDTO);
+    String username = applicationUserDTO.getUsername();
+    if (applicationUserService.findByUsername(username) != null) {
+      throw new UsernameTakenException("Username already taken, please choose an other one.");
+ /*     } else {
+
+        if (applicationUser.getKingdom() == null) {
+          applicationUser.setKingdom(String.format("%s's kingdom", username));
+        }
+        return ResponseEntity.ok().body(applicationUser);
+      }*/
+    }
   }
 
   @RequestMapping("/login")
