@@ -18,6 +18,8 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 public class ApplicationUserServiceTest {
 
+  ApplicationUserService applicationUserService;
+
   @Mock
   ApplicationUserRepository applicationUserRepository;
 
@@ -26,8 +28,6 @@ public class ApplicationUserServiceTest {
   private String email = "john@john.com";
 
   ApplicationUser testUser = new ApplicationUser(username, password, email);
-
-  ApplicationUserService applicationUserService;
 
   @Before
   public void init() {

@@ -18,10 +18,9 @@ public class KingdomService {
     public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
         if (!validKingdomName(kingdom.getName())) {
             throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
-        } else {
-            kingdomRepository.save(kingdom);
-            return kingdom;
         }
+
+        return kingdomRepository.save(kingdom);
     }
 
     public boolean validKingdomName(String field) {

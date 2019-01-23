@@ -25,24 +25,23 @@ public class KingdomServiceTest {
   @Mock
   KingdomRepository kingdomRepository;
 
-  Kingdom kingdom;
-  Kingdom kingdom2;
+  private Kingdom validKingdom = new Kingdom("Narnia");
+  private Kingdom notValidKingdom = new Kingdom(null);
 
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
     kingdomService = new KingdomService(kingdomRepository);
-    kingdom = new Kingdom("Narnia");
-    kingdom2 = new Kingdom(null);
   }
 
   @Test
   public void saveKingdomTest1() throws NotValidKingdomNameException {
-    assertEquals(kingdomService.saveKingdom(kingdom), kingdom);
+    Mockito.when(kingdomRepository.save(validKingdom)).thenReturn(validKingdom);
+    assertEquals(kingdomService.saveKingdom(validKingdom), validKingdom);
   }
 
   @Test(expected = NotValidKingdomNameException.class)
   public void saveKingdomTest2() throws NotValidKingdomNameException {
-    kingdomService.saveKingdom(kingdom2);
+    kingdomService.saveKingdom(notValidKingdom);
   }
 }
