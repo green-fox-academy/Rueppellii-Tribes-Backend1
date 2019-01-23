@@ -1,5 +1,6 @@
-package com.greenfox.tribes1;
+package com.greenfox.tribes1.ApplicationUser;
 
+import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
