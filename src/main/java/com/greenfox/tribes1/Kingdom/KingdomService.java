@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Kingdom;
 
+import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,9 @@ public class KingdomService {
     }
 
 
-    public Kingdom saveKingdom(Kingdom kingdom) {
+    public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
         if (!validKingdomName(kingdom.getName())) {
-            throw new UnsupportedOperationException("The given name wasn't correct, or the field is empty!");
+            throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
         } else {
             kingdomRepository.save(kingdom);
             return kingdom;
