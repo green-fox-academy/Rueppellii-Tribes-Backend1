@@ -4,6 +4,7 @@ import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUserRepository;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUserService;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
+import com.greenfox.tribes1.Kingdom.KingdomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,13 +26,16 @@ public class ApplicationUserServiceTest {
   @Mock
   ApplicationUserRepository applicationUserRepository;
 
+  @Mock
+  KingdomRepository kingdomRepository;
+
   private ApplicationUserDTO testUserDTO = new ApplicationUserDTO(username, password);
   private ApplicationUser testUser;
 
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
-    applicationUserService = new ApplicationUserService(applicationUserRepository);
+    applicationUserService = new ApplicationUserService(applicationUserRepository, kingdomRepository);
     testUser = applicationUserService.createUserFromDTO(testUserDTO);
   }
 
@@ -43,7 +47,6 @@ public class ApplicationUserServiceTest {
 
   @Test
   public void saveUserIfValid_ReturnsUser_IfUserNotExist() throws UsernameTakenException {
-    Mockito.when(applicationUserRepository.findByUsername(testUser.getUsername())).thenReturn(null);
     Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
     assertEquals(testUser, applicationUserService.saveUserIfValid(testUserDTO));
   }
