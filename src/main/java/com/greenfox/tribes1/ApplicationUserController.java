@@ -30,6 +30,7 @@ public class ApplicationUserController {
                 if (applicationUser.getKingdom() == null) {
                     applicationUser.setKingdom(String.format("%s's kingdom", username));
                 }
+                applicationUserService.save(applicationUser);
                 return ResponseEntity.ok().body(applicationUser);
             }
         }
