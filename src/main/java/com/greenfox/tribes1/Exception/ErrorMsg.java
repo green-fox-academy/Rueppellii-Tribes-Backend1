@@ -1,4 +1,4 @@
-package com.greenfox.tribes1;
+package com.greenfox.tribes1.Exception;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.greenfox.tribes1;
+package com.greenfox.tribes1.ApplicationUser;
 
 import lombok.*;
 
@@ -12,7 +12,6 @@ public class ApplicationUserDTO {
     @NotBlank
     private String username;
     private String password;
-    private String kingdom;
 
     public ApplicationUserDTO(String username, String password) {
         this.username = username;
