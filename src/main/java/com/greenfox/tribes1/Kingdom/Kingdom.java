@@ -25,8 +25,8 @@ public class Kingdom {
 //    List<Troop> troops;
 //    Location location;
 
- @OneToOne
- ApplicationUser applicationUser;
+  @OneToOne
+  ApplicationUser applicationUser;
 
 
   public Kingdom(String name) {
