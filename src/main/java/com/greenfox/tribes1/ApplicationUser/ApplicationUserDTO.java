@@ -11,6 +11,7 @@ import java.util.Optional;
 public class ApplicationUserDTO {
     @NotBlank
     private String username;
+    @NotBlank
     private String password;
     private String kingdomName;
 
