@@ -20,31 +20,11 @@ public class ApplicationUserController {
 
   @PostMapping("/register")
   public void register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-    String username = applicationUserDTO.getUsername();
-    if (applicationUserService.findByUsername(username) != null) {
-      throw new UsernameTakenException("Username already taken, please choose an other one.");
- /*     } else {
-
-        if (applicationUser.getKingdom() == null) {
-          applicationUser.setKingdom(String.format("%s's kingdom", username));
-        }
-        return ResponseEntity.ok().body(applicationUser);
-      }*/
-    }
+    applicationUserService.saveUserIfValid(applicationUserDTO);
   }
 
   @RequestMapping("/login")
   public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws WrongPasswordException, UserNotFoundException {
-    String username = applicationUserDTO.getUsername();
-
-    ApplicationUser userToFind = applicationUserService.findByUsername(username);
-
-    if (userToFind != null) {
-      return ResponseEntity.ok().build();
-    } else if (!userToFind.getPassword().equals(applicationUserDTO.getPassword())) {
-      throw new WrongPasswordException("Wrong password");
-    }
-    throw new UserNotFoundException("No such user: " + applicationUserDTO.getUsername());
-
+    return applicationUserService.login(applicationUserDTO);
   }
 }

@@ -1,8 +1,11 @@
 package com.greenfox.tribes1.ApplicationUser;
 
+import com.greenfox.tribes1.Exception.UserNotFoundException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
+import com.greenfox.tribes1.Exception.WrongPasswordException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,20 +23,38 @@ public class ApplicationUserService {
   }
 
   public ApplicationUser saveUserIfValid(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-    ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
 
-    if (!isUsernameInDB(userToBeSaved)) {
+    if (!isUsernameInDB(applicationUserDTO)) {
+      ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
       return applicationUserRepository.save(userToBeSaved);
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
   }
 
-  public Boolean isUsernameInDB(ApplicationUser applicationUserDTO) {
+  public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
     return applicationUserRepository.findByUsername(applicationUserDTO.getUsername()) != null;
   }
 
   public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
+  }
+
+  public ResponseEntity login(ApplicationUserDTO applicationUserDTO) throws UserNotFoundException, WrongPasswordException {
+    if (isUsernameInDB(applicationUserDTO)) {
+      if (isPasswordMatching(applicationUserDTO)) {
+        return ResponseEntity.ok().build();
+      }
+      throw new WrongPasswordException("Wrong password!");
+    }
+    throw new UserNotFoundException("No such user: " + applicationUserDTO.getUsername());
+  }
+
+  private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
+    return applicationUserRepository
+            .findByUsername(applicationUserDTO.getUsername())
+            .get()
+            .getPassword()
+            .equals(applicationUserDTO.getPassword());
   }
 }
