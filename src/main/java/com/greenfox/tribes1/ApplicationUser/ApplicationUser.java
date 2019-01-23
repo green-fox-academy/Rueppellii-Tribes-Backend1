@@ -20,7 +20,7 @@ public class ApplicationUser {
   private String username;
   private String password;
   private String userEmail;
-  @OneToOne
+  @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private Kingdom kingdom;
 
   public ApplicationUser(String username, String password, String userEmail) {

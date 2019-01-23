@@ -4,6 +4,7 @@ import com.greenfox.tribes1.Exception.UserNotFoundException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Exception.WrongPasswordException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Kingdom.KingdomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class ApplicationUserService {
 
   private ApplicationUserRepository applicationUserRepository;
+  private KingdomRepository kingdomRepository;
 
   @Autowired
-  public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, KingdomRepository kingdomRepository) {
     this.applicationUserRepository = applicationUserRepository;
+    this.kingdomRepository = kingdomRepository;
   }
 
   public ApplicationUser findByUsername(String username) {
@@ -28,17 +31,20 @@ public class ApplicationUserService {
     if (!isUsernameInDB(applicationUserDTO)) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
 
-      if (applicationUserDTO.getKingdomName() == null || applicationUserDTO.getKingdomName().isEmpty()) {
+      String kingdomName = applicationUserDTO.getKingdomName();
+      if (kingdomName == null || kingdomName.isEmpty()) {
         userToBeSaved.setKingdom(new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername())));
+      } else {
+        userToBeSaved.setKingdom(new Kingdom(kingdomName));
       }
-
+      kingdomRepository.save(userToBeSaved.getKingdom());
       return applicationUserRepository.save(userToBeSaved);
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
   }
 
   public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
-    return applicationUserRepository.findByUsername(applicationUserDTO.getUsername()) != null;
+    return applicationUserRepository.findByUsername(applicationUserDTO.getUsername()).orElse(null) != null;
   }
 
   public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
