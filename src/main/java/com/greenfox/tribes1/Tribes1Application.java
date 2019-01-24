@@ -14,7 +14,7 @@ public class Tribes1Application {
     Flyway flyway = Flyway.configure().dataSource(System.getenv("DATABASE_URL"), System.getenv("DATABASE_USER"), System.getenv("DATABASE_PASSWORD")).load();
     flyway.clean();
     flyway.baseline();
-    //System.getenv("ABC") --> get the env. variable called "ABC"
+    // System.getenv("ABC") --> get the env. variable called "ABC"
     flyway.migrate();
   }
 }
