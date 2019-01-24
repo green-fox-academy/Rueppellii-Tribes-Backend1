@@ -7,23 +7,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class KingdomService {
 
-    private KingdomRepository kingdomRepository;
+  private KingdomRepository kingdomRepository;
 
-    @Autowired
-    public KingdomService(KingdomRepository kingdomRepository) {
-        this.kingdomRepository = kingdomRepository;
+  @Autowired
+  public KingdomService(KingdomRepository kingdomRepository) {
+    this.kingdomRepository = kingdomRepository;
+  }
+  
+  public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
+    if (!validKingdomName(kingdom.getName())) {
+      throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
     }
+    return kingdomRepository.save(kingdom);
+  }
 
-    public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
-        if (!validKingdomName(kingdom.getName())) {
-            throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
-        } else {
-            kingdomRepository.save(kingdom);
-            return kingdom;
-        }
-    }
-
-    public boolean validKingdomName(String field) {
-        return field == "Narnia" || field == "Rueppellii";
-    }
+  public boolean validKingdomName(String field) {
+    return field == "Narnia" || field == "Rueppellii";
+  }
 }

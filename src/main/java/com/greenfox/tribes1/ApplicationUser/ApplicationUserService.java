@@ -27,11 +27,10 @@ public class ApplicationUserService {
   }
 
   public ApplicationUser saveUserIfValid(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-
     if (!isUsernameInDB(applicationUserDTO)) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
-
       String kingdomName = applicationUserDTO.getKingdomName();
+
       if (kingdomName == null || kingdomName.isEmpty()) {
         userToBeSaved.setKingdom(new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername())));
       } else {
