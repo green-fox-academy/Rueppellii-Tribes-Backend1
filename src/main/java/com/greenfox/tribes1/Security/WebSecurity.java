@@ -21,7 +21,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
+    http.csrf().disable().authorizeRequests()
             .antMatchers( "/register", "/login").permitAll()
             .anyRequest().authenticated();
 
