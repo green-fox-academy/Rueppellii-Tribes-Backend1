@@ -1,8 +1,7 @@
 package com.greenfox.tribes1.ApplicationUser;
 
-import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import com.greenfox.tribes1.ApplicationUser.ApplicationUserRepository;
-import com.greenfox.tribes1.ApplicationUser.ApplicationUserService;
+import com.greenfox.tribes1.Exception.UsernameTakenException;
+import com.greenfox.tribes1.Kingdom.KingdomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,46 +16,37 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 public class ApplicationUserServiceTest {
+  private String username = "John";
+  private String password = "password";
+  private ApplicationUserService applicationUserService;
 
   @Mock
   ApplicationUserRepository applicationUserRepository;
 
-  private String username = "John";
-  private String password = "password";
-  private String email = "john@john.com";
+  @Mock
+  KingdomRepository kingdomRepository;
 
-  ApplicationUser testUser = new ApplicationUser(username, password, email);
-
-  ApplicationUserService applicationUserService;
+  private ApplicationUserDTO testUserDTO = new ApplicationUserDTO(username, password);
+  private ApplicationUser testUser;
 
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
-    applicationUserService = new ApplicationUserService(applicationUserRepository);
+    applicationUserService = new ApplicationUserService(applicationUserRepository, kingdomRepository);
+    testUser = applicationUserService.createUserFromDTO(testUserDTO);
+  }
+
+  @Test(expected = UsernameTakenException.class)
+  public void saveUserIfValid_ThrowException_IfUserAlreadyExist() throws UsernameTakenException {
+    Mockito.when(applicationUserRepository.findByUsername(testUserDTO.getUsername())).thenReturn(Optional.of(testUser));
+    applicationUserService.saveUserIfValid(testUserDTO);
   }
 
   @Test
-  public void saveUserIfValidReturnsNullIfUserAlreadyExist() {
-    Mockito.when(applicationUserRepository.findByUsername(testUser.getUsername())).thenReturn(Optional.of(testUser));
-    assertNull(applicationUserService.saveUserIfValid(testUser));
+  public void saveUserIfValid_ReturnsUser_IfUserNotExist() throws UsernameTakenException {
+    Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
+    assertEquals(testUser, applicationUserService.saveUserIfValid(testUserDTO));
   }
-
-  @Test
-  public void saveUserIfValidReturnsNullIfUsernameMissing() {
-    assertNull(applicationUserService.saveUserIfValid(new ApplicationUser("", password, email)));
-  }
-
-  @Test
-  public void saveUserIfValidReturnsNullIfPasswordMissing() {
-    assertNull(applicationUserService.saveUserIfValid(new ApplicationUser(username, "", email)));
-  }
-
-  @Test
-  public void saveUserIfValidReturnsUserIfUsernameAndPasswordPresentAndUserStillNotExist() {
-    ApplicationUser testUser = new ApplicationUser(username, password, email);
-    assertEquals(testUser, applicationUserService.saveUserIfValid(testUser));
-  }
-
 
   @Test
   public void findByUsername() {

@@ -28,7 +28,6 @@ public class Kingdom {
  @OneToOne
  ApplicationUser applicationUser;
 
-
   public Kingdom(String name) {
     this.name = name;
   }
