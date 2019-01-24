@@ -1,5 +1,7 @@
 package com.greenfox.tribes1.Kingdom;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +18,7 @@ import javax.persistence.*;
 public class Kingdom {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
   private String name;
 //    private Long userId;
@@ -25,7 +27,7 @@ public class Kingdom {
 //    List<Troop> troops;
 //    Location location;
 
-  @OneToOne
+  @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
 
   public Kingdom(String name) {

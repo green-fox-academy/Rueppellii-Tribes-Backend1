@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.ApplicationUser;
 
+import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.Exception.UserNotFoundException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Exception.WrongPasswordException;
@@ -19,8 +20,9 @@ public class ApplicationUserController {
   }
 
   @PostMapping("/register")
-  public void register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-    applicationUserService.saveUserIfValid(applicationUserDTO);
+  public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+    ApplicationUser applicationUser = applicationUserService.saveUserIfValid(applicationUserDTO);
+    return ResponseEntity.ok().body(applicationUserService.createDTOwithKingdomfromUser(applicationUser));
   }
 
   @RequestMapping("/login")

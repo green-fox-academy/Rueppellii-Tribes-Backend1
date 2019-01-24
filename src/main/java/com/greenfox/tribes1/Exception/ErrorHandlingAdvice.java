@@ -14,34 +14,34 @@ public class ErrorHandlingAdvice {
   @ExceptionHandler(WrongPasswordException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   ErrorMsg wrongPasswordHandler(WrongPasswordException ex){
-    return new ErrorMsg(ex.getMessage());
+    return new ErrorMsg("error",ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   ErrorMsg userNotFound(UserNotFoundException ex){
-    return new ErrorMsg(ex.getMessage());
+    return new ErrorMsg("error",ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorMsg missingParams(MethodArgumentNotValidException ex){
-    return new ErrorMsg("Missing parameters: username or password missing");
+    return new ErrorMsg("error","Missing parameters: username or password missing");
   }
 
   @ResponseBody
   @ExceptionHandler(UsernameTakenException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
   ErrorMsg usernameTaken(UsernameTakenException ex){
-    return new ErrorMsg(ex.getMessage());
+    return new ErrorMsg("error",ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(NotValidKingdomNameException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   ErrorMsg notAcceptableHandler (NotValidKingdomNameException ex){
-    return new ErrorMsg(ex.getMessage());
+    return new ErrorMsg("error",ex.getMessage());
   }
 }

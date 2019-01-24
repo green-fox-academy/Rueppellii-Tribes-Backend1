@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.ApplicationUser;
 
+import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.KingdomRepository;
 import org.junit.Before;

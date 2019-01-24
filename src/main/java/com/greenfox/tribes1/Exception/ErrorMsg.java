@@ -11,8 +11,8 @@ public class ErrorMsg {
     private String status;
     private String message;
 
-    public ErrorMsg(String message) {
-        this.status = "error";
+    public ErrorMsg(String status, String message) {
+        this.status = status;
         this.message = message;
     }
 }
