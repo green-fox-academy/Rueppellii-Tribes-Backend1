@@ -1,9 +1,5 @@
 package com.greenfox.tribes1.Exception;
 
-import com.greenfox.tribes1.Exception.ErrorMsg;
-import com.greenfox.tribes1.Exception.UserNotFoundException;
-import com.greenfox.tribes1.Exception.UsernameTakenException;
-import com.greenfox.tribes1.Exception.WrongPasswordException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,14 +17,12 @@ public class ErrorHandlingAdvice {
     return new ErrorMsg(ex.getMessage());
   }
 
-
   @ResponseBody
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   ErrorMsg userNotFound(UserNotFoundException ex){
     return new ErrorMsg(ex.getMessage());
   }
-
 
   @ResponseBody
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -43,7 +37,6 @@ public class ErrorHandlingAdvice {
   ErrorMsg usernameTaken(UsernameTakenException ex){
     return new ErrorMsg(ex.getMessage());
   }
-
 
   @ResponseBody
   @ExceptionHandler(NotValidKingdomNameException.class)

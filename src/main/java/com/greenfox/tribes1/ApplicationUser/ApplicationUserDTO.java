@@ -3,7 +3,6 @@ package com.greenfox.tribes1.ApplicationUser;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -11,7 +10,9 @@ import java.util.Optional;
 public class ApplicationUserDTO {
     @NotBlank
     private String username;
+    @NotBlank
     private String password;
+    private String kingdomName;
 
     public ApplicationUserDTO(String username, String password) {
         this.username = username;
