@@ -1,5 +1,5 @@
 /*nincs értelme a primary key-t NOT NULL-ra tenni, mert ez automatikusan megtörténik*/
-CREATE TABLE application_user (
+create table application_user (
   id         INT auto_increment,
   username   VARCHAR(255),
   password   VARCHAR(255),

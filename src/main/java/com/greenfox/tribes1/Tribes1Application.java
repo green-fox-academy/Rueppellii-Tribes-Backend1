@@ -12,8 +12,8 @@ public class Tribes1Application {
     SpringApplication.run(Tribes1Application.class, args);
     System.out.println("Hello World!");
     Flyway flyway = Flyway.configure().dataSource(System.getenv("DATABASE_URL"), System.getenv("DATABASE_USER"), System.getenv("DATABASE_PASSWORD")).load();
-    flyway.clean();
-    flyway.baseline();
+    //flyway.clean();
+    //flyway.baseline();
     // System.getenv("ABC") --> get the env. variable called "ABC"
     flyway.migrate();
   }
