@@ -16,7 +16,7 @@ CREATE TABLE `application_user_kingdom` (
   `kingdom_id`          bigint(20) DEFAULT NULL,
   `application_user_id` bigint(20) NOT NULL,
   PRIMARY KEY (`application_user_id`),
-  KEY `FKlri4ciyecg9opp9r3ow0b4lp1` (`kingdom_id`),
-  CONSTRAINT `FKj725o1t4n56nlb9fysdcw8r3b` FOREIGN KEY (`application_user_id`) REFERENCES `application_user` (`id`),
-  CONSTRAINT `FKlri4ciyecg9opp9r3ow0b4lp1` FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`)
+  KEY kingdom_id (`kingdom_id`),
+  CONSTRAINT application_user_id FOREIGN KEY (`application_user_id`) REFERENCES `application_user` (`id`),
+  CONSTRAINT kingdom_id FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`)
 );
