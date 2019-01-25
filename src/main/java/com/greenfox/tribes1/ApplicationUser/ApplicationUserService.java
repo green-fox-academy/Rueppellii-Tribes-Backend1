@@ -17,12 +17,10 @@ import org.springframework.stereotype.Service;
 public class ApplicationUserService {
 
   private ApplicationUserRepository applicationUserRepository;
-  private KingdomRepository kingdomRepository;
 
   @Autowired
-  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, KingdomRepository kingdomRepository) {
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
     this.applicationUserRepository = applicationUserRepository;
-    this.kingdomRepository = kingdomRepository;
   }
 
   public ApplicationUser findByUsername(String username) {
