@@ -17,12 +17,10 @@ import org.springframework.stereotype.Service;
 public class ApplicationUserService {
 
   private ApplicationUserRepository applicationUserRepository;
-  private KingdomRepository kingdomRepository;
 
   @Autowired
-  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, KingdomRepository kingdomRepository) {
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
     this.applicationUserRepository = applicationUserRepository;
-    this.kingdomRepository = kingdomRepository;
   }
 
   public ApplicationUser findByUsername(String username) {
@@ -34,7 +32,7 @@ public class ApplicationUserService {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
       String kingdomName = applicationUserDTO.getKingdomName();
 
-      if (kingdomName == null || kingdomName.isEmpty()) {
+      if (isKingdomNameNullOrEmpty(kingdomName)) {
         userToBeSaved.setKingdom(new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername())));
       } else {
         userToBeSaved.setKingdom(new Kingdom(kingdomName));
@@ -46,7 +44,7 @@ public class ApplicationUserService {
   }
 
   public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
-    return applicationUserRepository.findByUsername(applicationUserDTO.getUsername()).orElse(null) != null;
+    return findByUsername(applicationUserDTO.getUsername()) != null;
   }
 
   public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
@@ -54,7 +52,7 @@ public class ApplicationUserService {
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
   }
 
-  public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser){
+  public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
   }
@@ -72,8 +70,10 @@ public class ApplicationUserService {
   private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
     return applicationUserRepository
             .findByUsername(applicationUserDTO.getUsername())
-            .get()
-            .getPassword()
-            .equals(applicationUserDTO.getPassword());
+            .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
+  }
+
+  private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
+    return kingdomName == null || kingdomName.isEmpty();
   }
 }
