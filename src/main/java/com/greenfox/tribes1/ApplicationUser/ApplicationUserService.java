@@ -1,5 +1,8 @@
 package com.greenfox.tribes1.ApplicationUser;
 
+import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
+import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
+import com.greenfox.tribes1.Exception.ErrorMsg;
 import com.greenfox.tribes1.Exception.UserNotFoundException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Exception.WrongPasswordException;
@@ -36,7 +39,7 @@ public class ApplicationUserService {
       } else {
         userToBeSaved.setKingdom(new Kingdom(kingdomName));
       }
-      kingdomRepository.save(userToBeSaved.getKingdom());
+      userToBeSaved.getKingdom().setApplicationUser(userToBeSaved);
       return applicationUserRepository.save(userToBeSaved);
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
@@ -51,10 +54,15 @@ public class ApplicationUserService {
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
   }
 
+  public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser){
+    ModelMapper modelMapper = new ModelMapper();
+    return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
+  }
+
   public ResponseEntity login(ApplicationUserDTO applicationUserDTO) throws UserNotFoundException, WrongPasswordException {
     if (isUsernameInDB(applicationUserDTO)) {
       if (isPasswordMatching(applicationUserDTO)) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new ErrorMsg("ok", "ok"));
       }
       throw new WrongPasswordException("Wrong password!");
     }
