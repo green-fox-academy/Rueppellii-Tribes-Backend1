@@ -24,16 +24,13 @@ public class ApplicationUserServiceTest {
   @Mock
   ApplicationUserRepository applicationUserRepository;
 
-  @Mock
-  KingdomRepository kingdomRepository;
-
   private ApplicationUserDTO testUserDTO = new ApplicationUserDTO(username, password);
   private ApplicationUser testUser;
 
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
-    applicationUserService = new ApplicationUserService(applicationUserRepository, kingdomRepository);
+    applicationUserService = new ApplicationUserService(applicationUserRepository);
     testUser = applicationUserService.createUserFromDTO(testUserDTO);
   }
 
