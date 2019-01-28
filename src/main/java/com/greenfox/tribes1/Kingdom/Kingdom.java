@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,8 +32,8 @@ public class Kingdom {
   @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
 
-  @OneToOne(mappedBy = "kingdom")
-  private Troop troop;
+  @OneToMany
+  private List<Troop> troops;
 
   public Kingdom(String name) {
     this.name = name;

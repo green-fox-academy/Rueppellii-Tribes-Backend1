@@ -8,11 +8,11 @@ CREATE TABLE `troop` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `kingdom_troops` (
-  `troop_id`          bigint(20) DEFAULT NULL,
+CREATE TABLE `kingdom_troop` (
+  `troop_id`          bigint(20) NOT NULL,
   `kingdom_id` bigint(20) NOT NULL,
   PRIMARY KEY (`kingdom_id`),
   KEY troop_id (`troop_id`),
-  CONSTRAINT kingdom_troops_kingodm_id FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`),
-  CONSTRAINT kingdom_troops_troop_id FOREIGN KEY (`troop_id`) REFERENCES `troop` (`id`)
+  CONSTRAINT kingdom_troop_kingdom_id FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`),
+  CONSTRAINT kingdom_troop_troop_id FOREIGN KEY (`troop_id`) REFERENCES `troop` (`id`)
 );

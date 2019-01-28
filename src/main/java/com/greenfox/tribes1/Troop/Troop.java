@@ -19,7 +19,7 @@ public class Troop {
   private Long started_at;
   private Long finished_at;
 
-  @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinTable(name="kingdom_troops",
           joinColumns = @JoinColumn(name ="troop_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
