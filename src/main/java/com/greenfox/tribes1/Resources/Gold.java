@@ -1,5 +1,8 @@
 package com.greenfox.tribes1.Resources;
 
-public class Gold extends KingdomResource {
+import lombok.Data;
+
+@Data
+class Gold extends KingdomResource {
   
 }
