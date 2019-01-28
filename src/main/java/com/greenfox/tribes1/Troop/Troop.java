@@ -1,12 +1,14 @@
 package com.greenfox.tribes1.Troop;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 public class Troop {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
