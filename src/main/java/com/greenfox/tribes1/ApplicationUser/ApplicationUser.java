@@ -1,18 +1,21 @@
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @Setter
+@Builder
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class ApplicationUser {
 
   @Id
@@ -28,10 +31,4 @@ public class ApplicationUser {
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
 
   private Kingdom kingdom;
-
-  public ApplicationUser(String username, String password, String userEmail) {
-    this.username = username;
-    this.password = password;
-    this.userEmail = userEmail;
-  }
 }
