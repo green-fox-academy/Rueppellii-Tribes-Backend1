@@ -12,9 +12,10 @@ public class TroopService {
     this.troopRepository = troopRepository;
   }
 
-  public void save(Troop troop) {
-    if (!troop.equals(null)) {
-      troopRepository.save(troop);
+  public Troop save(Troop troop) {
+    if (troop == null) {
+      return null;
     }
+    return troopRepository.save(troop);
   }
 }
