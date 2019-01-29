@@ -13,23 +13,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockBodyContent;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.ResultMatcher.*;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Collections;
 
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(KingdomController.class)
@@ -69,11 +72,11 @@ public class KingdomControllerTest {
     Kingdom testKingdom = new Kingdom(kingdomName);
     testKingdom.setId(1L);
 
-    KingdomDTO testKingdomDTO = new KingdomDTO(id, kingdomName, username);
+//    KingdomDTO testKingdomDTO = new KingdomDTO(id, kingdomName, username);
 
     testApplicationUser.setKingdom(testKingdom);
     testKingdom.setApplicationUser(testApplicationUser);
-//    KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
+    KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
 
     when(kingdomService.findByApplicationUser(testApplicationUser)).thenReturn(testKingdom);
     when(kingdomService.createKingdomDTOFromKingdom(testKingdom)).thenReturn(testKingdomDTO);
@@ -85,6 +88,12 @@ public class KingdomControllerTest {
             + "\"kingdom\":\"kingdomName\"\n"
             + "}\n");
 
+    String result = String.format("{\n"
+            + "\"id\":1,\n"
+            + "\"kingdomName\":\"kingdomName\",\n"
+            + "\"applicationUserName\":\"username\"\n"
+            + "}\n");
+
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -92,11 +101,12 @@ public class KingdomControllerTest {
                     .content(json)
     )
             .andDo(print())
-            .andExpect(MockMvcResultMatchers.status().isOk());
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(1)))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.kingdomName", is("kingdomName")))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.applicationUserName", is("username")))
-//            .andExpect(MockMvcResultMatchers.content(testKingdomDTO));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+//            .andExpect(jsonPath("$.id", is(1)));
+//            .andExpect(jsonPath("$.kingdomName", is("kingdomName")))
+//            .andExpect(jsonPath("$.applicationUserName", is("username")))
+            .andExpect(content().json(result));
 //    verify(kingdomService, times(1)).findByApplicationUser(testApplicationUser);
 //    verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
 //    verifyNoMoreInteractions(kingdomService);
