@@ -6,17 +6,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class BuildigService {
 
-  @Autowired
   private BuildingRepository buildingRepository;
+
+  @Autowired
+  public BuildigService(BuildingRepository buildingRepository) {
+    this.buildingRepository = buildingRepository;
+  }
 
   public boolean isValidBuilding(Building building){
     return building!=null;
   }
 
-  public void saveBuilding(Building building){
+  public Building saveBuilding(Building building){
     if(isValidBuilding(building)){
-      buildingRepository.save(building);
+      return buildingRepository.save(building);
     }
+    return null;
   }
 
 }
