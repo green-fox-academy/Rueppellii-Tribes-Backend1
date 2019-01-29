@@ -22,7 +22,6 @@ public class ResourceService {
   }
   
   public boolean validResource(KingdomResource resource) {
-    return resource != null;
+    return (resource instanceof Food || resource instanceof Gold);
   }
-  
 }

@@ -5,5 +5,4 @@ public class NotValidResourceException extends Exception {
   public NotValidResourceException(String message) {
     super(message);
   }
-  
 }
