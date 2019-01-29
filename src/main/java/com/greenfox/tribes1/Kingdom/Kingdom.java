@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,8 +21,8 @@ public class Kingdom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  
-  private List<KingdomResource> resources;
+  @OneToMany
+  private List<KingdomResource> resources = new ArrayList<>();
 
 //    private Long userId;
 //    List<Building> buildings;
@@ -50,12 +51,6 @@ public class Kingdom {
     resources.add(resourceFactory.getResource("gold"));
   }
   
-  @OneToMany
-      (targetEntity = KingdomResource.class,
-          mappedBy = "kingdom",
-          cascade = CascadeType.PERSIST,
-          fetch = FetchType.EAGER)
-  //@JoinColumn(referencedColumnName = "kingdom_id")
   public List<KingdomResource> getResources() {
     return resources;
   }

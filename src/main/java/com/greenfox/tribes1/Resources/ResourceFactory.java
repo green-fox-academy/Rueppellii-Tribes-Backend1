@@ -1,5 +1,8 @@
 package com.greenfox.tribes1.Resources;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class ResourceFactory {
   
   public KingdomResource getResource(String resourceType) {
