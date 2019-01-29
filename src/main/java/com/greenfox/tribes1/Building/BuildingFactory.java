@@ -2,18 +2,7 @@ package com.greenfox.tribes1.Building;
 
 public class BuildingFactory {
 
-  public static Building makeBuilding(String type) {
-    switch (type.toLowerCase()) {
-      case "townhall":
-        return new Townhall();
-      case "mine":
-        return new Mine();
-      case "farm":
-        return new Farm();
-      case "barracks":
-        return new Barracks();
-      default:
-        return null;
-    }
+  public static Building createBuilding(BuildingType buildingType) {
+    return buildingType.makeBuilding();
   }
 }
