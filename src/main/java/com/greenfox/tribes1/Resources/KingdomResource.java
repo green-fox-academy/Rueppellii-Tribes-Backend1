@@ -29,6 +29,5 @@ public abstract class KingdomResource {
   private Kingdom kingdom;
   
   KingdomResource() {
-    amount = 500L;
   }
 }

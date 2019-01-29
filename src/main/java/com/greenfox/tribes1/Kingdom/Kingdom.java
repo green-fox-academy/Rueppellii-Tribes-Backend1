@@ -2,7 +2,6 @@ package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Resources.KingdomResource;
-import com.greenfox.tribes1.Resources.ResourceFactory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,22 +32,22 @@ public class Kingdom {
   ApplicationUser applicationUser;
   
   public Kingdom(String name) {
-    resourceCreator();
+    //resourceCreator();
     //troopCreator();
     //buildingCreator();
     this.name = name;
   }
   
   public Kingdom() {
-    resourceCreator();
+    //resourceCreator();
     //troopCreator();
     //buildingCreator();
   }
   
   private void resourceCreator() {
-    ResourceFactory resourceFactory = new ResourceFactory();
+    /*ResourceFactory resourceFactory = new ResourceFactory();
     resources.add(resourceFactory.getResource("food"));
-    resources.add(resourceFactory.getResource("gold"));
+    resources.add(resourceFactory.getResource("gold"));*/
   }
   
   public List<KingdomResource> getResources() {
