@@ -3,6 +3,7 @@ package com.greenfox.tribes1.ApplicationUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,4 +35,6 @@ public class ApplicationUser {
     this.password = password;
     this.userEmail = userEmail;
   }
+
+
 }
