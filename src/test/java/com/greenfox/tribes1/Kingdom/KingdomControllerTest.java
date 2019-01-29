@@ -25,7 +25,10 @@ import java.util.Collections;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @RunWith(SpringRunner.class)
@@ -76,21 +79,29 @@ public class KingdomControllerTest {
     when(kingdomService.createKingdomDTOFromKingdom(testKingdom)).thenReturn(testKingdomDTO);
 
     String json = String.format("{\n"
-            + "\"id\":1\n"
-            + "\"username\":\"username\"\n"
-            + "\"userEmail\":\"user@user.com\"\n"
+            + "\"id\":1,\n"
+            + "\"username\":\"username\",\n"
+            + "\"userEmail\":\"user@user.com\",\n"
             + "\"kingdom\":\"kingdomName\"\n"
             + "}\n");
 
-
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
 //                    .header("Authorization", adminToken)
                     .content(json)
     )
             .andDo(print())
             .andExpect(MockMvcResultMatchers.status().isOk());
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(1)))
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.kingdomName", is("kingdomName")))
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.applicationUserName", is("username")))
+//            .andExpect(MockMvcResultMatchers.content(testKingdomDTO));
+//    verify(kingdomService, times(1)).findByApplicationUser(testApplicationUser);
+//    verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
+//    verifyNoMoreInteractions(kingdomService);
+
+
 //            .andExpect((ResultMatcher) MockMvcResultMatchers.jsonPath("$[0].username", is("username")));
   }
 
