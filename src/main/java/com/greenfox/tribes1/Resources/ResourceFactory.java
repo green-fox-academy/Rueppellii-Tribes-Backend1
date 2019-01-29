@@ -18,6 +18,6 @@ public class ResourceFactory {
   }
   
   private static Boolean isValid(String resourceType) {
-    return (resourceType.equals("food") || resourceType.equals("gold"));
+    return resourceType != null;
   }
 }
