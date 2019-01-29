@@ -1,1 +1,11 @@
 # Rueppellii-Tribes-Backend1
+
+Environment variables:
+
+- DATASOURCE_URL
+- DATASOURCE_USERNAME
+- DATASOURCE_PASSWORD
+- DATABASE_PORT
+- DATABASE_HOST
+- HIBERNATE_DIALECT
+- PROFILE (dev/heroku)
