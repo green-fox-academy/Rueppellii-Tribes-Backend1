@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KingdomService {
-
+  
   private KingdomRepository kingdomRepository;
-
+  
   @Autowired
   public KingdomService(KingdomRepository kingdomRepository) {
     this.kingdomRepository = kingdomRepository;
@@ -20,8 +20,8 @@ public class KingdomService {
     }
     return kingdomRepository.save(kingdom);
   }
-
+  
   public boolean validKingdomName(String field) {
-    return field == "Narnia" || field == "Rueppellii";
+    return field.equals("Narnia") || field.equals("Rueppellii");
   }
 }
