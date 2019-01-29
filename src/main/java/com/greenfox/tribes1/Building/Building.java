@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -15,8 +16,8 @@ public abstract class Building {
   private Long id;
   private Long level;
   private Long HP;
-  private Long started_at;
-  private Long finished_at;
+  private Timestamp started_at;
+  private Timestamp finished_at;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinTable(name="kingdom_buildings",

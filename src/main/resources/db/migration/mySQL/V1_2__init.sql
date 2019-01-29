@@ -2,8 +2,8 @@ CREATE TABLE `building` (
   `id`         bigint(20) NOT NULL AUTO_INCREMENT,
   `level`   bigint(20),
   `HP` bigint(20),
-  `started_at`   bigint(20),
-  `finished_at`   bigint(20),
+  `started_at` timestamp(6),
+  `finished_at`   timestamp(6),
   PRIMARY KEY (`id`)
 );
 
