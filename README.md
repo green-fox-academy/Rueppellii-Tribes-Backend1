@@ -15,13 +15,13 @@ DEV:
 
 COMMON ERRORS OCCURRING IN FLYWAY:
 
-1)	Schema-validation: missing table [hibernate_sequence]
+1)	<strong>Schema-validation: missing table [hibernate_sequence]</strong>
 <br>
 Reason: magic
 <br>
 Solution: set GeneationType = IDENTITY in all models
 
-2)	Schema-validation: missing table [anything_else] 
+2)	<strong>Schema-validation: missing table [anything_else] </strong>
 <br>
 Reason: the models are different from the generated SQL codes,
 thus Flyway throws an error instead of generating the tables.
@@ -45,7 +45,7 @@ randomly generated UQ or FQ names.
 <br>
 e) check if your code works after 
 
-3)	Migration checksum mismatch for migration version: X.Y
+<strong>3)	Migration checksum mismatch for migration version: X.Y</strong>
 <br>
 Reason: flyway_schema_history logs different checksum 
 from the actual checksum in the correct version.
@@ -53,18 +53,18 @@ It means You might have made some changes in your X.Y. version
 <br>
 Solution: drop database; create database;
 
-4)	Detected failed migration to version: X.Y
+<strong>4)	Detected failed migration to version: X.Y</strong>
 <br>
 Reason: something is amiss in your database.
 <br>
 Solution: drop database; create database;
 
-5)	@OneToOne or @ManyToOne on com.example.demo.x.y 
-references an unknown entity: com.example.demo.x
+<strong>5)	@OneToOne or @ManyToOne on com.example.demo.x.y 
+references an unknown entity: com.example.demo.x </strong>
 <br>
 Reason: it's not a Flyway error :-). Your @Entity annotation is missing.
 <br>
 Solution: Insert @Entity.
 
-6) If some SQL lines are mentioned in the error message, 
-the problem is usually with the SQL Syntax itself or your model structure.
+<strong>6) If some SQL lines are mentioned in the error message, 
+the problem is usually with the SQL Syntax itself or your model structure.</strong>
