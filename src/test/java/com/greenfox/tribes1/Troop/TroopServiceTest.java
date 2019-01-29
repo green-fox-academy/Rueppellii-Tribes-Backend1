@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
@@ -15,7 +14,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class TroopServiceTest {
   private TroopService troopService;
-  private Troop testTroop = new Troop.TroopBuilder().build();
+  private Troop testTroop = new TroopFactory().makeTroop("test");
   private Troop nullTroop = null;
 
   @Mock
