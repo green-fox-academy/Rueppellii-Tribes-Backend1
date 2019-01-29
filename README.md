@@ -26,7 +26,7 @@ Sometimes the problem is not with the table specified in the
 error message.
 Solution:
 a) Check if all your models are created, have proper fields, have the @Entity annotation and joined correctly.
-b) Turn Flyway off, use create-drop instead of validate, run the app, and let Hibernate generate the SQL code
+b) Turn Flyway off (build.gradle dependencies + application.properties), use create-drop instead of validate, run the app, and let Hibernate generate the SQL code
 c) Change back to validate. Insert the code into the SQL table from MySQL Workbench or from IntelliJ. 
 Check if it's working. If not, repeat the whole process from point a).
 d) Make the SQL code cleaner by removing the unnecessary parts and renaming the
