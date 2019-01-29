@@ -45,7 +45,7 @@ randomly generated UQ or FQ names.
 <br>
 e) check if your code works after 
 
-<strong>3)	Migration checksum mismatch for migration version: X.Y</strong>
+3)	<strong>Migration checksum mismatch for migration version: X.Y</strong>
 <br>
 Reason: flyway_schema_history logs different checksum 
 from the actual checksum in the correct version.
@@ -53,18 +53,18 @@ It means You might have made some changes in your X.Y. version
 <br>
 Solution: drop database; create database;
 
-<strong>4)	Detected failed migration to version: X.Y</strong>
+4)	<strong>Detected failed migration to version: X.Y</strong>
 <br>
 Reason: something is amiss in your database.
 <br>
 Solution: drop database; create database;
 
-<strong>5)	@OneToOne or @ManyToOne on com.example.demo.x.y 
+5)	<strong>@OneToOne or @ManyToOne on com.example.demo.x.y 
 references an unknown entity: com.example.demo.x </strong>
 <br>
 Reason: it's not a Flyway error :-). Your @Entity annotation is missing.
 <br>
 Solution: Insert @Entity.
 
-<strong>6) If some SQL lines are mentioned in the error message, 
+6) <strong>If some SQL lines are mentioned in the error message, 
 the problem is usually with the SQL Syntax itself or your model structure.</strong>
