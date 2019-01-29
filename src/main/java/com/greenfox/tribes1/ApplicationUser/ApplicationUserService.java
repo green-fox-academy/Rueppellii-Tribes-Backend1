@@ -7,7 +7,6 @@ import com.greenfox.tribes1.Exception.UserNotFoundException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Exception.WrongPasswordException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import com.greenfox.tribes1.Kingdom.KingdomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class ApplicationUserService {
   }
 
   public ApplicationUser saveUserIfValid(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-    if (!isUsernameInDB(applicationUserDTO)) {
+    if (!applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
       String kingdomName = applicationUserDTO.getKingdomName();
 
@@ -43,10 +42,6 @@ public class ApplicationUserService {
     throw new UsernameTakenException("Username already taken, please choose an other one.");
   }
 
-  public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
-    return findByUsername(applicationUserDTO.getUsername()) != null;
-  }
-
   public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
@@ -58,7 +53,7 @@ public class ApplicationUserService {
   }
 
   public ResponseEntity login(ApplicationUserDTO applicationUserDTO) throws UserNotFoundException, WrongPasswordException {
-    if (isUsernameInDB(applicationUserDTO)) {
+    if (applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
       if (isPasswordMatching(applicationUserDTO)) {
         return ResponseEntity.ok().body(new ErrorMsg("ok", "ok"));
       }
