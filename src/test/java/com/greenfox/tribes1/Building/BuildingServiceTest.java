@@ -8,9 +8,9 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-public class BuildigServiceTest {
+public class BuildingServiceTest {
 
-  BuildigService buildigService;
+  BuildingService buildingService;
   @Mock
   BuildingRepository buildingRepository;
 
@@ -20,27 +20,27 @@ public class BuildigServiceTest {
   @Before
   public void init(){
     MockitoAnnotations.initMocks(this);
-    buildigService = new BuildigService(buildingRepository);
+    buildingService = new BuildingService(buildingRepository);
   }
   @Test
   public void validBuilding_ReturnsTrue() {
-    assertTrue(buildigService.isValidBuilding(barrack));
+    assertTrue(buildingService.isValidBuilding(barrack));
   }
 
   @Test
   public void notValidBuilding_ReturnsFalse(){
-    assertFalse(buildigService.isValidBuilding(mine));
+    assertFalse(buildingService.isValidBuilding(mine));
   }
 
   @Test
   public void saveValidBuilding_ReturnsBuilding() {
     when(buildingRepository.save(barrack)).thenReturn(barrack);
-    assertEquals(buildigService.saveBuilding(barrack),barrack);
+    assertEquals(buildingService.saveBuilding(barrack),barrack);
 
   }
 
   @Test
   public void saveNotValidBuilding_ReturnsNull(){
-    assertEquals(buildigService.saveBuilding(mine),null);
+    assertEquals(buildingService.saveBuilding(mine),null);
   }
 }
