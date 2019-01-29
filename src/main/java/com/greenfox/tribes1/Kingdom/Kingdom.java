@@ -20,13 +20,12 @@ import java.util.List;
 public class Kingdom {
 
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
 //    private Long userId;
 //    List<Building> buildings;
 //    List<Resource> resources;
-//    List<Troop> troops;
 //    Location location;
 
   @OneToOne(mappedBy = "kingdom")
