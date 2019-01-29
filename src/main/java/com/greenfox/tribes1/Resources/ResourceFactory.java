@@ -6,18 +6,12 @@ import lombok.NoArgsConstructor;
 public class ResourceFactory {
   
   public KingdomResource getResource(String resourceType) {
-    if (ResourceFactory.isValid(resourceType)) {
-      if (resourceType.equals("food")) {
-        return new Food();
-      }
-      if (resourceType.equals("gold")) {
-        return new Gold();
-      }
+    if (resourceType.equals("food")) {
+      return new Food();
+    }
+    if (resourceType.equals("gold")) {
+      return new Gold();
     }
     return null;
-  }
-  
-  private static Boolean isValid(String resourceType) {
-    return resourceType != null;
   }
 }
