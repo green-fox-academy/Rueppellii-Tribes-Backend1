@@ -21,7 +21,7 @@ public class ResourceService {
     throw new NotValidResourceException("Resource validation failed");
   }
   
-  public boolean validResource(KingdomResource resource) {
+  private boolean validResource(KingdomResource resource) {
     return resource != null;
   }
 }
