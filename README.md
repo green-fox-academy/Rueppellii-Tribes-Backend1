@@ -13,7 +13,7 @@ DEV:
 - PROFILE: dev
  _________________________________________________________________
 
-FLYWAY ERROR LIST:
+COMMON ERRORS OCCURRING IN FLYWAY:
 
 1)	Schema-validation: missing table [hibernate_sequence]
 Reason: magic
@@ -42,6 +42,8 @@ Solution: drop database; create database;
 Reason: something is amiss in your database.
 Solution: drop database; create database;
 
-6)	@OneToOne or @ManyToOne on com.example.demo.Person.dog references an unknown entity: com.example.demo.Dog
+5)	@OneToOne or @ManyToOne on com.example.demo.x.y references an unknown entity: com.example.demo.Dog
 Reason: it's not a Flyway error :-). Your @Entity annotation is missing.
 Solution: Insert @Entity.
+
+6) If some SQL lines are mentioned in the error message, the problem is usually with the SQL Syntax itself or your model structure.
