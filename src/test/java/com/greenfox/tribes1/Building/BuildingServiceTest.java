@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Building;
 
+import com.greenfox.tribes1.Exception.BuildingNotValidException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -34,13 +35,13 @@ public class BuildingServiceTest {
   }
 
   @Test
-  public void saveValidBuilding_ReturnsBuilding() {
+  public void saveValidBuilding_ReturnsBuilding() throws BuildingNotValidException {
     when(buildingRepository.save(barrack)).thenReturn(barrack);
     assertEquals(buildingService.saveBuilding(barrack), barrack);
   }
 
-  @Test
-  public void saveNotValidBuilding_ReturnsNull() {
-    assertEquals(buildingService.saveBuilding(mine), null);
+  @Test(expected = BuildingNotValidException.class)
+  public void saveNotValidBuilding_ThrowsException() throws BuildingNotValidException {
+    buildingService.saveBuilding(mine);
   }
 }

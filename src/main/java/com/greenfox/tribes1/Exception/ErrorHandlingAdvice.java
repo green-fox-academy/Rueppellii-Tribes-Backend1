@@ -52,4 +52,9 @@ public class ErrorHandlingAdvice {
   ErrorMsg notAcceptableHandler (NotValidKingdomNameException ex){
     return new ErrorMsg("error",ex.getMessage());
   }
+
+  @ResponseBody
+  @ExceptionHandler(BuildingNotValidException.class)
+  @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+  ErrorMsg notValidBuilding( BuildingNotValidException ex){ return  new ErrorMsg("error", ex.getMessage());}
 }
