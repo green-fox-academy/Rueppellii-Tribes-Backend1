@@ -22,18 +22,10 @@ public class ApplicationUser {
   @JsonIgnore
   private String password;
   private String userEmail;
+
   @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinTable(name="application_user_kingdom",
           joinColumns = @JoinColumn(name ="application_user_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
-
   private Kingdom kingdom;
-
-  public ApplicationUser(String username, String password, String userEmail) {
-    this.username = username;
-    this.password = password;
-    this.userEmail = userEmail;
-  }
-
-
 }
