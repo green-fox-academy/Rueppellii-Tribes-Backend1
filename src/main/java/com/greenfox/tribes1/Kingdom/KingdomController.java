@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class KingdomController {
   private KingdomService kingdomService;
 
+  @Autowired
   public KingdomController(KingdomService kingdomService) {
     this.kingdomService = kingdomService;
   }
