@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Kingdom {
 
   @Id
