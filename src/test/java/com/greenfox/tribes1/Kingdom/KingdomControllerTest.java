@@ -3,32 +3,27 @@ package com.greenfox.tribes1.Kingdom;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
 import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher.*;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,9 +36,6 @@ public class KingdomControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-//  private KingdomController kingdomController;
-//  @MockBean
-//  private KingdomRepository kingdomRepository;
   @MockBean
   private KingdomService kingdomService;
   @MockBean
@@ -53,32 +45,22 @@ public class KingdomControllerTest {
   private String username = "username";
   private String password = "password";
   private String userEmail = "user@user.com";
-
   private String kingdomName = "kingdomName";
 
-//  @Before
-//  public void init() {
-//    MockitoAnnotations.initMocks(this);
-//    kingdomController = new KingdomController(kingdomService);
-//  }
-
-
-
-
   @Test
-  public void kingdomDTO() throws Exception {
+  public void kingdomDTO_StatusOk_GivesCorrectValues_HasCorrectMediaType_ServiceMethodsRunOnlyOnce() throws Exception {
     ApplicationUser testApplicationUser = new ApplicationUser(username, password, userEmail);
     testApplicationUser.setId(1L);
     Kingdom testKingdom = new Kingdom(kingdomName);
     testKingdom.setId(1L);
 
-//    KingdomDTO testKingdomDTO = new KingdomDTO(id, kingdomName, username);
+    KingdomDTO testKingdomDTO = new KingdomDTO(id, kingdomName, username);
 
     testApplicationUser.setKingdom(testKingdom);
     testKingdom.setApplicationUser(testApplicationUser);
-    KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
+//    KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
 
-    when(kingdomService.findByApplicationUser(testApplicationUser)).thenReturn(testKingdom);
+    when(kingdomService.findByApplicationUser(Mockito.any(ApplicationUser.class))).thenReturn(testKingdom);
     when(kingdomService.createKingdomDTOFromKingdom(testKingdom)).thenReturn(testKingdomDTO);
 
     String json = String.format("{\n"
@@ -103,20 +85,17 @@ public class KingdomControllerTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-//            .andExpect(jsonPath("$.id", is(1)));
-//            .andExpect(jsonPath("$.kingdomName", is("kingdomName")))
-//            .andExpect(jsonPath("$.applicationUserName", is("username")))
+            .andExpect(jsonPath("$.id", is(1)))
+            .andExpect(jsonPath("$.kingdomName", is("kingdomName")))
+            .andExpect(jsonPath("$.applicationUserName", is("username")))
             .andExpect(content().json(result));
-//    verify(kingdomService, times(1)).findByApplicationUser(testApplicationUser);
-//    verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
-//    verifyNoMoreInteractions(kingdomService);
-
-
-//            .andExpect((ResultMatcher) MockMvcResultMatchers.jsonPath("$[0].username", is("username")));
+    verify(kingdomService, times(1)).findByApplicationUser(Mockito.any(ApplicationUser.class));
+    verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
+    verifyNoMoreInteractions(kingdomService);
   }
 
   @Test
-  public void findAllKingdom() throws Exception {
+  public void findAllKingdom_StatusOk_GivesEmptyListWhenNoKingdom() throws Exception {
     when(kingdomService.findAll()).thenReturn(Collections.emptyList());
 
     mockMvc.perform(
@@ -124,5 +103,20 @@ public class KingdomControllerTest {
     )
             .andDo(print())
             .andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
+  public void findAllKingdom_StatusOk_GivesCorrectKingdomList() throws Exception {
+    Kingdom kingdom1 = new Kingdom("Kingdom1");
+    Kingdom kingdom2 = new Kingdom("Kingdom2");
+
+    when(kingdomService.findAll()).thenReturn(Arrays.asList(kingdom1, kingdom2));
+
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdomlist")
+    )
+            .andDo(print())
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(jsonPath("$[0].name", is("Kingdom1")));
   }
 }

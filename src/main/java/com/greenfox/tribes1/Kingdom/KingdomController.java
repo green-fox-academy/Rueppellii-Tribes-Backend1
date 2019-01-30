@@ -2,8 +2,6 @@ package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +16,11 @@ public class KingdomController {
     this.kingdomService = kingdomService;
   }
 
-  @GetMapping(value = "/kingdom", produces = {MediaType.APPLICATION_JSON_VALUE} )
+  @GetMapping(value = "/kingdom")
   public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
     Kingdom kingdomByUser = kingdomService.findByApplicationUser(applicationUser);
     return ResponseEntity.ok()
-            .header("Content-Type", "application/json; charset=utf-8")
+//            .header("Content-Type", "application/json; charset=utf-8")
             .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
 
