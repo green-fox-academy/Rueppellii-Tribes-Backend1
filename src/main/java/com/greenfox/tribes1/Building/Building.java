@@ -20,8 +20,8 @@ public abstract class Building {
   private Timestamp finished_at;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinTable(name="kingdom_buildings",
-          joinColumns = @JoinColumn(name ="buildings_id", referencedColumnName = "id"),
+  @JoinTable(name = "kingdom_buildings",
+          joinColumns = @JoinColumn(name = "buildings_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
   private Kingdom kingdom;
 

@@ -14,33 +14,33 @@ public class BuildingServiceTest {
   @Mock
   BuildingRepository buildingRepository;
 
-  Building barrack = new Barracks();
-  Building mine;
+  private Building barrack = new Barracks();
+  private Building mine;
 
   @Before
-  public void init(){
+  public void init() {
     MockitoAnnotations.initMocks(this);
     buildingService = new BuildingService(buildingRepository);
   }
+
   @Test
   public void validBuilding_ReturnsTrue() {
     assertTrue(buildingService.isValidBuilding(barrack));
   }
 
   @Test
-  public void notValidBuilding_ReturnsFalse(){
+  public void notValidBuilding_ReturnsFalse() {
     assertFalse(buildingService.isValidBuilding(mine));
   }
 
   @Test
   public void saveValidBuilding_ReturnsBuilding() {
     when(buildingRepository.save(barrack)).thenReturn(barrack);
-    assertEquals(buildingService.saveBuilding(barrack),barrack);
-
+    assertEquals(buildingService.saveBuilding(barrack), barrack);
   }
 
   @Test
-  public void saveNotValidBuilding_ReturnsNull(){
-    assertEquals(buildingService.saveBuilding(mine),null);
+  public void saveNotValidBuilding_ReturnsNull() {
+    assertEquals(buildingService.saveBuilding(mine), null);
   }
 }

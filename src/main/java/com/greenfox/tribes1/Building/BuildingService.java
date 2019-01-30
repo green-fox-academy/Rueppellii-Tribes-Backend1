@@ -13,12 +13,12 @@ public class BuildingService {
     this.buildingRepository = buildingRepository;
   }
 
-  public boolean isValidBuilding(Building building){
-    return building!=null;
+  public boolean isValidBuilding(Building building) {
+    return building != null;
   }
 
-  public Building saveBuilding(Building building){
-    if(isValidBuilding(building)){
+  public Building saveBuilding(Building building) {
+    if (isValidBuilding(building)) {
       return buildingRepository.save(building);
     }
     return null;
