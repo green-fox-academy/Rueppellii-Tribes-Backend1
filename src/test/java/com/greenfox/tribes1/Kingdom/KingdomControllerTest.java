@@ -43,34 +43,35 @@ public class KingdomControllerTest {
 
   private  Long id = 1l;
   private String username = "username";
-  private String password = "password";
   private String userEmail = "user@user.com";
   private String kingdomName = "kingdomName";
 
   @Test
   public void kingdomDTO_StatusOk_GivesCorrectValues_HasCorrectMediaType_ServiceMethodsRunOnlyOnce() throws Exception {
-    ApplicationUser testApplicationUser = new ApplicationUser(username, password, userEmail);
-    testApplicationUser.setId(1L);
-    Kingdom testKingdom = new Kingdom(kingdomName);
-    testKingdom.setId(1L);
-
-    KingdomDTO testKingdomDTO = new KingdomDTO(id, kingdomName, username);
-
-    testApplicationUser.setKingdom(testKingdom);
+    Kingdom testKingdom = Kingdom.builder()
+            .id(id)
+            .name(kingdomName)
+            .build();
+    ApplicationUser testApplicationUser = ApplicationUser.builder()
+            .id(id)
+            .username(username)
+            .userEmail(userEmail)
+            .kingdom(testKingdom)
+            .build();
     testKingdom.setApplicationUser(testApplicationUser);
-//    KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
+    KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
 
     when(kingdomService.findByApplicationUser(Mockito.any(ApplicationUser.class))).thenReturn(testKingdom);
     when(kingdomService.createKingdomDTOFromKingdom(testKingdom)).thenReturn(testKingdomDTO);
 
-    String json = String.format("{\n"
+    String json = ("{\n"
             + "\"id\":1,\n"
             + "\"username\":\"username\",\n"
             + "\"userEmail\":\"user@user.com\",\n"
             + "\"kingdom\":\"kingdomName\"\n"
             + "}\n");
 
-    String result = String.format("{\n"
+    String result = ("{\n"
             + "\"id\":1,\n"
             + "\"kingdomName\":\"kingdomName\",\n"
             + "\"applicationUserName\":\"username\"\n"
@@ -85,9 +86,6 @@ public class KingdomControllerTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$.id", is(1)))
-            .andExpect(jsonPath("$.kingdomName", is("kingdomName")))
-            .andExpect(jsonPath("$.applicationUserName", is("username")))
             .andExpect(content().json(result));
     verify(kingdomService, times(1)).findByApplicationUser(Mockito.any(ApplicationUser.class));
     verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
