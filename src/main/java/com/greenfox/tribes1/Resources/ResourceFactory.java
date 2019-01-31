@@ -5,13 +5,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResourceFactory {
   
-  public KingdomResource getResource(String resourceType) {
-    if (resourceType.equals("food")) {
-      return new Food();
-    }
-    if (resourceType.equals("gold")) {
-      return new Gold();
-    }
-    return null;
+  public KingdomResource getResource(ResourceType resourceType) {
+    return resourceType.generateResource();
   }
 }
