@@ -1,8 +1,10 @@
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
+import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Resources.KingdomResource;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @AllArgsConstructor
 public class Kingdom {
@@ -24,12 +27,15 @@ public class Kingdom {
   private List<KingdomResource> resources = new ArrayList<>();
 
 //    private Long userId;
-//    List<Building> buildings;
+
 //    List<Troop> troops;
 //    Location location;
   
   @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
+  
+  @OneToMany
+  List<Building> buildings;
   
   public Kingdom(String name) {
     //resourceCreator();
