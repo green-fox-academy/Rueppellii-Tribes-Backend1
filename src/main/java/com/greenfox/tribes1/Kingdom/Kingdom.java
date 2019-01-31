@@ -27,6 +27,7 @@ public class Kingdom {
   private List<KingdomResource> resources = new ArrayList<>();
 
 //    private Long userId;
+//    List<Troop> troops;
 //    Location location;
   
   @OneToOne(mappedBy = "kingdom")
