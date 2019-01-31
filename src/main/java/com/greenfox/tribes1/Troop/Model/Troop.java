@@ -11,10 +11,11 @@ import javax.validation.constraints.PositiveOrZero;
 import java.sql.Timestamp;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 public abstract class Troop {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
