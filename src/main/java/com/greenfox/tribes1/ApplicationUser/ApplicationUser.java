@@ -3,7 +3,6 @@ package com.greenfox.tribes1.ApplicationUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.*;
-
 import javax.persistence.*;
 
 @Getter
