@@ -2,7 +2,7 @@ package com.greenfox.tribes1.Kingdom;
 
 import lombok.*;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import com.greenfox.tribes1.Troop.Troop;
+import com.greenfox.tribes1.Troop.Model.Troop;
 import com.greenfox.tribes1.Building.Building;
 import javax.persistence.*;
 import java.util.List;

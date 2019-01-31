@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Troop;
 
+import com.greenfox.tribes1.Troop.Model.Troop;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class TroopServiceTest {
   private TroopService troopService;
-  private Troop testTroop = new TroopFactory().makeTroop("test");
+  private Troop testTroop = new TroopFactory().makeTroop(TroopType.Test);
   private Troop nullTroop = null;
 
   @Mock

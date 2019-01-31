@@ -1,4 +1,4 @@
-package com.greenfox.tribes1.Troop;
+package com.greenfox.tribes1.Troop.Model;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;

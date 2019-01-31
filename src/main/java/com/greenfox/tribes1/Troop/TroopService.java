@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Troop;
 
+import com.greenfox.tribes1.Troop.Model.Troop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
