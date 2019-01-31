@@ -1,4 +1,4 @@
-package com.greenfox.tribes1.Security.JWT;
+package com.greenfox.tribes1.Security.Filters;
 
 import com.greenfox.tribes1.Security.JWT.Extractor.TokenExtractor;
 import com.greenfox.tribes1.Security.Model.JwtAuthenticationToken;
