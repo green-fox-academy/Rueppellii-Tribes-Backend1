@@ -4,7 +4,8 @@ import com.greenfox.tribes1.Troop.Model.TestTroop;
 import com.greenfox.tribes1.Troop.Model.Troop;
 
 public enum TroopType {
-  Test {
+
+  TestTroop {
     public Troop makeTroop() {
       return new TestTroop();
     }
