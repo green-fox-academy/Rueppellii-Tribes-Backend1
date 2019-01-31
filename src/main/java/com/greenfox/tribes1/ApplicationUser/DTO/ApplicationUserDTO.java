@@ -1,15 +1,15 @@
 package com.greenfox.tribes1.ApplicationUser.DTO;
 
 import lombok.*;
-
 import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Getter
+@Setter
 public class ApplicationUserDTO {
+
   @NotBlank
   private String username;
   @NotBlank
