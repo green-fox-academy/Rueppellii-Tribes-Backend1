@@ -9,7 +9,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,10 +24,10 @@ public class KingdomServiceTest {
   @Mock
   KingdomRepository kingdomRepository;
 
-  private Kingdom validKingdom = new Kingdom("Narnia");
-  private Kingdom validKingdom2 = new Kingdom("Rueppellii");
+  private Kingdom validKingdomNarnia = new Kingdom("Narnia");
+  private Kingdom validKingdomRueppellii = new Kingdom("Rueppellii");
   private Kingdom notValidKingdom = new Kingdom(null);
-  private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdom, KingdomDTO.class);
+  private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdomNarnia, KingdomDTO.class);
   private List<Kingdom> testList = new ArrayList<>();
 
 
@@ -40,8 +39,8 @@ public class KingdomServiceTest {
 
   @Test
   public void saveKingdom_WithValidName_ReturnKingdomWithValidName() throws NotValidKingdomNameException {
-    Mockito.when(kingdomRepository.save(validKingdom)).thenReturn(validKingdom);
-    assertEquals(kingdomService.saveKingdom(validKingdom), validKingdom);
+    Mockito.when(kingdomRepository.save(validKingdomNarnia)).thenReturn(validKingdomNarnia);
+    assertEquals(kingdomService.saveKingdom(validKingdomNarnia), validKingdomNarnia);
   }
 
   @Test(expected = NotValidKingdomNameException.class)
@@ -51,9 +50,9 @@ public class KingdomServiceTest {
 
   @Test
   public void createKingdomDTOFromKingdom_GivesCorrectFieldValues() {
-    assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdom).getKingdomName(), kingdomDTO.getKingdomName());
-    assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdom).getId(), kingdomDTO.getId());
-    assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdom).getApplicationUserName(), kingdomDTO.getApplicationUserName());
+    assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdomNarnia).getKingdomName(), kingdomDTO.getKingdomName());
+    assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdomNarnia).getId(), kingdomDTO.getId());
+    assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdomNarnia).getApplicationUserName(), kingdomDTO.getApplicationUserName());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -63,9 +62,9 @@ public class KingdomServiceTest {
 
   @Test
   public void findAll_GivesCorrectListOfKingdoms() {
-    testList.add(validKingdom);
-    testList.add(validKingdom2);
-    when(kingdomRepository.findAll()).thenReturn(Arrays.asList(validKingdom, validKingdom2));
+    testList.add(validKingdomNarnia);
+    testList.add(validKingdomRueppellii);
+    when(kingdomRepository.findAll()).thenReturn(Arrays.asList(validKingdomNarnia, validKingdomRueppellii));
     assertEquals(kingdomService.findAll(), testList);
   }
 }
