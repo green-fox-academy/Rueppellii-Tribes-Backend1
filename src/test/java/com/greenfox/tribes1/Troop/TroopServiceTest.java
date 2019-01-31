@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Troop;
 
+import com.greenfox.tribes1.Exception.TroopNotValidException;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,14 +29,13 @@ public class TroopServiceTest {
   }
 
   @Test
-  public void save_successful() {
+  public void save_successful() throws TroopNotValidException {
     when(troopRepository.save(testTroop)).thenReturn(testTroop);
     assertEquals(troopService.save(testTroop), testTroop);
   }
 
-  @Test
-  public void save_unsuccessful() {
-    when(troopRepository.save(nullTroop)).thenReturn(null);
-    assertEquals(troopService.save(nullTroop), nullTroop);
+  @Test(expected = TroopNotValidException.class)
+  public void save_unsuccessful() throws TroopNotValidException {
+    troopService.save(nullTroop);
   }
 }
