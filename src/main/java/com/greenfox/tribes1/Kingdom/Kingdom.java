@@ -1,17 +1,14 @@
 package com.greenfox.tribes1.Kingdom;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
+import com.greenfox.tribes1.Building.Building;
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,13 +19,15 @@ public class Kingdom {
   private Long id;
   private String name;
 //    private Long userId;
-//    List<Building> buildings;
 //    List<Resource> resources;
 //    List<Troop> troops;
 //    Location location;
 
   @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
+
+  @OneToMany
+  List<Building> buildings;
 
   public Kingdom(String name) {
     this.name = name;

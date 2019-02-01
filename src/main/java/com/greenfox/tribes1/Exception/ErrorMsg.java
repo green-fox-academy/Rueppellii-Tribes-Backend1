@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,12 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ErrorMsg {
-    private String status;
-    private String message;
-
-    public ErrorMsg(String status, String message) {
-        this.status = status;
-        this.message = message;
-    }
+  private String status;
+  private String message;
 }
