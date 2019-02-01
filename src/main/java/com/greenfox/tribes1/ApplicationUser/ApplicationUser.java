@@ -1,18 +1,16 @@
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ApplicationUser {
 
   @Id
