@@ -7,11 +7,12 @@ import com.greenfox.tribes1.Building.Building;
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Kingdom {
 
   @Id
