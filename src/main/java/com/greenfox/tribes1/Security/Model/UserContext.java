@@ -1,11 +1,13 @@
 package com.greenfox.tribes1.Security.Model;
 
 
+import lombok.Getter;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
+@Getter
 public class UserContext {
   private final String username;
   private final List<GrantedAuthority> authorities;
@@ -19,12 +21,4 @@ public class UserContext {
     return new UserContext(username, authorities);
   }
 
-  public String getUsername() {
-    return username;
-  }
-
-  public List<GrantedAuthority> getAuthorities() {
-    return authorities;
-
-  }
 }

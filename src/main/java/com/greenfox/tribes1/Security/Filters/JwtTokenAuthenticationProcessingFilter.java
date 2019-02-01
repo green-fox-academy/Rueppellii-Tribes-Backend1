@@ -5,12 +5,16 @@ import com.greenfox.tribes1.Security.Model.JwtAuthenticationToken;
 import com.greenfox.tribes1.Security.Model.RawAccessJwtToken;
 import com.greenfox.tribes1.Security.Config.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,12 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtTokenAuthenticationProcessingFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
+
   private final AuthenticationFailureHandler failureHandler;
   private final TokenExtractor tokenExtractor;
 
   @Autowired
-  public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler, TokenExtractor tokenExtractor) {
+  public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler, TokenExtractor tokenExtractor, RequestMatcher matcher) {
+    super(matcher);
     this.failureHandler = failureHandler;
     this.tokenExtractor = tokenExtractor;
   }

@@ -7,6 +7,7 @@ import com.greenfox.tribes1.Security.JWT.Extractor.TokenExtractor;
 import com.greenfox.tribes1.Security.JWT.JwtAuthenticationProvider;
 import com.greenfox.tribes1.Security.Filters.JwtTokenAuthenticationProcessingFilter;
 import com.greenfox.tribes1.Security.RestAuthenticationEntryPoint;
+import com.greenfox.tribes1.Security.SkipPathRequestMatcher;
 import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,14 +24,17 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
   public static final String AUTHENTICATION_URL = "/login";
   public static final String REGISTRATION_URL = "/register";
-  public static final String REFRESH_TOKEN_URL = "/api/auth/token";
-  public static final String API_ROOT_URL = "/api/**";
+  public static final String REFRESH_TOKEN_URL = "/token";
+  public static final String API_ROOT_URL = "/**";
 
   @Autowired private UserDetailsServiceImpl userDetailsService;
   @Autowired private RestAuthenticationEntryPoint authenticationEntryPoint;
@@ -50,6 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
+    List<String> permitAllEndpointList = Arrays.asList(
+            AUTHENTICATION_URL,
+            REFRESH_TOKEN_URL
+
+    );
     http.csrf().disable()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -59,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(buildAjaxLoginProcessingFilter(AUTHENTICATION_URL), UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList, API_ROOT_URL), UsernamePasswordAuthenticationFilter.class);;
   }
 
   protected AjaxLoginProcessingFilter buildAjaxLoginProcessingFilter(String loginEntryPoint) throws Exception {
@@ -67,9 +76,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     filter.setAuthenticationManager(this.authenticationManager);
     return filter;
   }
-  protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter() {
+
+  protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter(List<String> pathsToSkip, String pattern) throws Exception {
+    SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, pattern);
     JwtTokenAuthenticationProcessingFilter filter
-            = new JwtTokenAuthenticationProcessingFilter(failureHandler, tokenExtractor);
+            = new JwtTokenAuthenticationProcessingFilter(failureHandler, tokenExtractor, matcher);
     filter.setAuthenticationManager(this.authenticationManager);
     return filter;
   }

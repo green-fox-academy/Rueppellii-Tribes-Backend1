@@ -25,7 +25,7 @@ public class ApplicationUserController {
     return ResponseEntity.ok().body(applicationUserService.createDTOwithKingdomfromUser(applicationUser));
   }
 
-  @RequestMapping("/login")
+  @PostMapping("/login")
   public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws WrongPasswordException, UserNotFoundException {
     return applicationUserService.login(applicationUserDTO);
   }
