@@ -1,4 +1,4 @@
-package com.greenfox.tribes1.Security;
+package com.greenfox.tribes1.Security.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

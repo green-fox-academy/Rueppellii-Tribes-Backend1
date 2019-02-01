@@ -2,6 +2,7 @@ package com.greenfox.tribes1.Security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfox.tribes1.Security.Model.JwtToken;
+import com.greenfox.tribes1.Security.Model.JwtTokenFactory;
 import com.greenfox.tribes1.Security.Model.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

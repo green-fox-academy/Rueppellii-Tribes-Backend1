@@ -1,10 +1,13 @@
-package com.greenfox.tribes1.Security;
+package com.greenfox.tribes1.Security.Config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.greenfox.tribes1.Security.AjaxAuthenticationProvider;
 import com.greenfox.tribes1.Security.Filters.AjaxLoginProcessingFilter;
 import com.greenfox.tribes1.Security.JWT.Extractor.TokenExtractor;
 import com.greenfox.tribes1.Security.JWT.JwtAuthenticationProvider;
 import com.greenfox.tribes1.Security.Filters.JwtTokenAuthenticationProcessingFilter;
+import com.greenfox.tribes1.Security.RestAuthenticationEntryPoint;
+import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

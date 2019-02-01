@@ -1,4 +1,4 @@
-package com.greenfox.tribes1.Security;
+package com.greenfox.tribes1.Security.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfox.tribes1.Security.Model.JwtToken;

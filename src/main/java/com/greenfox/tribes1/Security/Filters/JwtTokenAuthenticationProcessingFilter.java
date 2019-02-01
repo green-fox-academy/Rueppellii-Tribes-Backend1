@@ -3,7 +3,7 @@ package com.greenfox.tribes1.Security.Filters;
 import com.greenfox.tribes1.Security.JWT.Extractor.TokenExtractor;
 import com.greenfox.tribes1.Security.Model.JwtAuthenticationToken;
 import com.greenfox.tribes1.Security.Model.RawAccessJwtToken;
-import com.greenfox.tribes1.Security.WebSecurityConfig;
+import com.greenfox.tribes1.Security.Config.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

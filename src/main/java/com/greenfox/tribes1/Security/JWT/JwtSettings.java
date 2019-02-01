@@ -8,14 +8,13 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-//@ConfigurationProperties(prefix = "tribes1.security.jwt")
 public class JwtSettings {
 
-  private Integer tokenExpirationTime;
+  public static final long ACCESS_TOKEN_LIFETIME = 30 * 60 * 1000L;
+  public static final long REFRESH_TOKEN_LIFETIME = 30 * 24 * 60 * 60 * 1000L;
 
-  private String tokenIssuer;
+  public static final String TOKEN_ISSUER = "Springles";
 
-  private String tokenSigningKey;
+  public static final String TOKEN_SIGNING_KEY = System.getenv("TRIBES_TOKEN_SIGNING_KEY");
 
-  private Integer refreshTokenExpTime;
 }

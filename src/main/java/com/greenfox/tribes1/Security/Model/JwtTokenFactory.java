@@ -1,8 +1,10 @@
-package com.greenfox.tribes1.Security;
+package com.greenfox.tribes1.Security.Model;
 
 import com.greenfox.tribes1.Security.JWT.JwtSettings;
+import com.greenfox.tribes1.Security.Model.AccessJwtToken;
 import com.greenfox.tribes1.Security.Model.JwtToken;
 import com.greenfox.tribes1.Security.Model.UserContext;
+import com.greenfox.tribes1.Security.Scopes;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,12 +36,12 @@ public class JwtTokenFactory {
 
     String token = Jwts.builder()
             .setClaims(claims)
-            .setIssuer(settings.getTokenIssuer())
+            .setIssuer(settings.TOKEN_ISSUER)
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(Date.from(currentTime
-                .plusMinutes(settings.getTokenExpirationTime())
+                .plusMinutes(settings.ACCESS_TOKEN_LIFETIME)
                 .atZone(ZoneId.systemDefault()).toInstant()))
-            .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
+            .signWith(SignatureAlgorithm.HS512, settings.TOKEN_SIGNING_KEY)
             .compact();
 
     return new AccessJwtToken(token, claims);
@@ -53,13 +55,13 @@ public class JwtTokenFactory {
 
     String token = Jwts.builder()
             .setClaims(claims)
-            .setIssuer(settings.getTokenIssuer())
+            .setIssuer(settings.TOKEN_ISSUER)
             .setId(UUID.randomUUID().toString())
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(Date.from(currentTime
-                    .plusMinutes(settings.getRefreshTokenExpTime())
+                    .plusMinutes(settings.REFRESH_TOKEN_LIFETIME)
                     .atZone(ZoneId.systemDefault()).toInstant()))
-            .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
+            .signWith(SignatureAlgorithm.HS512, settings.TOKEN_SIGNING_KEY)
             .compact();
 
     return new AccessJwtToken(token,claims);
