@@ -17,51 +17,60 @@ public class ErrorHandlingAdvice {
   @ResponseBody
   @ExceptionHandler(WrongPasswordException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  ErrorMsg wrongPasswordHandler(WrongPasswordException ex){
-    return new ErrorMsg("error",ex.getMessage());
+  ErrorMsg wrongPasswordHandler(WrongPasswordException ex) {
+    return new ErrorMsg("error", ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  ErrorMsg userNotFound(UserNotFoundException ex){
-    return new ErrorMsg("error",ex.getMessage());
+  ErrorMsg userNotFound(UserNotFoundException ex) {
+    return new ErrorMsg("error", ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  ErrorMsg missingParams(MethodArgumentNotValidException ex){
+  ErrorMsg missingParams(MethodArgumentNotValidException ex) {
     Map<String, String> errors = new HashMap<>();
     for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
       errors.put(fieldError.getField(), fieldError.getDefaultMessage());
     }
-    return new ErrorMsg("error","Missing parameter(s): " + errors);
+    return new ErrorMsg("error", "Missing parameter(s): " + errors);
   }
 
   @ResponseBody
   @ExceptionHandler(UsernameTakenException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
-  ErrorMsg usernameTaken(UsernameTakenException ex){
-    return new ErrorMsg("error",ex.getMessage());
+  ErrorMsg usernameTaken(UsernameTakenException ex) {
+    return new ErrorMsg("error", ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(NotValidKingdomNameException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-  ErrorMsg notAcceptableHandler (NotValidKingdomNameException ex){
-    return new ErrorMsg("error",ex.getMessage());
+  ErrorMsg notAcceptableHandler(NotValidKingdomNameException ex) {
+    return new ErrorMsg("error", ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(DateNotGivenException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-  ErrorMsg dateNotGiven (DateNotGivenException ex){
-    return new ErrorMsg("error",ex.getMessage());
+  ErrorMsg dateNotGiven(DateNotGivenException ex) {
+    return new ErrorMsg("error", ex.getMessage());
   }
 
   @ResponseBody
   @ExceptionHandler(BuildingNotValidException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-  ErrorMsg notValidBuilding( BuildingNotValidException ex){ return  new ErrorMsg("error", ex.getMessage());}
+  ErrorMsg notValidBuilding(BuildingNotValidException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(TroopNotValidException.class)
+  @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+  ErrorMsg notValidTroop(TroopNotValidException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
 }
