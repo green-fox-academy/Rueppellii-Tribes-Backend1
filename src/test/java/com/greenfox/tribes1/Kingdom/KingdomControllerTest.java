@@ -59,7 +59,7 @@ public class KingdomControllerTest {
     testKingdom.setApplicationUser(testApplicationUser);
     KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
 
-    when(kingdomService.findByApplicationUser(Mockito.any(ApplicationUser.class))).thenReturn(testKingdom);
+    when(kingdomService.findKingdomByApplicationUser(Mockito.any(ApplicationUser.class))).thenReturn(testKingdom);
     when(kingdomService.createKingdomDTOFromKingdom(testKingdom)).thenReturn(testKingdomDTO);
 
     String json = ("{\n"
@@ -85,7 +85,7 @@ public class KingdomControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
             .andExpect(content().json(result));
-    verify(kingdomService, times(1)).findByApplicationUser(Mockito.any(ApplicationUser.class));
+    verify(kingdomService, times(1)).findKingdomByApplicationUser(Mockito.any(ApplicationUser.class));
     verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
     verifyNoMoreInteractions(kingdomService);
   }

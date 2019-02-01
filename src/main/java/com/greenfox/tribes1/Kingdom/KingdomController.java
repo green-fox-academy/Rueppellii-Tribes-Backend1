@@ -18,26 +18,18 @@ public class KingdomController {
     this.kingdomService = kingdomService;
   }
 
-  @GetMapping(value = "/kingdom")
+  @GetMapping(value = "/kingdomUser")
   public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
-    Kingdom kingdomByUser = kingdomService.findByApplicationUser(applicationUser);
+    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok()
             .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
 
-  @GetMapping("/kingdomA")
+  @GetMapping("/kingdom")
   public ResponseEntity kingdomDTOA(Authentication authentication) {
-    System.out.println(authentication.getCredentials());
-    System.out.println(authentication.getAuthorities());
-    System.out.println(authentication.getPrincipal());
-    System.out.println(authentication.getDetails());
-    System.out.println(authentication.getName());
     UserContext userContext = (UserContext) authentication.getPrincipal();
-    System.out.println(userContext.getUsername());
-
-   // Kingdom kingdomByUser = kingdomService.findByApplicationUser(applicationUser);
-    //return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
-    return ResponseEntity.ok().build();
+    Kingdom kingdomByUsername = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
+    return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUsername));
   }
 
   @GetMapping("/kingdomlist")

@@ -6,16 +6,16 @@ import com.greenfox.tribes1.Building.Building;
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
-@Builder
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Kingdom {
 
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
 //    private Long userId;
