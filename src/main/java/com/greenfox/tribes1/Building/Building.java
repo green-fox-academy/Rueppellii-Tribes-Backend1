@@ -3,14 +3,14 @@ package com.greenfox.tribes1.Building;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Entity
 @Getter
 @Setter
-@Entity
 public abstract class Building {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

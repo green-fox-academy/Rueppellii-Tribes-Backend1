@@ -5,12 +5,12 @@ import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.*;
 import javax.persistence.*;
 
-@Getter
-@Setter
-@Builder
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ApplicationUser {
 
   @Id
@@ -20,10 +20,10 @@ public class ApplicationUser {
   @JsonIgnore
   private String password;
   private String userEmail;
+
   @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinTable(name="application_user_kingdom",
           joinColumns = @JoinColumn(name ="application_user_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
-
   private Kingdom kingdom;
 }
