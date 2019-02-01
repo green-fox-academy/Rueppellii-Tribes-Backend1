@@ -1,4 +1,5 @@
 package com.greenfox.tribes1.Kingdom;
+import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
 import org.junit.Before;
@@ -29,6 +30,12 @@ public class KingdomServiceTest {
   private Kingdom notValidKingdom = new Kingdom(null);
   private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdomNarnia, KingdomDTO.class);
   private List<Kingdom> testList = new ArrayList<>();
+  private Long testUserId = 1L;
+  private String testUserName = "testuser";
+  private String testUserpasswordassword = "password";
+  private String testUserEmail = "testuser@user.com";
+  private ApplicationUser testApplicationUser = new ApplicationUser(testUserId, testUserName, testUserpasswordassword, testUserEmail, validKingdomNarnia );
+
 
 
   @Before
@@ -66,5 +73,11 @@ public class KingdomServiceTest {
     testList.add(validKingdomRueppellii);
     when(kingdomRepository.findAll()).thenReturn(Arrays.asList(validKingdomNarnia, validKingdomRueppellii));
     assertEquals(kingdomService.findAll(), testList);
+  }
+
+  @Test
+  public void findKingdomByApplicationUserName_GivesCorrectKingdom() {
+    when(kingdomRepository.findKingdomByApplicationUserName("testuser")).thenReturn(validKingdomNarnia);
+    assertEquals(kingdomService.findKingdomByApplicationUserName("testuser"), validKingdomNarnia);
   }
 }

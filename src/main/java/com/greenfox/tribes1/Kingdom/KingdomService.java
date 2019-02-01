@@ -29,8 +29,12 @@ public class KingdomService {
     return field == "Narnia" || field == "Rueppellii";
   }
 
-  public Kingdom findByApplicationUser(ApplicationUser applicationUser) {
-    return kingdomRepository.findByApplicationUser(applicationUser);
+  public Kingdom findKingdomByApplicationUser(ApplicationUser applicationUser) {
+    return kingdomRepository.findKingdomByApplicationUser(applicationUser);
+  }
+
+  public Kingdom findKingdomByApplicationUserName(String applicationUserName) {
+    return kingdomRepository.findKingdomByApplicationUserName(applicationUserName);
   }
 
   public KingdomDTO createKingdomDTOFromKingdom(Kingdom kingdom) {

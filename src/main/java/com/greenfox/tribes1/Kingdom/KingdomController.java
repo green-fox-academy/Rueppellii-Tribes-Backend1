@@ -19,7 +19,7 @@ public class KingdomController {
 
   @GetMapping(value = "/kingdom")
   public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
-    Kingdom kingdomByUser = kingdomService.findByApplicationUser(applicationUser);
+    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok()
             .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
@@ -27,7 +27,7 @@ public class KingdomController {
   @GetMapping("/kingdomA")
   public ResponseEntity kingdomDTOA(Authentication authentication) {
     ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
-    Kingdom kingdomByUser = kingdomService.findByApplicationUser(applicationUser);
+    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
 
