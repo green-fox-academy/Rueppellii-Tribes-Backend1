@@ -6,6 +6,7 @@ CREATE TABLE `kingdom_resource` (
 );
 
 CREATE TABLE `kingdom_resources` (
+
   `resources_id` bigint(20) DEFAULT NULL,
   `kingdom_id`   bigint(20) NOT NULL,
   PRIMARY KEY (`kingdom_id`),

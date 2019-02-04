@@ -49,14 +49,13 @@ public class Kingdom {
   
   public Kingdom() {
     resourceCreator();
-    //troopCreator();
-    //buildingCreator();
   }
   
   private void resourceCreator() {
-    ResourceFactory resourceFactory = new ResourceFactory();
-    resources.add(resourceFactory.getResource("food"));
-    resources.add(resourceFactory.getResource("gold"));
+    /*ResourceFactory resourceFactory = new ResourceFactory();
+    resources.add(resourceFactory.getResource(ResourceType.food));
+    resources.add(resourceFactory.getResource(ResourceType.gold));*/
+
   }
   
   public List<KingdomResource> getResources() {
