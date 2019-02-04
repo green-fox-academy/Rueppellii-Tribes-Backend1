@@ -21,7 +21,7 @@ public abstract class KingdomResource {
   private Long id;
   private Long amount;
   private Timestamp updated_at;
-  private Long amountPerMinute;
+  //private Long amountPerMinute;
   
   @ManyToOne(
       cascade = CascadeType.PERSIST,
