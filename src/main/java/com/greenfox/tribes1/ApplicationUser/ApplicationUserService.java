@@ -14,23 +14,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationUserService {
-
+  
   private ApplicationUserRepository applicationUserRepository;
-
+  
   @Autowired
   public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
     this.applicationUserRepository = applicationUserRepository;
   }
-
+  
   public ApplicationUser findByUsername(String username) {
     return applicationUserRepository.findByUsername(username).orElse(null);
   }
-
+  
   public ApplicationUser saveUserIfValid(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
     if (!isUsernameInDB(applicationUserDTO)) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
       String kingdomName = applicationUserDTO.getKingdomName();
-
+      
       if (isKingdomNameNullOrEmpty(kingdomName)) {
         userToBeSaved.setKingdom(new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername())));
       } else {
@@ -41,21 +41,21 @@ public class ApplicationUserService {
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
   }
-
+  
   public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
     return findByUsername(applicationUserDTO.getUsername()) != null;
   }
-
+  
   public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
   }
-
+  
   public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
   }
-
+  
   public ResponseEntity login(ApplicationUserDTO applicationUserDTO) throws UserNotFoundException, WrongPasswordException {
     if (isUsernameInDB(applicationUserDTO)) {
       if (isPasswordMatching(applicationUserDTO)) {
@@ -65,13 +65,13 @@ public class ApplicationUserService {
     }
     throw new UserNotFoundException("No such user: " + applicationUserDTO.getUsername());
   }
-
+  
   private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
     return applicationUserRepository
-            .findByUsername(applicationUserDTO.getUsername())
-            .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
+        .findByUsername(applicationUserDTO.getUsername())
+        .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
   }
-
+  
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
     return kingdomName == null || kingdomName.isEmpty();
   }
