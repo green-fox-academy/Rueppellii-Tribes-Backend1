@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-class Gold extends KingdomResource implements Updatable {
+public class Gold extends KingdomResource implements Updatable {
   
   TimeService timeService;
   

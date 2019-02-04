@@ -8,23 +8,26 @@ import com.greenfox.tribes1.Troop.Model.Troop;
 public enum TroopType {
   
   TestTroop {
+    @Override
     public Troop makeTroop() {
       return new TestTroop();
     }
   },
   
   archer {
+    @Override
     public Troop makeTroop() {
       return new Archer();
     }
   },
   swordsman {
+    @Override
     public Troop makeTroop() {
       return new Swordsman();
     }
   };
   
-  public Troop makeTroop(){
+  public Troop makeTroop() {
     return null;
   }
 }
