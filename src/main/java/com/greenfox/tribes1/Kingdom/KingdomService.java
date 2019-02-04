@@ -20,10 +20,6 @@ public class KingdomService {
   }
   
   public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
-<<<<<<< HEAD
-=======
-    
->>>>>>> 6c88d899d208779a1b4a4a531e75d0d14cf5058a
     if (kingdom.getName() == null || !validKingdomName(kingdom.getName())) {
       throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
     }

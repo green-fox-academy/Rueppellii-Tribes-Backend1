@@ -3,10 +3,6 @@ package com.greenfox.tribes1.Kingdom;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Resources.KingdomResource;
-<<<<<<< HEAD
-=======
-import com.greenfox.tribes1.Resources.ResourceFactory;
->>>>>>> 6c88d899d208779a1b4a4a531e75d0d14cf5058a
 import com.greenfox.tribes1.Troop.Model.Troop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,10 +35,6 @@ public class Kingdom {
   
   @OneToMany
   private List<Troop> troops;
-<<<<<<< HEAD
-  
-=======
->>>>>>> 6c88d899d208779a1b4a4a531e75d0d14cf5058a
   @OneToMany
   List<Building> buildings;
   
