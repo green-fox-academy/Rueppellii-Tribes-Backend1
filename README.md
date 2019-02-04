@@ -2,15 +2,25 @@
 
 Environment variables:
 
-DEV:
+**DEV:**
 
-- DATASOURCE_URL: jdbc:mysql://localhost/yourTribesDataBaseName
-- DATASOURCE_USERNAME: your own username in MySQL
-- DATASOURCE_PASSWORD: your own password in MySQL
-- HIBERNATE_DIALECT: org.hibernate.dialect.MySQL57Dialect
-- DATABASE_HOST: your own localhost so far /NOT USED YET/
-- DATABASE_PORT: the port you've set /NOT USED YET/
-- PROFILE: dev
+| Key | Value |
+| --- | ----- | 
+|DATASOURCE_URL | jdbc:mysql://localhost:3306/devma |
+|DATASOURCE_USERNAME | *your local mysql username* |
+|DATASOURCE_PASSWORD | *your local mysql password* |
+|HIBERNATE_DIALECT | org.hibernate.dialect.MySQL57Dialect|
+|DATABASE_HOST | *your own localhost so far /NOT USED YET/* |
+|DATABASE_PORT | *the port you've set /NOT USED YET/* |
+|PROFILE | dev |
+
+**HEROKU:**
+
+| Key | Value |
+| --- | ----- | 
+|DB_URL | jdbc:mysql://localhost:3306/devma |
+|DB_USERNAME | *your local mysql username* |
+|DB_PASSWORD | *your local mysql password* |
  _________________________________________________________________
 
 COMMON ERRORS OCCURRING IN FLYWAY:
