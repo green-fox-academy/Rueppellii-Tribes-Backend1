@@ -29,6 +29,7 @@ public class Kingdom {
   @OneToMany
   private List<Troop> troops;
 
+  @OneToMany
   List<Building> buildings;
 
   public Kingdom(String name) {
