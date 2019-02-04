@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface KingdomRepository extends JpaRepository<Kingdom, Long> {
   
   Kingdom findKingdomByApplicationUser(ApplicationUser applicationUser);
-  
-  Kingdom findKingdomByApplicationUser_ame(String applicationUserName);
-  
+
+  Kingdom findKingdomByApplicationUser_Username(String applicationUserName);
 }

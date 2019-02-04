@@ -36,7 +36,7 @@ public class KingdomService {
   }
   
   public Kingdom findKingdomByApplicationUserName(String applicationUserName) {
-    return kingdomRepository.findKingdomByApplicationUserName(applicationUserName);
+    return kingdomRepository.findKingdomByApplicationUser_Username(applicationUserName);
   }
   
   public KingdomDTO createKingdomDTOFromKingdom(Kingdom kingdom) {
