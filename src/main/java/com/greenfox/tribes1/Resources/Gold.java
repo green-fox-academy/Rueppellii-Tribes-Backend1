@@ -1,8 +1,12 @@
 package com.greenfox.tribes1.Resources;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 class Gold extends KingdomResource {
-  
+
 }
