@@ -4,6 +4,7 @@ import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Resources.KingdomResource;
 import com.greenfox.tribes1.Resources.ResourceFactory;
+import com.greenfox.tribes1.Troop.Model.Troop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,11 +14,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Builder
+@AllArgsConstructor
 @Getter
 @Setter
-@Builder
-@Entity
-@AllArgsConstructor
 public class Kingdom {
   
   @Id
@@ -28,11 +29,13 @@ public class Kingdom {
   private List<KingdomResource> resources = new ArrayList<>();
 
 //    private Long userId;
-//    List<Troop> troops;
 //    Location location;
   
   @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
+  
+  @OneToMany
+  private List<Troop> troops;
   
   @OneToMany
   List<Building> buildings;

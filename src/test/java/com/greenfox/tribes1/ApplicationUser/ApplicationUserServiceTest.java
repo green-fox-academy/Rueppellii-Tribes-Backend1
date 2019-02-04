@@ -24,7 +24,10 @@ public class ApplicationUserServiceTest {
   @Mock
   ApplicationUserRepository applicationUserRepository;
 
-  private ApplicationUserDTO testUserDTO = new ApplicationUserDTO(username, password);
+  private ApplicationUserDTO testUserDTO = ApplicationUserDTO.builder()
+          .username(username)
+          .password(password)
+          .build();
   private ApplicationUser testUser;
 
   @Before
