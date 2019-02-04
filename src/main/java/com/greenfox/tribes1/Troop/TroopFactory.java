@@ -7,13 +7,13 @@ public class TroopFactory {
   
   public Troop makeTroop(TroopType troopType) {
     
-    Food food = (Food) troopType.makeTroop()
+    Food foodToDecrease = (Food) troopType.makeTroop()
         .getKingdom()
         .getResources()
         .stream()
-        .filter(x -> x instanceof Food)
-        .filter(filtered -> filtered.getAmount() > 0);
-    food.setAmountPerMinute(food.getAmountPerMinute() - 1);
+        .filter(resource -> resource instanceof Food)
+        .filter(food -> food.getAmount() > 0);
+    foodToDecrease.setAmountPerMinute(foodToDecrease.getAmountPerMinute() - 1);
     
     return troopType.makeTroop();
   }
