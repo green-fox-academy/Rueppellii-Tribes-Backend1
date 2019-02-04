@@ -38,22 +38,20 @@ public class Kingdom {
   List<Building> buildings;
   
   public Kingdom(String name) {
-    //resourceCreator();
+    resourceCreator();
     //troopCreator();
     //buildingCreator();
     this.name = name;
   }
   
   public Kingdom() {
-    //resourceCreator();
-    //troopCreator();
-    //buildingCreator();
+    resourceCreator();
   }
   
   private void resourceCreator() {
     /*ResourceFactory resourceFactory = new ResourceFactory();
-    resources.add(resourceFactory.getResource("food"));
-    resources.add(resourceFactory.getResource("gold"));*/
+    resources.add(resourceFactory.getResource(ResourceType.food));
+    resources.add(resourceFactory.getResource(ResourceType.gold));*/
   }
   
   public List<KingdomResource> getResources() {

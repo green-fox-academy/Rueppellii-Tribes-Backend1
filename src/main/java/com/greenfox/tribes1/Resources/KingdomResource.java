@@ -21,6 +21,7 @@ public abstract class KingdomResource {
   private Long id;
   private Long amount;
   private Timestamp updated_at;
+  private Long resourceGeneratedPerMinute;
   @ManyToOne(
       cascade = CascadeType.PERSIST,
       fetch = FetchType.EAGER
