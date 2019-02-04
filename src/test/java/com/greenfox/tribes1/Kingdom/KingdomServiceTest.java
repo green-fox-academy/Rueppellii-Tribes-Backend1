@@ -1,9 +1,5 @@
 package com.greenfox.tribes1.Kingdom;
-<<<<<<< HEAD
-
-=======
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
->>>>>>> f63b9d5332d81d504af64692f4058122b6f460c8
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
 import org.junit.Before;
@@ -14,17 +10,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
-
-<<<<<<< HEAD
 import static org.junit.Assert.assertEquals;
-=======
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
->>>>>>> f63b9d5332d81d504af64692f4058122b6f460c8
 
 @RunWith(SpringRunner.class)
 public class KingdomServiceTest {
@@ -32,16 +24,13 @@ public class KingdomServiceTest {
   KingdomService kingdomService;
   @Mock
   KingdomRepository kingdomRepository;
-<<<<<<< HEAD
   
   private Kingdom validKingdom = new Kingdom("Narnia");
   private Kingdom notValidKingdom = new Kingdom(null);
   
-=======
 
   private Kingdom validKingdomNarnia = new Kingdom("Narnia");
   private Kingdom validKingdomRueppellii = new Kingdom("Rueppellii");
-  private Kingdom notValidKingdom = new Kingdom(null);
   private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdomNarnia, KingdomDTO.class);
   private List<Kingdom> testList = new ArrayList<>();
   private Long testUserId = 1L;
@@ -52,7 +41,6 @@ public class KingdomServiceTest {
 
 
 
->>>>>>> f63b9d5332d81d504af64692f4058122b6f460c8
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
