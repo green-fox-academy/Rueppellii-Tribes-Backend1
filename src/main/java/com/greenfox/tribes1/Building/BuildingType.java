@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.Building;
 
 public enum BuildingType {
+
   farm {
     public Building makeBuilding() {
       return new Farm();
