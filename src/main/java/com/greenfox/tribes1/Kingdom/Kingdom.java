@@ -53,6 +53,7 @@ public class Kingdom {
     /*ResourceFactory resourceFactory = new ResourceFactory();
     resources.add(resourceFactory.getResource(ResourceType.food));
     resources.add(resourceFactory.getResource(ResourceType.gold));*/
+    
   }
   
   public List<KingdomResource> getResources() {

@@ -10,6 +10,6 @@ import lombok.Setter;
 class Food extends KingdomResource {
   
   public void setResourcePerMinute() {
-    setResourcePerMinute(8L);
+    setAmountPerMinute(8L);
   }
 }

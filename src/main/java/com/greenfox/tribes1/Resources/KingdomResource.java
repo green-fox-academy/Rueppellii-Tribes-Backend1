@@ -3,7 +3,6 @@ package com.greenfox.tribes1.Resources;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +10,6 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public abstract class KingdomResource {
@@ -21,7 +19,7 @@ public abstract class KingdomResource {
   private Long id;
   private Long amount;
   private Timestamp updated_at;
-  private Long resourcePerMinute;
+  private Long amountPerMinute;
   @ManyToOne(
       cascade = CascadeType.PERSIST,
       fetch = FetchType.EAGER
@@ -30,4 +28,8 @@ public abstract class KingdomResource {
       joinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"))
   private Kingdom kingdom;
+  
+  KingdomResource() {
+    amount = 500L;
+  }
 }

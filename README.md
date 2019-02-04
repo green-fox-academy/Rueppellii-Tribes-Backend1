@@ -2,15 +2,28 @@
 
 Environment variables:
 
-DEV:
+**DEV:**
 
-- DATASOURCE_URL: jdbc:mysql://localhost/yourTribesDataBaseName
-- DATASOURCE_USERNAME: your own username in MySQL
-- DATASOURCE_PASSWORD: your own password in MySQL
-- HIBERNATE_DIALECT: org.hibernate.dialect.MySQL57Dialect
-- DATABASE_HOST: your own localhost so far /NOT USED YET/
-- DATABASE_PORT: the port you've set /NOT USED YET/
-- PROFILE: dev
+| Key | Value |
+| --- | ----- | 
+|DATASOURCE_URL | jdbc:mysql://localhost:3306/devma |
+|DATASOURCE_USERNAME | *your local mysql username* |
+|DATASOURCE_PASSWORD | *your local mysql password* |
+|HIBERNATE_DIALECT | org.hibernate.dialect.MySQL57Dialect|
+|DATABASE_HOST | *your own localhost so far /NOT USED YET/* |
+|DATABASE_PORT | *the port you've set /NOT USED YET/* |
+|PROFILE | dev |
+
+**HEROKU:**
+
+| Key | Value |
+| --- | ----- | 
+|DATABASE_URL | postgres://username:password@host:port/database |
+|DATASOURCE_USERNAME | username
+|DATASOURCE_PASSWORD | password |
+|DATASOURCE_URL | jdbc:postgresql://host:port/database |
+|HIBERNATE_DIALECT | org.hibernate.dialect.PostgreSQLDialect|
+|PROFILE | heroku |
  _________________________________________________________________
 
 COMMON ERRORS OCCURRING IN FLYWAY:

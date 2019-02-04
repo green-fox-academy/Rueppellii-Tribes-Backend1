@@ -10,6 +10,6 @@ import lombok.Setter;
 class Gold extends KingdomResource {
   
   public void setResourcePerMinute() {
-    setResourcePerMinute(12L);
+    setAmountPerMinute(12L);
   }
 }
