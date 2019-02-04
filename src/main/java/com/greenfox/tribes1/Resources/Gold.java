@@ -8,5 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 class Gold extends KingdomResource {
-
+  
+  public void setResourcePerMinute() {
+    setResourcePerMinute(12L);
+  }
 }

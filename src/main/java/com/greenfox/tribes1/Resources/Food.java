@@ -8,5 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 class Food extends KingdomResource {
-
+  
+  public void setResourcePerMinute() {
+    setResourcePerMinute(8L);
+  }
 }

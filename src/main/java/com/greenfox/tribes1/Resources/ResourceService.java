@@ -1,19 +1,24 @@
 package com.greenfox.tribes1.Resources;
 
 import com.greenfox.tribes1.Building.Building;
+import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.Exception.NotValidResourceException;
-import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
 
 @Service
 public class ResourceService {
   
   private ResourceRepository resourceRepository;
+  private TimeService timeService;
   
   @Autowired
-  public ResourceService(ResourceRepository resourceRepository) {
+  public ResourceService(ResourceRepository resourceRepository, TimeService timeService) {
     this.resourceRepository = resourceRepository;
+    this.timeService = timeService;
   }
   
   public KingdomResource saveResource(KingdomResource kingdomResource) throws NotValidResourceException {
@@ -27,7 +32,8 @@ public class ResourceService {
     return resource != null;
   }
   
-  public void updateResource(Kingdom kingdom) {
+  public void updateResource(KingdomResource kingdomResource) throws DateNotGivenException {
+    timeService.calculateDifference(kingdomResource.getUpdated_at(), new Timestamp(System.currentTimeMillis()));
     /*KingdomResource actualResource;
     for (int i = 0; i < kingdom.getResources().size(); i++) {
       actualResource = kingdom.getResources().get(i);

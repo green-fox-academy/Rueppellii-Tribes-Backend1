@@ -10,27 +10,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class KingdomController {
+  
   private KingdomService kingdomService;
-
+  
   @Autowired
   public KingdomController(KingdomService kingdomService) {
     this.kingdomService = kingdomService;
   }
-
+  
   @GetMapping(value = "/kingdom")
   public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok()
-            .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
+        .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
-
+  
   @GetMapping("/kingdomA")
   public ResponseEntity kingdomDTOA(Authentication authentication) {
     ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
-
+  
   @GetMapping("/kingdomlist")
   public ResponseEntity kingdomList() {
     return ResponseEntity.ok(kingdomService.findAll());
