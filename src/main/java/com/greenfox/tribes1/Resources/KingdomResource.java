@@ -22,8 +22,7 @@ public abstract class KingdomResource {
   private Long amount;
   private Timestamp updated_at;
   //private Long amountPerMinute;
-  
-  @ManyToOne(
+   @ManyToOne(
       cascade = CascadeType.PERSIST,
       fetch = FetchType.EAGER
   )
@@ -31,4 +30,8 @@ public abstract class KingdomResource {
       joinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"))
   private Kingdom kingdom;
+  
+  KingdomResource() {
+    amount = 500L;
+  }
 }

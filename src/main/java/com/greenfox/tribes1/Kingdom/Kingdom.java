@@ -3,6 +3,7 @@ package com.greenfox.tribes1.Kingdom;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Resources.KingdomResource;
+import com.greenfox.tribes1.Resources.ResourceFactory;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,6 @@ public class Kingdom {
   
   @OneToMany
   private List<Troop> troops;
-  
   @OneToMany
   List<Building> buildings;
   
@@ -54,6 +54,7 @@ public class Kingdom {
     /*ResourceFactory resourceFactory = new ResourceFactory();
     resources.add(resourceFactory.getResource(ResourceType.food));
     resources.add(resourceFactory.getResource(ResourceType.gold));*/
+
   }
   
   public List<KingdomResource> getResources() {
