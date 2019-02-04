@@ -32,10 +32,7 @@ public class ResourceService {
   }
   
   public void updateResource(KingdomResource kingdomResource) throws DateNotGivenException {
-    kingdomResource.setAmount(kingdomResource.getAmount() + resourceToAdd(kingdomResource));
+    kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
   }
   
-  private Long resourceToAdd(KingdomResource kingdomResource) throws DateNotGivenException {
-    return kingdomResource.getAmountPerMinute() * timeService.calculateDifference(kingdomResource.getUpdated_at(), new Timestamp(System.currentTimeMillis()));
-  }
 }
