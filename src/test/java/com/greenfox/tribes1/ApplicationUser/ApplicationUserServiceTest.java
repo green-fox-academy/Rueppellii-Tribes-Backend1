@@ -8,16 +8,22 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
 public class ApplicationUserServiceTest {
   private String username = "John";
   private String password = "password";
+  private String encoded_password = "encoded_password";
   private ApplicationUserService applicationUserService;
 
   @Mock
@@ -37,14 +43,17 @@ public class ApplicationUserServiceTest {
   }
 
   @Test(expected = UsernameTakenException.class)
-  public void saveUserIfValid_ThrowException_IfUserAlreadyExist() throws UsernameTakenException {
+  public void registerNewUser_ThrowException_IfUserAlreadyExist() throws UsernameTakenException {
     Mockito.when(applicationUserRepository.findByUsername(testUserDTO.getUsername())).thenReturn(Optional.of(testUser));
     applicationUserService.registerNewUser(testUserDTO);
   }
 
   @Test
-  public void saveUserIfValid_ReturnsUser_IfUserNotExist() throws UsernameTakenException {
+  public void registerNewUser_ReturnsUser_IfUserNotExist() throws UsernameTakenException {
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    String encoded_password = encoder.encode(testUser.getPassword());
     Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
+   // assertEquals(encoded_password,encoder.encode(testUser.getPassword()));
     assertEquals(testUser, applicationUserService.registerNewUser(testUserDTO));
   }
 

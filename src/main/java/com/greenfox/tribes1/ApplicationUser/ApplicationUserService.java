@@ -7,7 +7,6 @@ import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,9 +14,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationUserService {
-
+  
   private ApplicationUserRepository applicationUserRepository;
-
+  
   @Autowired
   public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
     this.applicationUserRepository = applicationUserRepository;
@@ -50,11 +49,12 @@ public class ApplicationUserService {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
   }
-
+  
   public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
   }
+
 
   public ResponseEntity login(ApplicationUserDTO applicationUserDTO) {
     if (applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
@@ -64,13 +64,13 @@ public class ApplicationUserService {
     }
     throw new UsernameNotFoundException("No such user: " + applicationUserDTO.getUsername());
   }
-
+  
   private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
     return applicationUserRepository
-            .findByUsername(applicationUserDTO.getUsername())
-            .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
+        .findByUsername(applicationUserDTO.getUsername())
+        .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
   }
-
+  
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
     return kingdomName == null || kingdomName.isEmpty();
   }
