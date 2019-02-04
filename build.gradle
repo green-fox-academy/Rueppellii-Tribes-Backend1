@@ -33,6 +33,7 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-web',
             'org.flywaydb:flyway-core',
             'org.modelmapper:modelmapper:2.3.0',
+            'com.google.guava:guava:27.0.1-jre',
             'org.projectlombok:lombok')
     runtimeOnly('org.springframework.boot:spring-boot-devtools',
             'com.h2database:h2',
