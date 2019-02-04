@@ -18,9 +18,12 @@ Environment variables:
 
 | Key | Value |
 | --- | ----- | 
-|DB_URL | jdbc:mysql://localhost:3306/devma |
-|DB_USERNAME | *your local mysql username* |
-|DB_PASSWORD | *your local mysql password* |
+|DATABASE_URL | postgres://username:password@host:port/database |
+|DATASOURCE_USERNAME | username
+|DATASOURCE_PASSWORD | password |
+|DATASOURCE_URL | jdbc:postgresql://host:port/database |
+|HIBERNATE_DIALECT | org.hibernate.dialect.PostgreSQLDialect|
+|PROFILE | heroku |
  _________________________________________________________________
 
 COMMON ERRORS OCCURRING IN FLYWAY:
