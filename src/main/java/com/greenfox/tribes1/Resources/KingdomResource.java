@@ -21,6 +21,7 @@ public abstract class KingdomResource implements Updatable {
   private Long amount;
   private Timestamp updated_at;
   private Long amountPerMinute;
+  @Transient
   private Building building;
   
   @ManyToOne(
