@@ -1,6 +1,8 @@
 package com.greenfox.tribes1.Exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,20 +15,6 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ErrorHandlingAdvice {
-
-  @ResponseBody
-  @ExceptionHandler(WrongPasswordException.class)
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  ErrorMsg wrongPasswordHandler(WrongPasswordException ex){
-    return new ErrorMsg("error",ex.getMessage());
-  }
-
-  @ResponseBody
-  @ExceptionHandler(UserNotFoundException.class)
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  ErrorMsg userNotFound(UserNotFoundException ex){
-    return new ErrorMsg("error",ex.getMessage());
-  }
 
   @ResponseBody
   @ExceptionHandler(MethodArgumentNotValidException.class)

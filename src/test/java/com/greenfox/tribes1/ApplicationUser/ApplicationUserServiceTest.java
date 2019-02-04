@@ -2,7 +2,6 @@ package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
-import com.greenfox.tribes1.Kingdom.KingdomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,13 +39,13 @@ public class ApplicationUserServiceTest {
   @Test(expected = UsernameTakenException.class)
   public void saveUserIfValid_ThrowException_IfUserAlreadyExist() throws UsernameTakenException {
     Mockito.when(applicationUserRepository.findByUsername(testUserDTO.getUsername())).thenReturn(Optional.of(testUser));
-    applicationUserService.saveUserIfValid(testUserDTO);
+    applicationUserService.registerNewUser(testUserDTO);
   }
 
   @Test
   public void saveUserIfValid_ReturnsUser_IfUserNotExist() throws UsernameTakenException {
     Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
-    assertEquals(testUser, applicationUserService.saveUserIfValid(testUserDTO));
+    assertEquals(testUser, applicationUserService.registerNewUser(testUserDTO));
   }
 
   @Test
