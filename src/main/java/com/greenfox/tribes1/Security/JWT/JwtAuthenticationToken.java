@@ -1,8 +1,9 @@
-package com.greenfox.tribes1.Security.Model;
+package com.greenfox.tribes1.Security.JWT;
 
+import com.greenfox.tribes1.Security.Model.RawAccessJwtToken;
+import com.greenfox.tribes1.Security.Model.UserContext;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Collection;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {

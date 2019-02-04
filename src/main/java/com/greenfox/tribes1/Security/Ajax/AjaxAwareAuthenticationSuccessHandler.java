@@ -1,4 +1,4 @@
-package com.greenfox.tribes1.Security;
+package com.greenfox.tribes1.Security.Ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfox.tribes1.Security.Model.JwtToken;
@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +35,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
     UserContext userContext = (UserContext) authentication.getPrincipal();
 
     JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext);
-    JwtToken refreshToken= tokenFactory.createRefreshToken(userContext);
+    JwtToken refreshToken = tokenFactory.createRefreshToken(userContext);
 
     Map<String, String> tokenMap = new HashMap<String, String>();
     tokenMap.put("token", accessToken.getToken());
@@ -44,7 +43,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
     response.setStatus(HttpStatus.OK.value());
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-    mapper.writeValue(response.getWriter(),tokenMap);
+    mapper.writeValue(response.getWriter(), tokenMap);
 
     clearAuthenticationAttributes(request);
   }
@@ -52,7 +51,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
   private final void clearAuthenticationAttributes(HttpServletRequest request) {
     HttpSession session = request.getSession(false);
 
-    if(session == null){
+    if (session == null) {
       return;
     }
 

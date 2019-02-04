@@ -1,6 +1,7 @@
-package com.greenfox.tribes1.Security;
+package com.greenfox.tribes1.Security.Ajax;
 
 import com.greenfox.tribes1.Security.Model.UserContext;
+import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
 import io.jsonwebtoken.lang.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,9 +11,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-
 import static java.util.Collections.emptyList;
 
 @Component

@@ -1,14 +1,14 @@
 package com.greenfox.tribes1.Security.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfox.tribes1.Security.Model.JwtToken;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 
 @Getter
 public class AccessJwtToken implements JwtToken {
   private final String rawToken;
-  @JsonIgnore private Claims claims;
+  @JsonIgnore
+  private Claims claims;
 
   protected AccessJwtToken(final String token, Claims claims) {
     this.rawToken = token;

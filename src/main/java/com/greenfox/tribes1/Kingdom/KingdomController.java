@@ -28,8 +28,11 @@ public class KingdomController {
   @GetMapping("/kingdom")
   public ResponseEntity kingdomDTOA(Authentication authentication) {
     UserContext userContext = (UserContext) authentication.getPrincipal();
+    System.out.println(userContext.getUsername());
     Kingdom kingdomByUsername = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
+
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUsername));
+   // return  ResponseEntity.ok().build();
   }
 
   @GetMapping("/kingdomlist")

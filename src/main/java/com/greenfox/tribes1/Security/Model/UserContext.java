@@ -2,7 +2,6 @@ package com.greenfox.tribes1.Security.Model;
 
 
 import lombok.Getter;
-import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;

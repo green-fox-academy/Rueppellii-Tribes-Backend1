@@ -1,8 +1,7 @@
-package com.greenfox.tribes1.Security.JWT;
+package com.greenfox.tribes1.Security.Config;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Getter
@@ -10,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JwtSettings {
 
-  public static final long ACCESS_TOKEN_LIFETIME = 30 * 60 * 1000L;
-  public static final long REFRESH_TOKEN_LIFETIME = 30 * 24 * 60 * 60 * 1000L;
+  public static final long ACCESS_TOKEN_LIFETIME = 1;
+  public static final long REFRESH_TOKEN_LIFETIME = 2;
 
   public static final String TOKEN_ISSUER = "Springles";
 

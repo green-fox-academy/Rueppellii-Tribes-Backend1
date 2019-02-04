@@ -26,8 +26,4 @@ public class ApplicationUser {
           joinColumns = @JoinColumn(name ="application_user_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
   private Kingdom kingdom;
-
-  public ApplicationUser(String username) {
-    this.username = username;
-  }
 }

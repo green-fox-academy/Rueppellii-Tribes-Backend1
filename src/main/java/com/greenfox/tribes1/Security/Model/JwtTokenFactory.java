@@ -1,16 +1,11 @@
 package com.greenfox.tribes1.Security.Model;
 
-import com.greenfox.tribes1.Security.JWT.JwtSettings;
-import com.greenfox.tribes1.Security.Model.AccessJwtToken;
-import com.greenfox.tribes1.Security.Model.JwtToken;
-import com.greenfox.tribes1.Security.Model.UserContext;
-import com.greenfox.tribes1.Security.Scopes;
+import com.greenfox.tribes1.Security.Config.JwtSettings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -28,7 +23,7 @@ public class JwtTokenFactory {
     this.settings = settings;
   }
 
-  public AccessJwtToken createAccessJwtToken(UserContext userContext){
+  public AccessJwtToken createAccessJwtToken(UserContext userContext) {
     Claims claims = Jwts.claims().setSubject(userContext.getUsername());
     claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
 
@@ -39,15 +34,15 @@ public class JwtTokenFactory {
             .setIssuer(settings.TOKEN_ISSUER)
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(Date.from(currentTime
-                .plusMinutes(settings.ACCESS_TOKEN_LIFETIME)
-                .atZone(ZoneId.systemDefault()).toInstant()))
+                    .plusMinutes(settings.ACCESS_TOKEN_LIFETIME)
+                    .atZone(ZoneId.systemDefault()).toInstant()))
             .signWith(SignatureAlgorithm.HS512, settings.TOKEN_SIGNING_KEY)
             .compact();
 
     return new AccessJwtToken(token, claims);
   }
 
-  public JwtToken createRefreshToken(UserContext userContext){
+  public JwtToken createRefreshToken(UserContext userContext) {
     LocalDateTime currentTime = LocalDateTime.now();
 
     Claims claims = Jwts.claims().setSubject(userContext.getUsername());
@@ -64,6 +59,6 @@ public class JwtTokenFactory {
             .signWith(SignatureAlgorithm.HS512, settings.TOKEN_SIGNING_KEY)
             .compact();
 
-    return new AccessJwtToken(token,claims);
+    return new AccessJwtToken(token, claims);
   }
 }

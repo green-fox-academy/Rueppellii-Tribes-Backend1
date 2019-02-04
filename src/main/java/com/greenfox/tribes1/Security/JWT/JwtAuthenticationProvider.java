@@ -1,6 +1,6 @@
 package com.greenfox.tribes1.Security.JWT;
 
-import com.greenfox.tribes1.Security.Model.JwtAuthenticationToken;
+import com.greenfox.tribes1.Security.Config.JwtSettings;
 import com.greenfox.tribes1.Security.Model.RawAccessJwtToken;
 import com.greenfox.tribes1.Security.Model.UserContext;
 import io.jsonwebtoken.Claims;
@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
