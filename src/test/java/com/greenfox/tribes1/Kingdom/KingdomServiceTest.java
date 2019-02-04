@@ -77,7 +77,7 @@ public class KingdomServiceTest {
 
   @Test
   public void findKingdomByApplicationUserName_GivesCorrectKingdom() {
-    when(kingdomRepository.findKingdomByApplicationUserName("testuser")).thenReturn(validKingdomNarnia);
+    when(kingdomRepository.findKingdomByApplicationUser_Username("testuser")).thenReturn(validKingdomNarnia);
     assertEquals(kingdomService.findKingdomByApplicationUserName("testuser"), validKingdomNarnia);
   }
 }
