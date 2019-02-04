@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @Entity
-public abstract class KingdomResource implements Updatable{
+public abstract class KingdomResource implements Updatable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

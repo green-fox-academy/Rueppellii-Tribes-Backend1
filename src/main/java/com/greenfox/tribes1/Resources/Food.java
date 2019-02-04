@@ -21,6 +21,6 @@ class Food extends KingdomResource implements Updatable {
   
   @Override
   public Long update() throws DateNotGivenException {
-    return getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
+    return 2 * getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
   }
 }

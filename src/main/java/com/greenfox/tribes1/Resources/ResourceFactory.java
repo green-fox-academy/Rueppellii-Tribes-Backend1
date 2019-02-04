@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResourceFactory {
   
-public KingdomResource getResource(ResourceType resourceType) {
+  public KingdomResource getResource(ResourceType resourceType) {
     return resourceType.generateResource();
   }
 }
