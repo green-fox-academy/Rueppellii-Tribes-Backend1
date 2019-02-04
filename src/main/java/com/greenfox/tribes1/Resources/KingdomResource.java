@@ -3,7 +3,6 @@ package com.greenfox.tribes1.Resources;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +10,6 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public abstract class KingdomResource {
@@ -22,7 +20,7 @@ public abstract class KingdomResource {
   private Long amount;
   private Timestamp updated_at;
   //private Long amountPerMinute;
-   @ManyToOne(
+  @ManyToOne(
       cascade = CascadeType.PERSIST,
       fetch = FetchType.EAGER
   )
