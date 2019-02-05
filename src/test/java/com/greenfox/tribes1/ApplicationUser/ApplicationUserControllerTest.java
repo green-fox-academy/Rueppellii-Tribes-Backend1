@@ -1,3 +1,4 @@
+/*
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
@@ -113,4 +114,4 @@ public class ApplicationUserControllerTest {
     verify(applicationUserService, times(1)).createDTOwithKingdomfromUser(testUser);
     verifyNoMoreInteractions(applicationUserService);
   }
-}
+}*/
