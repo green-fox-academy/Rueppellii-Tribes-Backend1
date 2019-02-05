@@ -1,10 +1,10 @@
 package com.greenfox.tribes1.Resources;
 
-import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.TimeService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.SneakyThrows;
 
 import java.sql.Timestamp;
 
@@ -20,7 +20,8 @@ public class Gold extends KingdomResource implements Updatable {
   }
   
   @Override
-  public Long update() throws DateNotGivenException {
+  @SneakyThrows
+  public Long update() {
     return getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
   }
 }

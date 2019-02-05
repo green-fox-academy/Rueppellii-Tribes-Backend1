@@ -25,7 +25,7 @@ public class TroopFactory {
     food.setAmountPerMinute(food.getAmountPerMinute() - 1);
     
     // TODO: save food
-    
+    //TODO: Iterables.getOnlyElement
     return troopType.makeTroop();
   }
 }
