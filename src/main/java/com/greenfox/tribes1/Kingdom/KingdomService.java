@@ -3,9 +3,12 @@ package com.greenfox.tribes1.Kingdom;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
+import com.greenfox.tribes1.Kingdom.DTO.KingdomResourceDTO;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -41,6 +44,11 @@ public class KingdomService {
   public KingdomDTO createKingdomDTOFromKingdom(Kingdom kingdom) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(kingdom, KingdomDTO.class);
+  }
+  
+  public KingdomResourceDTO createKingdomResourceDTOFromKingdom(Kingdom kingdom) {
+    ModelMapper modelMapper = new ModelMapper();
+    return modelMapper.map(kingdom, KingdomResourceDTO.class);
   }
   
   public List<Kingdom> findAll() {
