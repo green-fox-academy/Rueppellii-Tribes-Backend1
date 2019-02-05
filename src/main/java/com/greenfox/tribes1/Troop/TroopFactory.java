@@ -1,14 +1,10 @@
 package com.greenfox.tribes1.Troop;
 
-import com.google.common.collect.Iterables;
 import com.greenfox.tribes1.Exception.NotValidResourceException;
-import com.greenfox.tribes1.Resources.Food;
 import com.greenfox.tribes1.Resources.ResourceService;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class TroopFactory {
@@ -22,7 +18,13 @@ public class TroopFactory {
   
   public Troop makeTroop(TroopType troopType) throws NotValidResourceException {
     
-    //List<Food> food =
+    /*List<Food> food =
+     
+
+     probably have to move it to ProgressionService,
+     but consult with Sol first
+   
+   TODO:copy
     Food food =
         Iterables.getOnlyElement( //casts List<Food> to Food as well
             troopType.makeTroop()
@@ -33,10 +35,13 @@ public class TroopFactory {
                 .map(f -> (Food) f)
                 .collect(Collectors.toList()));
     
-    //Preconditions.checkArgument(food.size() == 1); Not needed due to getOnlyElement
+    
     
     food.setAmountPerMinute(food.getAmountPerMinute() - 1);
     resourceService.saveResource(food);
+  
+    //Preconditions.checkArgument(food.size() == 1); Not needed due to getOnlyElement
+  */
     
     return troopType.makeTroop();
   }
