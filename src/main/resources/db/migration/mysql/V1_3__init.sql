@@ -1,15 +1,17 @@
-CREATE TABLE `troop` (
-  `id`           bigint(20) NOT NULL AUTO_INCREMENT,
-  `level`        bigint(20) UNSIGNED NOT NULL,
-  `HP`           bigint(20) DEFAULT NULL,
-  `attack`       bigint(20) DEFAULT NULL,
-  `defense`      bigint(20) DEFAULT NULL,
-  `started_at`   TIMESTAMP (6),
-  `finished_at`  TIMESTAMP (6),
+CREATE TABLE `troop`
+(
+  `id`          bigint(20)          NOT NULL AUTO_INCREMENT,
+  `level`       bigint(20) UNSIGNED NOT NULL,
+  `HP`          bigint(20) DEFAULT NULL,
+  `attack`      bigint(20) DEFAULT NULL,
+  `defense`     bigint(20) DEFAULT NULL,
+  `started_at`  TIMESTAMP(6),
+  `finished_at` TIMESTAMP(6),
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `kingdom_troops` (
+CREATE TABLE `kingdom_troops`
+(
   `troops_id`  bigint(20) NOT NULL,
   `kingdom_id` bigint(20) NOT NULL,
   PRIMARY KEY (`kingdom_id`),
