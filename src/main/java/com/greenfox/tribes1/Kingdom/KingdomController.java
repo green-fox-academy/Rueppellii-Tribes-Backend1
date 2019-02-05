@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
+import com.greenfox.tribes1.Security.Model.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,7 @@ public class KingdomController {
     this.kingdomService = kingdomService;
   }
   
-  @GetMapping(value = "/kingdom")
+  @GetMapping(value = "/kingdomUser")
   public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok()
@@ -40,11 +41,14 @@ public class KingdomController {
         .body(kingdomService.createKingdomDTOFromKingdom(kingdomWithNewMName));
   }
   
-  @GetMapping("/kingdomA")
+  @GetMapping("/kingdom")
   public ResponseEntity kingdomDTOA(Authentication authentication) {
-    ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
-    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
-    return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
+    UserContext userContext = (UserContext) authentication.getPrincipal();
+    System.out.println(userContext.getUsername());
+    Kingdom kingdomByUsername = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
+    
+    return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUsername));
+    // return  ResponseEntity.ok().build();
   }
   
   @GetMapping("/kingdomlist")

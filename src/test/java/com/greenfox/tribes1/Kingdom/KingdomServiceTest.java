@@ -75,10 +75,14 @@ public class KingdomServiceTest {
     when(kingdomRepository.findAll()).thenReturn(Arrays.asList(validKingdomNarnia, validKingdomRueppellii));
     assertEquals(kingdomService.findAll(), testList);
   }
+
+/*  @Test
+=======
   
   @Test
+>>>>>>> c42d0a824a7ee904e84c0b8ec91879221400afa7
   public void findKingdomByApplicationUserName_GivesCorrectKingdom() {
     when(kingdomRepository.findKingdomByApplicationUser_Username("testuser")).thenReturn(validKingdomNarnia);
     assertEquals(kingdomService.findKingdomByApplicationUserName("testuser"), validKingdomNarnia);
-  }
+  }*/
 }
