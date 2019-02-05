@@ -15,7 +15,7 @@ public class TimeService {
     }
     return null;
   }
-  
+
 //  Todo Upgrade model instead of Timestamp for input - for timestamp --> upgradeModel.getTimestamp
 //  Todo use the buildingTime method in it
   public Timestamp calculateBuildingTimeForNewBuildingOrTroop (Timestamp started_at) throws DateNotGivenException {
