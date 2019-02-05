@@ -46,4 +46,12 @@ public class KingdomService {
   public List<Kingdom> findAll() {
     return kingdomRepository.findAll();
   }
+  
+  public Kingdom renameKingdom(Kingdom kingdom, String newKingdomName) {
+    if (validKingdomName(newKingdomName)) {
+      kingdom.setName(newKingdomName);
+      kingdomRepository.save(kingdom);
+    }
+    return kingdom;
+  }
 }

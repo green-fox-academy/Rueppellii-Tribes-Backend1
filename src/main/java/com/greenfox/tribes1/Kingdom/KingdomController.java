@@ -1,10 +1,12 @@
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
+import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,12 @@ public class KingdomController {
         .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
   
+  @PutMapping("/kingdom")
+  public ResponseEntity KingdomDTONameChange(Kingdom kingdom, String newName) {
+    return ResponseEntity.ok()
+        .body(kingdomService.renameKingdom(kingdom, newName));
+  }
+  
   @GetMapping("/kingdomA")
   public ResponseEntity kingdomDTOA(Authentication authentication) {
     ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
@@ -36,4 +44,5 @@ public class KingdomController {
   public ResponseEntity kingdomList() {
     return ResponseEntity.ok(kingdomService.findAll());
   }
+  
 }
