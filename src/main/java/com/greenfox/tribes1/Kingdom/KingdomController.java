@@ -30,13 +30,14 @@ public class KingdomController {
   public ResponseEntity kingdomResourcesDTO(@RequestBody ApplicationUser applicationUser) {
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok()
-        .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
+        .body(kingdomService.createKingdomResourceDTOFromKingdom(kingdomByUser));
   }
   
   @PutMapping("/kingdom")
-  public ResponseEntity KingdomDTONameChange(Kingdom kingdom, String newName) {
+  public ResponseEntity KingdomNameChange(Kingdom kingdom, String newName) {
+    Kingdom kingdomWithNewMName = kingdomService.renameKingdom(kingdom, newName);
     return ResponseEntity.ok()
-        .body(kingdomService.renameKingdom(kingdom, newName));
+        .body(kingdomService.createKingdomDTOFromKingdom(kingdomWithNewMName));
   }
   
   @GetMapping("/kingdomA")
