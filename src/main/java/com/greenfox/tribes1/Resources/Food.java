@@ -15,6 +15,14 @@ public class Food extends KingdomResource implements Updatable {
   
   TimeService timeService;
   
+  public Food(Long amount) {
+    this.setAmount(amount);
+  }
+  
+  public Food(TimeService timeService) {
+    this.timeService = timeService;
+  }
+  
   public void setResourcePerMinute() {
     setAmountPerMinute(8L);
   }
