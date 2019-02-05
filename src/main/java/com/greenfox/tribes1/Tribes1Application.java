@@ -10,6 +10,4 @@ public class Tribes1Application {
     
     SpringApplication.run(Tribes1Application.class, args);
   }
-  
 }
-
