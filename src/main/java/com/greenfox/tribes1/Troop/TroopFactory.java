@@ -6,9 +6,11 @@ import com.greenfox.tribes1.Resources.Food;
 import com.greenfox.tribes1.Resources.ResourceService;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@Component
 public class TroopFactory {
   
   ResourceService resourceService;
@@ -20,9 +22,9 @@ public class TroopFactory {
   
   public Troop makeTroop(TroopType troopType) throws NotValidResourceException {
     
-    //List<Food> feed =
+    //List<Food> food =
     Food food =
-        Iterables.getOnlyElement(
+        Iterables.getOnlyElement( //casts List<Food> to Food as well
             troopType.makeTroop()
                 .getKingdom()
                 .getResources()
@@ -31,7 +33,7 @@ public class TroopFactory {
                 .map(f -> (Food) f)
                 .collect(Collectors.toList()));
     
-    //Preconditions.checkArgument(feed.size() == 1); Not needed due to getOnlyElement
+    //Preconditions.checkArgument(food.size() == 1); Not needed due to getOnlyElement
     
     food.setAmountPerMinute(food.getAmountPerMinute() - 1);
     resourceService.saveResource(food);
