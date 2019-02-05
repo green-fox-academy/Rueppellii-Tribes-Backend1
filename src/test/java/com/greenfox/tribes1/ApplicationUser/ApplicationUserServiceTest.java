@@ -57,7 +57,7 @@ public class ApplicationUserServiceTest {
    // String encoded_password = encoder.encode(testUser.getPassword());
     Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
    // assertEquals(encoder.encode(password),testUser.getPassword());
-    Mockito.when(encoder.encode(testUser.getPassword())).(encoded_password);
+    Mockito.when(encoder.encode(testUser.getPassword())).t(encoded_password);
     assertEquals(testUser, applicationUserService.registerNewUser(testUserDTO));
   }
 
