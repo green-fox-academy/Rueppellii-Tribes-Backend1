@@ -75,7 +75,6 @@ public class KingdomServiceTest {
     when(kingdomRepository.findAll()).thenReturn(Arrays.asList(validKingdomNarnia, validKingdomRueppellii));
     assertEquals(kingdomService.findAll(), testList);
   }
-<<<<<<< HEAD
 
 /*  @Test
 =======

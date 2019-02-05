@@ -26,12 +26,15 @@ public class ApplicationUserServiceTest {
   private String encoded_password = "encoded_password";
   private ApplicationUserService applicationUserService;
 
+  @MockBean
+  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
   @Mock
   ApplicationUserRepository applicationUserRepository;
 
   private ApplicationUserDTO testUserDTO = ApplicationUserDTO.builder()
           .username(username)
-          .password(password)
+          .password(encoder.encode(password))
           .build();
   private ApplicationUser testUser;
 
@@ -50,10 +53,11 @@ public class ApplicationUserServiceTest {
 
   @Test
   public void registerNewUser_ReturnsUser_IfUserNotExist() throws UsernameTakenException {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    String encoded_password = encoder.encode(testUser.getPassword());
+   //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+   // String encoded_password = encoder.encode(testUser.getPassword());
     Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
-   // assertEquals(encoded_password,encoder.encode(testUser.getPassword()));
+   // assertEquals(encoder.encode(password),testUser.getPassword());
+    Mockito.when(encoder.encode(testUser.getPassword())).(encoded_password);
     assertEquals(testUser, applicationUserService.registerNewUser(testUserDTO));
   }
 
