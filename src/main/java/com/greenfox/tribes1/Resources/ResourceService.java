@@ -30,5 +30,4 @@ public class ResourceService {
     kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
     saveResource(kingdomResource);
   }
-  
 }
