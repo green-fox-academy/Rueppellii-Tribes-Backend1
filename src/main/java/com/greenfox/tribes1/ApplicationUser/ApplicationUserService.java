@@ -5,15 +5,19 @@ import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
 import com.greenfox.tribes1.Exception.ErrorMsg;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Security.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class ApplicationUserService {
+public class ApplicationUserService implements UserService {
   
   private ApplicationUserRepository applicationUserRepository;
   
@@ -73,5 +77,21 @@ public class ApplicationUserService {
   
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
     return kingdomName == null || kingdomName.isEmpty();
+  }
+
+  public Long getIdFromDB(String username){
+    Optional<ApplicationUser> applicationUser = applicationUserRepository.findByUsername(username);
+      return applicationUser.get().getId();
+
+  }
+
+  public Optional<ApplicationUser> getUserOptional(String username) {
+    Optional<ApplicationUser> user = applicationUserRepository.findByUsername(username);
+    Optional<ApplicationUser> userOptional = Optional.empty();
+    return (user == null) ? userOptional : user ;
+  }
+  @Override
+  public Optional<ApplicationUser> getByUsername(String username) {
+    return this.applicationUserRepository.findByUsername(username);
   }
 }

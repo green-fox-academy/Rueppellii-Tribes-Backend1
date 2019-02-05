@@ -8,7 +8,6 @@ import com.greenfox.tribes1.Security.JWT.JwtAuthenticationProvider;
 import com.greenfox.tribes1.Security.JWT.JwtTokenAuthenticationProcessingFilter;
 import com.greenfox.tribes1.Security.RestAuthenticationEntryPoint;
 import com.greenfox.tribes1.Security.JWT.SkipPathRequestMatcher;
-import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +17,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -35,8 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public static final String REFRESH_TOKEN_URL = "/refreshtoken";
   public static final String API_ROOT_URL = "/**";
 
-  @Autowired
-  private UserDetailsServiceImpl userDetailsService;
   @Autowired
   private RestAuthenticationEntryPoint authenticationEntryPoint;
   @Autowired

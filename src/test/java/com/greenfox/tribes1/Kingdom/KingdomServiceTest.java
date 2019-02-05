@@ -26,9 +26,7 @@ public class KingdomServiceTest {
   @Mock
   KingdomRepository kingdomRepository;
   
-  private Kingdom validKingdom = new Kingdom("Narnia");
   private Kingdom notValidKingdom = new Kingdom(null);
-  
   private Kingdom validKingdomNarnia = new Kingdom("Narnia");
   private Kingdom validKingdomRueppellii = new Kingdom("Rueppellii");
   private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdomNarnia, KingdomDTO.class);

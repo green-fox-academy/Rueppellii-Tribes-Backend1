@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Security;
 
+import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Security.Config.JwtSettings;
 import com.greenfox.tribes1.Security.Config.WebSecurityConfig;
 import com.greenfox.tribes1.Security.JWT.Extractor.TokenExtractor;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +29,7 @@ public class RefreshTokenEndpoint {
   @Autowired
   private JwtSettings jwtSettings;
   @Autowired
-  private UserDetailsServiceImpl userService;
+  private UserService userService;
   @Autowired
   private TokenVerifier tokenVerifier;
   @Autowired
@@ -48,7 +50,7 @@ public class RefreshTokenEndpoint {
     }
 
     String subject = refreshToken.getSubject();
-    User user = (User) userService.loadUserByUsername(subject);
+    ApplicationUser user = userService.getByUsername(subject).orElseThrow(() -> new UsernameNotFoundException("No such user: " + subject));
 
 
     UserContext userContext = UserContext.create(user.getUsername(), Collections.emptyList());

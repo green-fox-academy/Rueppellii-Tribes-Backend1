@@ -18,32 +18,24 @@ public class KingdomController {
     this.kingdomService = kingdomService;
   }
 
-  @GetMapping(value = "/kingdomUser")
+ /* @GetMapping(value = "/kingdomUser")
   public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok()
             .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
-  }
+  }*/
 
   @GetMapping("/kingdom")
-  public ResponseEntity kingdomDTOA(Authentication authentication) {
+  public ResponseEntity show_kingdom(Authentication authentication) {
     UserContext userContext = (UserContext) authentication.getPrincipal();
-    System.out.println(userContext.getUsername());
     Kingdom kingdomByUsername = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
-
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUsername));
-   // return  ResponseEntity.ok().build();
-  }
-
-  @GetMapping("/kingdomlist")
-  public ResponseEntity kingdomList() {
-    return ResponseEntity.ok(kingdomService.findAll());
   }
 
   @GetMapping("kingdom/buildings")
-  private ResponseEntity show_buildings(Authentication authentication) {
-    ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
-    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
+  public ResponseEntity show_buildings(Authentication authentication) {
+    UserContext userContext = (UserContext) authentication.getPrincipal();
+    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
     return ResponseEntity.ok(kingdomByUser.getBuildings());
   }
 }

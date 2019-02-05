@@ -1,46 +1,88 @@
-/*
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
-import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
+import com.greenfox.tribes1.ApplicationUser.ApplicationUserRepository;
+import com.greenfox.tribes1.ApplicationUser.ApplicationUserService;
+import com.greenfox.tribes1.Security.Model.JwtTokenFactory;
+import com.greenfox.tribes1.TestTokenProvider;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import java.util.Arrays;
-import java.util.Collections;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.nio.charset.Charset;
+
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(KingdomController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class KingdomControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @MockBean
-  private KingdomService kingdomService;
-  @MockBean
-  private UserDetailsServiceImpl userDetailsService;
+  private ApplicationUserRepository applicationUserRepository;
 
-  private  Long id = 1l;
+  @Autowired
+  private JwtTokenFactory tokenFactory;
+
+  @MockBean
+  private KingdomService kingdomService;
+
+  private String token;
+
+  private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+          MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
+
+  @Before
+  public void init() {
+    TestTokenProvider testTokenProvider = new TestTokenProvider(applicationUserRepository, tokenFactory);
+    token = testTokenProvider.createMockToken("username");
+  }
+
+  @Test
+  public void getKingdom_throwsException_ifUserNotFound() throws Exception {
+    when(kingdomService.findKingdomByApplicationUserName("username")).thenThrow(UsernameNotFoundException.class);
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdom")
+                    .contentType(contentType)
+                    .header("Authorization", token))
+            .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void getKingdom_returnsOK_ifUserFound() throws Exception {
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdom")
+                    .contentType(contentType)
+                    .header("Authorization", token))
+            .andExpect(status().isOk());
+  }
+
+}
+
+/*
+  private Long id = 1l;
   private String username = "username";
   private String userEmail = "user@user.com";
   private String kingdomName = "kingdomName";
@@ -116,4 +158,5 @@ public class KingdomControllerTest {
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(jsonPath("$[0].name", is("Kingdom1")));
   }
-}*/
+}
+*/
