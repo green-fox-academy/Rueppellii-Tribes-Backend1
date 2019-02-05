@@ -3,13 +3,13 @@ package com.greenfox.tribes1.ApplicationUser;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
 import com.greenfox.tribes1.Exception.ErrorMsg;
-import com.greenfox.tribes1.Exception.UserNotFoundException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
-import com.greenfox.tribes1.Exception.WrongPasswordException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,16 +21,19 @@ public class ApplicationUserService {
   public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
     this.applicationUserRepository = applicationUserRepository;
   }
-  
+
+  @Autowired
+  private BCryptPasswordEncoder encoder;
+
   public ApplicationUser findByUsername(String username) {
     return applicationUserRepository.findByUsername(username).orElse(null);
   }
-  
-  public ApplicationUser saveUserIfValid(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
-    if (!isUsernameInDB(applicationUserDTO)) {
+
+  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+    if (!applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
+      userToBeSaved.setPassword(encoder.encode(applicationUserDTO.getPassword()));
       String kingdomName = applicationUserDTO.getKingdomName();
-      
       if (isKingdomNameNullOrEmpty(kingdomName)) {
         userToBeSaved.setKingdom(new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername())));
       } else {
@@ -41,11 +44,7 @@ public class ApplicationUserService {
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
   }
-  
-  public Boolean isUsernameInDB(ApplicationUserDTO applicationUserDTO) {
-    return findByUsername(applicationUserDTO.getUsername()) != null;
-  }
-  
+
   public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
@@ -55,15 +54,15 @@ public class ApplicationUserService {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
   }
-  
-  public ResponseEntity login(ApplicationUserDTO applicationUserDTO) throws UserNotFoundException, WrongPasswordException {
-    if (isUsernameInDB(applicationUserDTO)) {
+
+
+  public ResponseEntity login(ApplicationUserDTO applicationUserDTO) {
+    if (applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
       if (isPasswordMatching(applicationUserDTO)) {
         return ResponseEntity.ok().body(new ErrorMsg("ok", "ok"));
       }
-      throw new WrongPasswordException("Wrong password!");
     }
-    throw new UserNotFoundException("No such user: " + applicationUserDTO.getUsername());
+    throw new UsernameNotFoundException("No such user: " + applicationUserDTO.getUsername());
   }
   
   private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
