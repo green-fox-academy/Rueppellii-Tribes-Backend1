@@ -35,4 +35,11 @@ public class KingdomController {
   public ResponseEntity kingdomList() {
     return ResponseEntity.ok(kingdomService.findAll());
   }
+
+  @GetMapping("kingdom/buildings")
+  private ResponseEntity show_buildings(Authentication authentication) {
+    ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
+    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
+    return ResponseEntity.ok(kingdomByUser.getBuildings());
+  }
 }
