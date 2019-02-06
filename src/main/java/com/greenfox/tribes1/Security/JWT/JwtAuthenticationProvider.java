@@ -28,8 +28,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     RawAccessJwtToken rawAccessJwtToken = (RawAccessJwtToken) authentication.getCredentials();
 
-    Jws<Claims> jwsClaims = rawAccessJwtToken.parseClaims("secret");
-    //jwtSettings.TOKEN_SIGNING_KEY
+    Jws<Claims> jwsClaims = rawAccessJwtToken.parseClaims(jwtSettings.TOKEN_SIGNING_KEY);
     String subject = jwsClaims.getBody().getSubject();
     List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
     List<GrantedAuthority> authorities = scopes.stream()

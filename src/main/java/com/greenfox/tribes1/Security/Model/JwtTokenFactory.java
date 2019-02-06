@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenFactory {
 
-  private final JwtSettings settings;
+  private final JwtSettings jwtsettings;
   private ApplicationUserService applicationUserService;
 
   @Autowired
   public JwtTokenFactory(JwtSettings settings, ApplicationUserService applicationUserService) {
-    this.settings = settings;
+    this.jwtsettings = settings;
     this.applicationUserService = applicationUserService;
   }
 
@@ -37,14 +37,15 @@ public class JwtTokenFactory {
 
     String token = Jwts.builder()
             .setClaims(claims)
-            .setIssuer(settings.TOKEN_ISSUER)
+            .setIssuer(jwtsettings.TOKEN_ISSUER)
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(Date.from(currentTime
-                    .plusMinutes(settings.ACCESS_TOKEN_LIFETIME)
+                    .plusMinutes(jwtsettings.ACCESS_TOKEN_LIFETIME)
                     .atZone(ZoneId.systemDefault()).toInstant()))
-            .signWith(SignatureAlgorithm.HS512, "secret")
+            .signWith(SignatureAlgorithm.HS512, jwtsettings.TOKEN_SIGNING_KEY)
+   // jwtsettings.TOKEN_SIGNING_KEY
+
             .compact();
-   // settings.TOKEN_SIGNING_KEY
     return new AccessJwtToken(token, claims);
   }
 
@@ -56,13 +57,13 @@ public class JwtTokenFactory {
 
     String token = Jwts.builder()
             .setClaims(claims)
-            .setIssuer(settings.TOKEN_ISSUER)
+            .setIssuer(jwtsettings.TOKEN_ISSUER)
             .setId(UUID.randomUUID().toString())
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(Date.from(currentTime
-                    .plusMinutes(settings.REFRESH_TOKEN_LIFETIME)
+                    .plusMinutes(jwtsettings.REFRESH_TOKEN_LIFETIME)
                     .atZone(ZoneId.systemDefault()).toInstant()))
-            .signWith(SignatureAlgorithm.HS512, settings.TOKEN_SIGNING_KEY)
+            .signWith(SignatureAlgorithm.HS512, jwtsettings.TOKEN_SIGNING_KEY)
             .compact();
 
     return new AccessJwtToken(token, claims);
@@ -80,11 +81,11 @@ public class JwtTokenFactory {
 
     String token = Jwts.builder()
             .setClaims(claims)
-            .setIssuer(settings.TOKEN_ISSUER)
+            .setIssuer(jwtsettings.TOKEN_ISSUER)
             .setId(userId.toString())
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(refreshTokenExpirationTime)
-            .signWith(SignatureAlgorithm.HS512, settings.TOKEN_SIGNING_KEY)
+            .signWith(SignatureAlgorithm.HS512, jwtsettings.TOKEN_SIGNING_KEY)
             .compact();
 
     return new AccessJwtToken(token, claims);
