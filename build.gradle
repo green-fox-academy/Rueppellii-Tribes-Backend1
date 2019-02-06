@@ -44,6 +44,6 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 }
 
-/*test {
+test {
     environment "TRIBES_TOKEN_SIGNING_KEY", "secret"
-}*/
+}
