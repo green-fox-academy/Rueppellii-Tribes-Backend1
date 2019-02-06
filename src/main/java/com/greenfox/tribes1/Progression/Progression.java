@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 @DiscriminatorColumn(name ="Progression_Type")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public abstract class Progression {
 
   @Id
@@ -30,6 +30,5 @@ public abstract class Progression {
           joinColumns = @JoinColumn(name = "progression_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
   private Kingdom kingdom;
-
 
 }
