@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -60,24 +61,22 @@ public class KingdomControllerTest {
           MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
 
-  @Before
-  public void init() {
-    TestTokenProvider testTokenProvider = new TestTokenProvider(applicationUserRepository, tokenFactory);
-    token = testTokenProvider.createMockToken("username");
-  }
-
   @Test
   public void getKingdom_throwsException_ifUserNotFound() throws Exception {
-    when(kingdomService.findKingdomByApplicationUserName("username")).thenThrow(UsernameNotFoundException.class);
+    TestTokenProvider testTokenProvider = new TestTokenProvider(applicationUserRepository, tokenFactory);
+    token = testTokenProvider.createMockToken("username");
+  when(kingdomService.findKingdomByApplicationUserName("username")).thenThrow(UsernameNotFoundException.class);
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
                     .contentType(contentType)
                     .header("Authorization", token))
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isUnauthorized());
   }
 
   @Test
   public void getKingdom_returnsOK_ifUserFound() throws Exception {
+    TestTokenProvider testTokenProvider = new TestTokenProvider(applicationUserRepository, tokenFactory);
+    token = testTokenProvider.createMockToken("username");
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
                     .contentType(contentType)
@@ -85,6 +84,15 @@ public class KingdomControllerTest {
             .andExpect(status().isOk());
   }
 
+  @Test(expected = AuthenticationServiceException.class)
+  public void getKingdom_returnsError_ifTokenNotProvided() throws Exception {
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdom")
+                    .contentType(contentType)
+                  //  .header("Authorization", token))
+    )
+                    .andExpect(status().is4xxClientError());
+  }
 }
 
 /*
