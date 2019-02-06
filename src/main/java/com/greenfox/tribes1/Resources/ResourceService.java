@@ -1,5 +1,8 @@
 package com.greenfox.tribes1.Resources;
 
+import com.greenfox.tribes1.Building.Building;
+import com.greenfox.tribes1.Exception.NotValidResourceException;
+import com.greenfox.tribes1.Kingdom.Kingdom;
 import com.greenfox.tribes1.Exception.NotValidResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,25 @@ public class ResourceService {
   }
   
   public boolean validResource(KingdomResource resource) {
-    return (resource instanceof Food || resource instanceof Gold);
+    return resource != null;
+  }
+  
+  public void updateResource(Kingdom kingdom) {
+    /*KingdomResource actualResource;
+    for (int i = 0; i < kingdom.getResources().size(); i++) {
+      actualResource = kingdom.getResources().get(i);
+      if (actualResource instanceof Food) {
+        actualResource.
+            setAmount(actualResource.getAmount();
+      }
+      if (actualResource instanceof Gold) {
+        actualResource.
+            setAmount(actualResource.getAmount());
+      }
+    }*/
+  }
+  
+  public Long resourceToAdd(Building building, Long passedTime, KingdomResource resource) {
+    return 0L;
   }
 }
