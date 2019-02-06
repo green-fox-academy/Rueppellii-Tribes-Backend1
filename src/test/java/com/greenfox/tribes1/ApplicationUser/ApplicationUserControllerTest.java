@@ -1,10 +1,9 @@
-/*
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
+import com.greenfox.tribes1.Security.RestAuthenticationEntryPoint;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -36,7 +35,10 @@ public class ApplicationUserControllerTest {
   ApplicationUserService applicationUserService;
 
   @MockBean
-  UserDetailsServiceImpl userDetailsService;
+  RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+  @MockBean
+  Au
 
   @Test
   public void register_unsuccessful() throws Exception {
@@ -114,4 +116,4 @@ public class ApplicationUserControllerTest {
     verify(applicationUserService, times(1)).createDTOwithKingdomfromUser(testUser);
     verifyNoMoreInteractions(applicationUserService);
   }
-}*/
+}
