@@ -2,9 +2,14 @@ package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
+import com.greenfox.tribes1.Building.BuildingService;
 import com.greenfox.tribes1.Exception.ErrorMsg;
+import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Kingdom.KingdomRepository;
+import com.greenfox.tribes1.Kingdom.KingdomService;
+import com.greenfox.tribes1.Resources.ResourceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +21,13 @@ import org.springframework.stereotype.Service;
 public class ApplicationUserService {
   
   private ApplicationUserRepository applicationUserRepository;
-
-  
+  private BuildingService buildingService;
+  private ResourceService resourceService;
   @Autowired
-  public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BuildingService buildingService, ResourceService resourceService) {
     this.applicationUserRepository = applicationUserRepository;
+    this.buildingService = buildingService;
+    this.resourceService = resourceService;
   }
 
   @Autowired
@@ -30,19 +37,27 @@ public class ApplicationUserService {
     return applicationUserRepository.findByUsername(username).orElse(null);
   }
 
-  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException, NotValidKingdomNameException {
     if (!applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
       userToBeSaved.setPassword(encoder.encode(applicationUserDTO.getPassword()));
       String kingdomName = applicationUserDTO.getKingdomName();
+      Kingdom myKingdom;
       if (isKingdomNameNullOrEmpty(kingdomName)) {
-        userToBeSaved.setKingdom(new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername())));
+        myKingdom = new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername()));
       } else {
-        userToBeSaved.setKingdom(new Kingdom(kingdomName));
+        myKingdom = new Kingdom(kingdomName);
       }
-      userToBeSaved.getKingdom().setApplicationUser(userToBeSaved);
-//      SetKingdomStarterPack.setStarterPack(userToBeSaved.getKingdom());
-      return applicationUserRepository.save(userToBeSaved);
+
+      userToBeSaved.setKingdom(myKingdom);
+      myKingdom.setApplicationUser(userToBeSaved);
+
+      ApplicationUser applicationUser = applicationUserRepository.save(userToBeSaved);
+
+      buildingService.setStarterBuildings(applicationUser.getKingdom());
+      resourceService.setStarterResource(applicationUser.getKingdom());
+
+      return applicationUser;
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
   }

@@ -20,16 +20,16 @@ public class KingdomService {
   }
   
   public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
-    if (kingdom.getName() == null || !validKingdomName(kingdom.getName())) {
+    if (kingdom.getName() == null ) {
       throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
     }
     return kingdomRepository.save(kingdom);
   }
   
-  public boolean validKingdomName(String field) {
-    return field.equals("Narnia") || field.equals("Rueppellii");
-  }
-  
+//  public boolean validKingdomName(String field) {
+//    return field.equals("Narnia") || field.equals("Rueppellii");
+//  }
+//
   public Kingdom findKingdomByApplicationUser(ApplicationUser applicationUser) {
     return kingdomRepository.findKingdomByApplicationUser(applicationUser);
   }

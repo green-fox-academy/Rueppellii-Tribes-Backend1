@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity(name="Gold")
+@DiscriminatorValue("Gold")
 @Getter
 @Setter
 class Gold extends KingdomResource {
-
 }

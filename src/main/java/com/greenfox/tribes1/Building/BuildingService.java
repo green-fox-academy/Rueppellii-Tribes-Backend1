@@ -1,6 +1,11 @@
 package com.greenfox.tribes1.Building;
 
 import com.greenfox.tribes1.Exception.BuildingNotValidException;
+import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Kingdom.KingdomRepository;
+import com.greenfox.tribes1.Resources.KingdomResource;
+import com.greenfox.tribes1.Resources.ResourceFactory;
+import com.greenfox.tribes1.Resources.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +16,9 @@ import java.util.List;
 public class BuildingService {
 
   private BuildingRepository buildingRepository;
+  @Autowired
+  private KingdomRepository kingdomRepository;
+
 
   @Autowired
   public BuildingService(BuildingRepository buildingRepository) {
@@ -27,12 +35,18 @@ public class BuildingService {
     } else throw new BuildingNotValidException("Building is not valid");
   }
 
-    private List<Building> setStarterBuildings() throws BuildingNotValidException {
-    List<Building> kingdomBuildings = new ArrayList<>();
+  public void setStarterBuildings(Kingdom kingdom) {
+    List<Building> buildings = new ArrayList<>();
     Building mine = BuildingFactory.createBuilding(BuildingType.mine);
+    Building farm = BuildingFactory.createBuilding(BuildingType.farm);
+    mine.setKingdom(kingdom);
+    farm.setKingdom(kingdom);
     buildingRepository.save(mine);
-    kingdomBuildings.add(mine);
-    return kingdomBuildings;
+    buildingRepository.save(farm);
+    buildings.add(mine);
+    buildings.add(farm);
+    kingdom.setBuildings(buildings);
+    kingdomRepository.save(kingdom);
 
   }
 }

@@ -34,7 +34,7 @@
 //
 ////  private static List<KingdomResource> setStarterGold() {
 ////    return Arrays.asList(
-////            ResourceFactory.getResource("gold"),
-////            ResourceFactory.getResource("food"));
+////            ResourceFactory.createResource("gold"),
+////            ResourceFactory.createResource("food"));
 ////  }
 //}
