@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class ApplicationUserService {
   
   private ApplicationUserRepository applicationUserRepository;
+
   
   @Autowired
   public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
@@ -37,6 +38,7 @@ public class ApplicationUserService {
         userToBeSaved.setKingdom(new Kingdom(kingdomName));
       }
       userToBeSaved.getKingdom().setApplicationUser(userToBeSaved);
+//      SetKingdomStarterPack.setStarterPack(userToBeSaved.getKingdom());
       return applicationUserRepository.save(userToBeSaved);
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");

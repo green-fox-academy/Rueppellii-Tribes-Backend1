@@ -4,6 +4,9 @@ import com.greenfox.tribes1.Exception.BuildingNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BuildingService {
 
@@ -24,4 +27,12 @@ public class BuildingService {
     } else throw new BuildingNotValidException("Building is not valid");
   }
 
+    private List<Building> setStarterBuildings() throws BuildingNotValidException {
+    List<Building> kingdomBuildings = new ArrayList<>();
+    Building mine = BuildingFactory.createBuilding(BuildingType.mine);
+    buildingRepository.save(mine);
+    kingdomBuildings.add(mine);
+    return kingdomBuildings;
+
+  }
 }
