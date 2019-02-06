@@ -1,4 +1,5 @@
 package com.greenfox.tribes1.Kingdom;
+
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
@@ -15,58 +16,58 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class KingdomServiceTest {
-
+  
   KingdomService kingdomService;
   @Mock
   KingdomRepository kingdomRepository;
-
+  
+  private Kingdom validKingdom = new Kingdom("Narnia");
+  private Kingdom notValidKingdom = new Kingdom(null);
+  
   private Kingdom validKingdomNarnia = new Kingdom("Narnia");
   private Kingdom validKingdomRueppellii = new Kingdom("Rueppellii");
-  private Kingdom notValidKingdom = new Kingdom(null);
   private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdomNarnia, KingdomDTO.class);
   private List<Kingdom> testList = new ArrayList<>();
   private Long testUserId = 1L;
   private String testUserName = "testuser";
   private String testUserpasswordassword = "password";
   private String testUserEmail = "testuser@user.com";
-  private ApplicationUser testApplicationUser = new ApplicationUser(testUserId, testUserName, testUserpasswordassword, testUserEmail, validKingdomNarnia );
-
-
-
+  private ApplicationUser testApplicationUser = new ApplicationUser(testUserId, testUserName, testUserpasswordassword, testUserEmail, validKingdomNarnia);
+  
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
     kingdomService = new KingdomService(kingdomRepository);
   }
-
+  
   @Test
   public void saveKingdom_WithValidName_ReturnKingdomWithValidName() throws NotValidKingdomNameException {
     Mockito.when(kingdomRepository.save(validKingdomNarnia)).thenReturn(validKingdomNarnia);
     assertEquals(kingdomService.saveKingdom(validKingdomNarnia), validKingdomNarnia);
   }
-
+  
   @Test(expected = NotValidKingdomNameException.class)
   public void saveKingdom_WithInvalidName_ReturnException() throws NotValidKingdomNameException {
     kingdomService.saveKingdom(notValidKingdom);
   }
-
+  
   @Test
   public void createKingdomDTOFromKingdom_GivesCorrectFieldValues() {
     assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdomNarnia).getKingdomName(), kingdomDTO.getKingdomName());
     assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdomNarnia).getId(), kingdomDTO.getId());
     assertEquals(kingdomService.createKingdomDTOFromKingdom(validKingdomNarnia).getApplicationUserName(), kingdomDTO.getApplicationUserName());
   }
-
+  
   @Test(expected = IllegalArgumentException.class)
   public void createKingdomDTOFromKingdom_GivesError_IfNoKingdomProvided() {
     kingdomService.createKingdomDTOFromKingdom(null);
   }
-
+  
   @Test
   public void findAll_GivesCorrectListOfKingdoms() {
     testList.add(validKingdomNarnia);
@@ -75,9 +76,13 @@ public class KingdomServiceTest {
     assertEquals(kingdomService.findAll(), testList);
   }
 
+/*  @Test
+=======
+  
   @Test
+>>>>>>> c42d0a824a7ee904e84c0b8ec91879221400afa7
   public void findKingdomByApplicationUserName_GivesCorrectKingdom() {
     when(kingdomRepository.findKingdomByApplicationUser_Username("testuser")).thenReturn(validKingdomNarnia);
     assertEquals(kingdomService.findKingdomByApplicationUserName("testuser"), validKingdomNarnia);
-  }
+  }*/
 }
