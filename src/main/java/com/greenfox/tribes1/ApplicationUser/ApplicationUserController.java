@@ -4,27 +4,30 @@ import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
 
 @RestController
 public class ApplicationUserController {
-
-  ApplicationUserService applicationUserService;
-
+  
+  private ApplicationUserService applicationUserService;
+  
   @Autowired
   public ApplicationUserController(ApplicationUserService applicationUserService) {
     this.applicationUserService = applicationUserService;
   }
-
+  
   @PostMapping("/register")
   public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
     ApplicationUser applicationUser = applicationUserService.registerNewUser(applicationUserDTO);
     return ResponseEntity.ok().body(applicationUserService.createDTOwithKingdomfromUser(applicationUser));
   }
-
+  
   @PostMapping("/login")
-  public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO){
+  public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) {
     return applicationUserService.login(applicationUserDTO);
   }
 }

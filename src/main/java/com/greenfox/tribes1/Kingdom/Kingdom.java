@@ -55,7 +55,7 @@ public class Kingdom {
     resources.add(resourceFactory.getResource(ResourceType.gold));*/
   }
   
-  public List<KingdomResource> getResources() {
+  protected List<KingdomResource> getResources() {
     return resources;
   }
 }
