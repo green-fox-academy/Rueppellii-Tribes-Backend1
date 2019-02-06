@@ -1,4 +1,4 @@
-package com.greenfox.tribes1.Upgrade;
+package com.greenfox.tribes1.Progression;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.AllArgsConstructor;
@@ -10,19 +10,26 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name ="Progression_Type")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Upgrade {
+public abstract class Progression {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private Boolean is_created;
-  private Timestamp timestamp;
-  @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinTable(name = "upgrade_kingdom",
-          joinColumns = @JoinColumn(name = "upgrade_id", referencedColumnName = "id"),
+  private Long model_id;
+  private boolean isCreate;
+  private Timestamp finished_at;
+
+  @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @JoinTable(name = "kingdom_progression",
+          joinColumns = @JoinColumn(name = "progression_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
   private Kingdom kingdom;
+
+
 }
