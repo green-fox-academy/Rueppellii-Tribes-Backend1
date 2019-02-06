@@ -1,6 +1,6 @@
 CREATE TABLE `building`
 (
-  `id`          bigint(20) NOT NULL AUTO_INCREMENT,
+  `id`          bigint(20) AUTO_INCREMENT,
   `level`       bigint(20),
   `HP`          bigint(20),
   `started_at`  timestamp(6),
@@ -11,7 +11,7 @@ CREATE TABLE `building`
 CREATE TABLE `kingdom_buildings`
 (
   `kingdom_id`   bigint(20) not null,
-  `buildings_id` bigint(20) NOT NULL,
+  `buildings_id` bigint(20),
   PRIMARY KEY (`buildings_id`),
   KEY buildings_id (`buildings_id`),
   CONSTRAINT kingdom_buildings_kingdom_id FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`),
