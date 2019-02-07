@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JwtSettings {
 
-  public static final long ACCESS_TOKEN_LIFETIME = 1;
-  public static final long REFRESH_TOKEN_LIFETIME = 2;
+  public static final long ACCESS_TOKEN_LIFETIME = 5;
+  public static final long REFRESH_TOKEN_LIFETIME = 10;
 
   public static final String TOKEN_ISSUER = "Springles";
 
