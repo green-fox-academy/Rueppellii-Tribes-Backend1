@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.Exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,6 +24,13 @@ public class ErrorHandlingAdvice {
       errors.put(fieldError.getField(), fieldError.getDefaultMessage());
     }
     return new ErrorMsg("error", "Missing parameter(s): " + errors);
+  }
+  
+  @ResponseBody
+  @ExceptionHandler(AuthenticationServiceException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorMsg missingToken(AuthenticationServiceException ex) {
+    return new ErrorMsg("error", ex.getMessage());
   }
   
   @ResponseBody
@@ -61,11 +69,9 @@ public class ErrorHandlingAdvice {
   }
   
   @ResponseBody
-  @ExceptionHandler(NotValidKingdomNameException.class)
+  @ExceptionHandler(NotValidResourceException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   ErrorMsg notValidResource(NotValidResourceException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
-  
 }
-

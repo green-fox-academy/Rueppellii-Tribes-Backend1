@@ -22,13 +22,11 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class KingdomServiceTest {
   
-  private KingdomService kingdomService;
+  KingdomService kingdomService;
   @Mock
-  private KingdomRepository kingdomRepository;
+  KingdomRepository kingdomRepository;
   
-  private Kingdom validKingdom = new Kingdom("Narnia");
   private Kingdom notValidKingdom = new Kingdom(null);
-  
   private Kingdom validKingdomNarnia = new Kingdom("Narnia");
   private Kingdom validKingdomRueppellii = new Kingdom("Rueppellii");
   private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdomNarnia, KingdomDTO.class);
@@ -75,14 +73,10 @@ public class KingdomServiceTest {
     when(kingdomRepository.findAll()).thenReturn(Arrays.asList(validKingdomNarnia, validKingdomRueppellii));
     assertEquals(kingdomService.findAll(), testList);
   }
-
-/*  @Test
-=======
   
   @Test
->>>>>>> c42d0a824a7ee904e84c0b8ec91879221400afa7
-  private void findKingdomByApplicationUserName_GivesCorrectKingdom() {
+  public void findKingdomByApplicationUserName_GivesCorrectKingdom() {
     when(kingdomRepository.findKingdomByApplicationUser_Username("testuser")).thenReturn(validKingdomNarnia);
     assertEquals(kingdomService.findKingdomByApplicationUserName("testuser"), validKingdomNarnia);
-  }*/
+  }
 }

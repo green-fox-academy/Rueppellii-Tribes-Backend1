@@ -1,6 +1,5 @@
 package com.greenfox.tribes1.Resources;
 
-import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.Exception.NotValidResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class ResourceService {
     return resource != null;
   }
   
-  public void updateResource(KingdomResource kingdomResource) throws DateNotGivenException, NotValidResourceException {
+  public void updateResource(KingdomResource kingdomResource) throws NotValidResourceException {
     kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
     saveResource(kingdomResource);
   }

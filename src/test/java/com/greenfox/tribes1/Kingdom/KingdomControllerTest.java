@@ -1,119 +1,190 @@
-/*
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
+import com.greenfox.tribes1.Building.Building;
+import com.greenfox.tribes1.Building.BuildingFactory;
+import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
-import com.greenfox.tribes1.Security.UserDetailsServiceImpl;
+import com.greenfox.tribes1.Security.Model.JwtTokenFactory;
+import com.greenfox.tribes1.TestTokenProvider;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import java.util.Arrays;
-import java.util.Collections;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(KingdomController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class KingdomControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
+  @Autowired
+  private JwtTokenFactory tokenFactory;
+
   @MockBean
   private KingdomService kingdomService;
-  @MockBean
-  private UserDetailsServiceImpl userDetailsService;
 
-  private  Long id = 1l;
+  private String token;
+  private TestTokenProvider testTokenProvider;
+
+  private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+          MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
+  private Long id = 1l;
   private String username = "username";
   private String userEmail = "user@user.com";
   private String kingdomName = "kingdomName";
+  private Kingdom testKingdom;
+  private KingdomDTO testKingdomDTO;
+  private ApplicationUser testApplicationUser;
+  private Building mine;
 
-  @Test
-  public void kingdomDTO_StatusOk_GivesCorrectValues_HasCorrectMediaType_ServiceMethodsRunOnlyOnce() throws Exception {
-    Kingdom testKingdom = Kingdom.builder()
+  String kingdom = ("{\n"
+          + "\"id\":1,\n"
+          + "\"kingdomName\":\"kingdomName\",\n"
+          + "\"applicationUserName\":\"username\"\n"
+          + "}\n");
+
+  String mineJson = "[\n" +
+          "    {\n" +
+          "        \"id\": null,\n" +
+          "        \"level\": null,\n" +
+          "        \"started_at\": null,\n" +
+          "        \"finished_at\": null,\n" +
+          "        \"kingdom\": null,\n" +
+          "        \"hp\": null\n" +
+          "    }\n" +
+          "]";
+
+  String empty = "[]";
+
+  @Before
+  public void init() {
+    testTokenProvider = new TestTokenProvider(tokenFactory);
+    testKingdom = Kingdom.builder()
             .id(id)
             .name(kingdomName)
             .build();
-    ApplicationUser testApplicationUser = ApplicationUser.builder()
+    testApplicationUser = ApplicationUser.builder()
             .id(id)
             .username(username)
             .userEmail(userEmail)
             .kingdom(testKingdom)
             .build();
     testKingdom.setApplicationUser(testApplicationUser);
-    KingdomDTO testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
+    testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
+    testKingdom.setBuildings(new ArrayList<>());
+  }
 
-    when(kingdomService.findKingdomByApplicationUser(Mockito.any(ApplicationUser.class))).thenReturn(testKingdom);
+  @Test
+  public void getKingdom_throwsException_ifUserNotFound() throws Exception {
+    token = testTokenProvider.createMockToken(username);
+    when(kingdomService.findKingdomByApplicationUserName(username)).thenThrow(UsernameNotFoundException.class);
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdom")
+                    .header("Authorization", token))
+            .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  public void getKingdom_returnsOK_ifUserFound() throws Exception {
+    token = testTokenProvider.createMockToken(username);
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdom")
+                    .header("Authorization", token))
+            .andExpect(status().isOk());
+  }
+
+  //WORKING but CHECK NEEDED!!!!!!!!!!!!
+  @Test(expected = NullPointerException.class)
+  public void getKingdom_returnsError_ifTokenNotProvided() throws Exception {
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdom")
+            // .header("fakeName", "noValues")
+    )
+            .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void getKingdom_returnsError_ifTokenNotValid() throws Exception {
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/kingdom")
+                    .header("Authorization", "Bearer not.Valid.Token"))
+            .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  public void getKingdom_ReturnsKingdomDTO_StatusOK_HasCorrectMediaType_ServiceMethodsRunOnlyOnce() throws Exception {
+    token = testTokenProvider.createMockToken(username);
+    when(kingdomService.findKingdomByApplicationUserName(Mockito.any(String.class))).thenReturn(testKingdom);
     when(kingdomService.createKingdomDTOFromKingdom(testKingdom)).thenReturn(testKingdomDTO);
-
-    String json = ("{\n"
-            + "\"id\":1,\n"
-            + "\"username\":\"username\",\n"
-            + "\"userEmail\":\"user@user.com\",\n"
-            + "\"kingdom\":\"kingdomName\"\n"
-            + "}\n");
-
-    String result = ("{\n"
-            + "\"id\":1,\n"
-            + "\"kingdomName\":\"kingdomName\",\n"
-            + "\"applicationUserName\":\"username\"\n"
-            + "}\n");
 
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-//                    .header("Authorization", adminToken)
-                    .content(json)
+                    .header("Authorization", token)
     )
-            .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(content().json(result));
-    verify(kingdomService, times(1)).findKingdomByApplicationUser(Mockito.any(ApplicationUser.class));
+            .andExpect(content().contentType(contentType))
+            .andExpect(content().json(kingdom));
+    verify(kingdomService, times(1)).findKingdomByApplicationUserName(Mockito.any(String.class));
     verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
     verifyNoMoreInteractions(kingdomService);
   }
 
   @Test
-  public void findAllKingdom_StatusOk_GivesEmptyListWhenNoKingdom() throws Exception {
-    when(kingdomService.findAll()).thenReturn(Collections.emptyList());
-
+  public void getKingdomBuilding_StatusOk_ReturnsMine() throws Exception {
+    token = testTokenProvider.createMockToken(username);
+    mine = BuildingFactory.createBuilding(BuildingType.mine);
+    List<Building> buildingList = new ArrayList<>();
+    buildingList.add(mine);
+    testKingdom.setBuildings(buildingList);
+    when(kingdomService.findKingdomByApplicationUserName(Mockito.any(String.class))).thenReturn(testKingdom);
     mockMvc.perform(
-            MockMvcRequestBuilders.get("/kingdomlist")
+            MockMvcRequestBuilders.get("/kingdom/buildings")
+                    .header("Authorization", token)
     )
-            .andDo(print())
+            .andExpect(content().contentType(contentType))
+            .andExpect(content().json(mineJson))
             .andExpect(MockMvcResultMatchers.status().isOk());
   }
 
   @Test
-  public void findAllKingdom_StatusOk_GivesCorrectKingdomList() throws Exception {
-    Kingdom kingdom1 = new Kingdom("Kingdom1");
-    Kingdom kingdom2 = new Kingdom("Kingdom2");
-
-    when(kingdomService.findAll()).thenReturn(Arrays.asList(kingdom1, kingdom2));
+  public void getKingdomBuildings_returnsEmptyList() throws Exception {
+    token = testTokenProvider.createMockToken(username);
+    when(kingdomService.findKingdomByApplicationUserName(Mockito.any(String.class))).thenReturn(testKingdom);
 
     mockMvc.perform(
-            MockMvcRequestBuilders.get("/kingdomlist")
+            MockMvcRequestBuilders.get("/kingdom/buildings")
+                    .header("Authorization", token)
     )
             .andDo(print())
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(jsonPath("$[0].name", is("Kingdom1")));
+            .andExpect(content().contentType(contentType))
+            .andExpect(content().json(empty))
+            .andExpect(MockMvcResultMatchers.status().isOk());
   }
-}*/
+}
+

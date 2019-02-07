@@ -19,31 +19,27 @@ public class KingdomService {
     this.kingdomRepository = kingdomRepository;
   }
   
-  Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
+  public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
     if (kingdom.getName() == null || !validKingdomName(kingdom.getName())) {
       throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
     }
     return kingdomRepository.save(kingdom);
   }
   
-  private boolean validKingdomName(String field) {
+  public boolean validKingdomName(String field) {
     return field.equals("Narnia") || field.equals("Rueppellii");
   }
   
-  Kingdom findKingdomByApplicationUser(ApplicationUser applicationUser) {
-    return kingdomRepository.findKingdomByApplicationUser(applicationUser);
-  }
-  
-  Kingdom findKingdomByApplicationUserName(String applicationUserName) {
+  public Kingdom findKingdomByApplicationUserName(String applicationUserName) {
     return kingdomRepository.findKingdomByApplicationUser_Username(applicationUserName);
   }
   
-  KingdomDTO createKingdomDTOFromKingdom(Kingdom kingdom) {
+  public KingdomDTO createKingdomDTOFromKingdom(Kingdom kingdom) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(kingdom, KingdomDTO.class);
   }
   
-  List<Kingdom> findAll() {
+  public List<Kingdom> findAll() {
     return kingdomRepository.findAll();
   }
 }

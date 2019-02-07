@@ -2,34 +2,34 @@ package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
-import com.greenfox.tribes1.Exception.ErrorMsg;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Security.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class ApplicationUserService {
+public class ApplicationUserService implements UserService {
   
   private ApplicationUserRepository applicationUserRepository;
-  
-  @Autowired
-  protected ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
-    this.applicationUserRepository = applicationUserRepository;
-  }
-  
-  @Autowired
   private BCryptPasswordEncoder encoder;
   
-  public ApplicationUser findByUsername(String username) {
-    return applicationUserRepository.findByUsername(username).orElse(null);
+  @Autowired
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder encoder) {
+    this.applicationUserRepository = applicationUserRepository;
+    this.encoder = encoder;
   }
   
-  ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+  @Override
+  public Optional<ApplicationUser> getByUsername(String username) {
+    return this.applicationUserRepository.findByUsername(username);
+  }
+  
+  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
     if (!applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
       userToBeSaved.setPassword(encoder.encode(applicationUserDTO.getPassword()));
@@ -45,29 +45,14 @@ public class ApplicationUserService {
     throw new UsernameTakenException("Username already taken, please choose an other one.");
   }
   
-  private ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
+  public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
   }
   
-  ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser) {
+  public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
-  }
-  
-  protected ResponseEntity login(ApplicationUserDTO applicationUserDTO) {
-    if (applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
-      if (isPasswordMatching(applicationUserDTO)) {
-        return ResponseEntity.ok().body(new ErrorMsg("ok", "ok"));
-      }
-    }
-    throw new UsernameNotFoundException("No such user: " + applicationUserDTO.getUsername());
-  }
-  
-  private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
-    return applicationUserRepository
-        .findByUsername(applicationUserDTO.getUsername())
-        .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
   }
   
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {

@@ -25,9 +25,4 @@ public class ApplicationUserController {
     ApplicationUser applicationUser = applicationUserService.registerNewUser(applicationUserDTO);
     return ResponseEntity.ok().body(applicationUserService.createDTOwithKingdomfromUser(applicationUser));
   }
-  
-  @PostMapping("/login")
-  public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) {
-    return applicationUserService.login(applicationUserDTO);
-  }
 }

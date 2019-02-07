@@ -1,6 +1,5 @@
 package com.greenfox.tribes1.Resources;
 
-import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.TimeService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
