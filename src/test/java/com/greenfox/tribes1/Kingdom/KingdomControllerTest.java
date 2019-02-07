@@ -72,11 +72,11 @@ public class KingdomControllerTest {
   String mineJson = "[\n" +
           "    {\n" +
           "        \"id\": null,\n" +
-          "        \"level\": null,\n" +
+          "        \"level\": 1,\n" +
           "        \"started_at\": null,\n" +
           "        \"finished_at\": null,\n" +
           "        \"kingdom\": null,\n" +
-          "        \"hp\": null\n" +
+          "        \"hp\": 200\n" +
           "    }\n" +
           "]";
 
