@@ -40,7 +40,7 @@ public class RefreshTokenEndpoint {
     String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.AUTHENTICATION_HEADER_NAME));
 
     RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
-    RefreshToken refreshToken = RefreshToken.create(rawToken, jwtSettings.TOKEN_SIGNING_KEY).orElseThrow(() -> new UnsupportedOperationException());
+    RefreshToken refreshToken = RefreshToken.create(rawToken, JwtSettings.TOKEN_SIGNING_KEY).orElseThrow(UnsupportedOperationException::new);
 
     String jti = refreshToken.getJti();
     if (!tokenVerifier.verify(jti)) {
