@@ -29,7 +29,7 @@ public class Food extends KingdomResource implements Updatable {
   }
   
   @Override
-  @SneakyThrows(DateNotGivenException.class)
+  @SneakyThrows
   public Long update() {
     return 2 * getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
   }
