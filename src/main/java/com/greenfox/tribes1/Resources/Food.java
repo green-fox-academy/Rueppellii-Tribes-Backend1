@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Resources;
 
+import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.TimeService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class Food extends KingdomResource implements Updatable {
   }
   
   @Override
-  @SneakyThrows
+  @SneakyThrows(DateNotGivenException.class)
   public Long update() {
     return 2 * getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
   }

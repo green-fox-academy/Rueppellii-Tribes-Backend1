@@ -22,6 +22,7 @@ import java.util.Collections;
 
 @RestController
 public class RefreshTokenEndpoint {
+  
   @Autowired
   private JwtTokenFactory tokenFactory;
   @Autowired
@@ -33,26 +34,25 @@ public class RefreshTokenEndpoint {
   @Autowired
   @Qualifier("jwtHeaderTokenExtractor")
   private TokenExtractor tokenExtractor;
-
+  
   @RequestMapping(value = "/refreshtoken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
   public @ResponseBody
   JwtToken refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.AUTHENTICATION_HEADER_NAME));
-
+    
     RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
     RefreshToken refreshToken = RefreshToken.create(rawToken, JwtSettings.TOKEN_SIGNING_KEY).orElseThrow(UnsupportedOperationException::new);
-
+    
     String jti = refreshToken.getJti();
     if (!tokenVerifier.verify(jti)) {
       throw new UnsupportedOperationException();
     }
-
+    
     String subject = refreshToken.getSubject();
     User user = (User) userService.loadUserByUsername(subject);
-
-
+    
     UserContext userContext = UserContext.create(user.getUsername(), Collections.emptyList());
-
+    
     return tokenFactory.createAccessJwtToken(userContext);
   }
 }
