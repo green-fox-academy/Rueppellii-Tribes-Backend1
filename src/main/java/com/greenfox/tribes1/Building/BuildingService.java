@@ -41,12 +41,8 @@ public class BuildingService {
     Building farm = BuildingFactory.createBuilding(BuildingType.farm);
     mine.setKingdom(kingdom);
     farm.setKingdom(kingdom);
-    buildingRepository.save(mine);
-    buildingRepository.save(farm);
     buildings.add(mine);
     buildings.add(farm);
     kingdom.setBuildings(buildings);
-    kingdomRepository.save(kingdom);
-
   }
 }

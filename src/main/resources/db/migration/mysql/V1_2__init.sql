@@ -1,7 +1,7 @@
 CREATE TABLE `building`
 (
-  `building_type` varchar (255) NOT NULL ,
-  `id`          bigint(20) NOT NULL,
+  `building_type` varchar (255) NOT NULL,
+  `id`          bigint(20) NOT NULL AUTO_INCREMENT,
   `level`       bigint(20),
   `HP`          bigint(20),
   `started_at`  timestamp(6),

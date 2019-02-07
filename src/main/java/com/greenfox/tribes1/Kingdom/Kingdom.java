@@ -23,7 +23,7 @@ public class Kingdom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @OneToMany
+  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   List<KingdomResource> resources;
 
   @OneToOne(mappedBy = "kingdom")
@@ -32,7 +32,7 @@ public class Kingdom {
   @OneToMany
   private List<Troop> troops;
 
-  @OneToMany
+  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   List<Building> buildings;
   
   public Kingdom(String name) {

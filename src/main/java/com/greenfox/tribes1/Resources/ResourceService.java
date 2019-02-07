@@ -33,12 +33,9 @@ public class ResourceService {
     KingdomResource food = ResourceFactory.createResource(ResourceType.food);
     gold.setKingdom(kingdom);
     food.setKingdom(kingdom);
-    resourceRepository.save(gold);
-    resourceRepository.save(food);
     resources.add(gold);
     resources.add(food);
     kingdom.setResources(resources);
-    kingdomRepository.save(kingdom);
   }
 
 
