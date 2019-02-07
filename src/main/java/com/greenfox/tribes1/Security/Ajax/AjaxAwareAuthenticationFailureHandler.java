@@ -10,8 +10,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +35,5 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
       mapper.writeValue(response.getWriter(), new ErrorMsg("error", e.getMessage()));
     }
     mapper.writeValue(response.getWriter(), new ErrorMsg("error", "unknown error"));
-
   }
 }
