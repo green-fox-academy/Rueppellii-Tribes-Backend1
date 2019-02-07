@@ -22,12 +22,6 @@ public class KingdomController {
   public KingdomController(KingdomService kingdomService) {
     this.kingdomService = kingdomService;
   }
-/* @GetMapping(value = "/kingdomUser")
-  public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
-    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
-    return ResponseEntity.ok()
-            .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
-  }*/
 
   @GetMapping("/kingdom")
   public ResponseEntity show_kingdom(Authentication authentication) {
