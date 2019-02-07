@@ -1,8 +1,6 @@
 package com.greenfox.tribes1.Exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -61,4 +59,14 @@ public class ErrorHandlingAdvice {
   ErrorMsg notValidTroop(TroopNotValidException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
+
+  @ResponseBody
+  @ExceptionHandler(NotValidKingdomNameException.class)
+  @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+  ErrorMsg notValidResource(NotValidKingdomNameException ex){
+    return new ErrorMsg("error", ex.getMessage());
+  }
+  
+  
 }
+
