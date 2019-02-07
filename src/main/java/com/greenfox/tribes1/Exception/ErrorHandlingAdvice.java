@@ -13,7 +13,7 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ErrorHandlingAdvice {
-
+  
   @ResponseBody
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -24,49 +24,48 @@ public class ErrorHandlingAdvice {
     }
     return new ErrorMsg("error", "Missing parameter(s): " + errors);
   }
-
+  
   @ResponseBody
   @ExceptionHandler(UsernameTakenException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
   ErrorMsg usernameTaken(UsernameTakenException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
-
+  
   @ResponseBody
   @ExceptionHandler(NotValidKingdomNameException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   ErrorMsg notAcceptableHandler(NotValidKingdomNameException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
-
+  
   @ResponseBody
   @ExceptionHandler(DateNotGivenException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   ErrorMsg dateNotGiven(DateNotGivenException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
-
+  
   @ResponseBody
   @ExceptionHandler(BuildingNotValidException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   ErrorMsg notValidBuilding(BuildingNotValidException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
-
+  
   @ResponseBody
   @ExceptionHandler(TroopNotValidException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   ErrorMsg notValidTroop(TroopNotValidException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
-
+  
   @ResponseBody
   @ExceptionHandler(NotValidKingdomNameException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-  ErrorMsg notValidResource(NotValidKingdomNameException ex){
+  ErrorMsg notValidResource(NotValidKingdomNameException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
-  
   
 }
 
