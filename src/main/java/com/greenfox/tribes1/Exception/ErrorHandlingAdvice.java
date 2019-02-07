@@ -63,7 +63,7 @@ public class ErrorHandlingAdvice {
   @ResponseBody
   @ExceptionHandler(NotValidKingdomNameException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-  ErrorMsg notValidResource(NotValidKingdomNameException ex) {
+  ErrorMsg notValidResource(NotValidResourceException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
   
