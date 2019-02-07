@@ -20,31 +20,20 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenFactory {
 
-  private final JwtSettings jwtsettings;
-  private ApplicationUserService applicationUserService;
-
-  @Autowired
-  public JwtTokenFactory(JwtSettings settings, ApplicationUserService applicationUserService) {
-    this.jwtsettings = settings;
-    this.applicationUserService = applicationUserService;
-  }
-
   public AccessJwtToken createAccessJwtToken(UserContext userContext) {
     Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-    claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
+    claims.put("scopes", userContext.getAuthorities().stream().map(Object::toString).collect(Collectors.toList()));
 
     LocalDateTime currentTime = LocalDateTime.now();
 
     String token = Jwts.builder()
             .setClaims(claims)
-            .setIssuer(jwtsettings.TOKEN_ISSUER)
+            .setIssuer(JwtSettings.TOKEN_ISSUER)
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(Date.from(currentTime
-                    .plusMinutes(jwtsettings.ACCESS_TOKEN_LIFETIME)
+                    .plusMinutes(JwtSettings.ACCESS_TOKEN_LIFETIME)
                     .atZone(ZoneId.systemDefault()).toInstant()))
-            .signWith(SignatureAlgorithm.HS512, jwtsettings.TOKEN_SIGNING_KEY)
-   // jwtsettings.TOKEN_SIGNING_KEY
-
+            .signWith(SignatureAlgorithm.HS512, JwtSettings.TOKEN_SIGNING_KEY)
             .compact();
     return new AccessJwtToken(token, claims);
   }
@@ -57,35 +46,13 @@ public class JwtTokenFactory {
 
     String token = Jwts.builder()
             .setClaims(claims)
-            .setIssuer(jwtsettings.TOKEN_ISSUER)
+            .setIssuer(JwtSettings.TOKEN_ISSUER)
             .setId(UUID.randomUUID().toString())
             .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
             .setExpiration(Date.from(currentTime
-                    .plusMinutes(jwtsettings.REFRESH_TOKEN_LIFETIME)
+                    .plusMinutes(JwtSettings.REFRESH_TOKEN_LIFETIME)
                     .atZone(ZoneId.systemDefault()).toInstant()))
-            .signWith(SignatureAlgorithm.HS512, jwtsettings.TOKEN_SIGNING_KEY)
-            .compact();
-
-    return new AccessJwtToken(token, claims);
-  }
-
-  public JwtToken createTestRefreshToken(UserContext userContext, Long tokenLifetimeInMilliseconds) {
-    LocalDateTime currentTime = LocalDateTime.now();
-    Date refreshTokenExpirationTime = Date.from(currentTime.atZone(ZoneId.systemDefault())
-            .plus(tokenLifetimeInMilliseconds, ChronoUnit.MILLIS).toInstant());
-    Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-    claims.put("scopes", Arrays.asList(Scopes.REFRESH_TOKEN.authority()));
-    Long userId = applicationUserService.getIdFromDB(userContext.getUsername());
-/*    StringBuilder userIdForToken = new StringBuilder();
-    userIdForToken.append(userId);*/
-
-    String token = Jwts.builder()
-            .setClaims(claims)
-            .setIssuer(jwtsettings.TOKEN_ISSUER)
-            .setId(userId.toString())
-            .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
-            .setExpiration(refreshTokenExpirationTime)
-            .signWith(SignatureAlgorithm.HS512, jwtsettings.TOKEN_SIGNING_KEY)
+            .signWith(SignatureAlgorithm.HS512, JwtSettings.TOKEN_SIGNING_KEY)
             .compact();
 
     return new AccessJwtToken(token, claims);

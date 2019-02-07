@@ -1,7 +1,6 @@
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import com.greenfox.tribes1.ApplicationUser.ApplicationUserRepository;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Building.BuildingFactory;
 import com.greenfox.tribes1.Building.BuildingType;
@@ -34,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,9 +41,6 @@ public class KingdomControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
-
-  @MockBean
-  private ApplicationUserRepository applicationUserRepository;
 
   @Autowired
   private JwtTokenFactory tokenFactory;
@@ -89,7 +84,7 @@ public class KingdomControllerTest {
 
   @Before
   public void init() {
-    testTokenProvider = new TestTokenProvider(applicationUserRepository, tokenFactory);
+    testTokenProvider = new TestTokenProvider(tokenFactory);
     testKingdom = Kingdom.builder()
             .id(id)
             .name(kingdomName)

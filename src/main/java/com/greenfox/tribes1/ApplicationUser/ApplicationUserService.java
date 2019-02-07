@@ -56,30 +56,7 @@ public class ApplicationUserService implements UserService {
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
   }
 
-
-  public ApplicationUserDTO login(ApplicationUserDTO applicationUserDTO) {
-    if (applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
-      if (isPasswordMatching(applicationUserDTO)) {
-        return applicationUserDTO;
-      }
-    }
-    throw new UsernameNotFoundException("No such user: " + applicationUserDTO.getUsername());
-  }
-
-  private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
-    return applicationUserRepository
-            .findByUsername(applicationUserDTO.getUsername())
-            .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
-  }
-
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
     return kingdomName == null || kingdomName.isEmpty();
   }
-
-  public Long getIdFromDB(String username) {
-    Optional<ApplicationUser> applicationUser = applicationUserRepository.findByUsername(username);
-    return applicationUser.get().getId();
-
-  }
-
 }

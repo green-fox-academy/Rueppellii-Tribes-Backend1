@@ -8,20 +8,23 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import java.util.Optional;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class ApplicationUserServiceTest {
+
   private String username = "John";
   private String password = "password";
   private ApplicationUserService applicationUserService;
 
-  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+  @Mock
+  private BCryptPasswordEncoder encoder;
 
   @Mock
   ApplicationUserRepository applicationUserRepository;
@@ -44,7 +47,7 @@ public class ApplicationUserServiceTest {
   @Test
   public void getByUsername_test() {
     when(applicationUserRepository.findByUsername(username)).thenReturn(Optional.of(testUser));
-    assertEquals(testUser, applicationUserService.getByUsername(username).get());
+    assertEquals(testUser, applicationUserService.getByUsername(username).orElse(null));
   }
 
   @Test(expected = UsernameTakenException.class)
@@ -60,22 +63,8 @@ public class ApplicationUserServiceTest {
   }
 
   @Test
-  public void createUserFromDTO_test(){
+  public void createUserFromDTO_test() {
     assertEquals(testUser.getUsername(), applicationUserService.createUserFromDTO(testUserDTO).getUsername());
     assertEquals(testUser.getPassword(), applicationUserService.createUserFromDTO(testUserDTO).getPassword());
   }
-
-  @Test(expected = UsernameNotFoundException.class)
-  public void login_ThrowsException_IfUserNotRegistered(){
-    when(applicationUserRepository.existsByUsername(username)).thenReturn(false);
-    applicationUserService.login(testUserDTO);
-  }
-
-  @Test
-  public void login_ReturnsOK_ifUserRegistered(){
-    when(applicationUserRepository.existsByUsername(username)).thenReturn(true);
-    when(applicationUserRepository.findByUsername(username)).thenReturn(Optional.of(testUser));
-    assertEquals(testUserDTO,applicationUserService.login(testUserDTO));
-  }
-
 }
