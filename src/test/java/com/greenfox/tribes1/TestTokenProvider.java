@@ -28,7 +28,7 @@ public class TestTokenProvider {
   }
 
   private UserContext getUserContext(String username, ApplicationUserService userService) {
-    ApplicationUser applicationUser = userService.getUserOptional(username).orElseThrow(() -> new UsernameNotFoundException("User NOT found"));
+    ApplicationUser applicationUser = userService.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User NOT found"));
     return UserContext.create(applicationUser.getUsername(), Collections.emptyList());
   }
 

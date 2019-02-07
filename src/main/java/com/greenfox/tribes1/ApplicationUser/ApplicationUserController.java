@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
+import com.greenfox.tribes1.Exception.ErrorMsg;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,8 @@ public class ApplicationUserController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO){
-    return applicationUserService.login(applicationUserDTO);
+  public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) {
+    applicationUserService.login(applicationUserDTO);
+    return ResponseEntity.ok().body(new ErrorMsg("ok", "ok"));
   }
 }

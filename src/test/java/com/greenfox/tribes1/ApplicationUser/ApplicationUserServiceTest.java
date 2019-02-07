@@ -1,4 +1,3 @@
-/*
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
@@ -9,25 +8,19 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.Optional;
-
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class ApplicationUserServiceTest {
   private String username = "John";
   private String password = "password";
-  private String encoded_password = "encoded_password";
   private ApplicationUserService applicationUserService;
 
-  //@MockBean
   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
   @Mock
@@ -35,36 +28,54 @@ public class ApplicationUserServiceTest {
 
   private ApplicationUserDTO testUserDTO = ApplicationUserDTO.builder()
           .username(username)
-          .password(encoder.encode(password))
+          .password(password)
           .build();
-  private ApplicationUser testUser;
+  private ApplicationUser testUser = ApplicationUser.builder()
+          .username(username)
+          .password(password)
+          .build();
 
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
-    applicationUserService = new ApplicationUserService(applicationUserRepository);
-    testUser = applicationUserService.createUserFromDTO(testUserDTO);
+    applicationUserService = new ApplicationUserService(applicationUserRepository, encoder);
+  }
+
+  @Test
+  public void getByUsername_test() {
+    when(applicationUserRepository.findByUsername(username)).thenReturn(Optional.of(testUser));
+    assertEquals(testUser, applicationUserService.getByUsername(username).get());
   }
 
   @Test(expected = UsernameTakenException.class)
   public void registerNewUser_ThrowException_IfUserAlreadyExist() throws UsernameTakenException {
-    Mockito.when(applicationUserRepository.findByUsername(testUserDTO.getUsername())).thenReturn(Optional.of(testUser));
+    when(applicationUserRepository.existsByUsername(username)).thenReturn(true);
     applicationUserService.registerNewUser(testUserDTO);
   }
 
   @Test
   public void registerNewUser_ReturnsUser_IfUserNotExist() throws UsernameTakenException {
-   //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-   // String encoded_password = encoder.encode(testUser.getPassword());
-    Mockito.when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
-   // assertEquals(encoder.encode(password),testUser.getPassword());
-    Mockito.when(encoder.encode(testUser.getPassword())).thenReturn(encoded_password);
+    when(applicationUserRepository.save(Mockito.any(ApplicationUser.class))).thenReturn(testUser);
     assertEquals(testUser, applicationUserService.registerNewUser(testUserDTO));
   }
 
   @Test
-  public void findByUsername() {
-    Mockito.when(applicationUserRepository.findByUsername(username)).thenReturn(Optional.of(testUser));
-    assertEquals(testUser, applicationUserService.findByUsername(username));
+  public void createUserFromDTO_test(){
+    assertEquals(testUser.getUsername(), applicationUserService.createUserFromDTO(testUserDTO).getUsername());
+    assertEquals(testUser.getPassword(), applicationUserService.createUserFromDTO(testUserDTO).getPassword());
   }
-}*/
+
+  @Test(expected = UsernameNotFoundException.class)
+  public void login_ThrowsException_IfUserNotRegistered(){
+    when(applicationUserRepository.existsByUsername(username)).thenReturn(false);
+    applicationUserService.login(testUserDTO);
+  }
+
+  @Test
+  public void login_ReturnsOK_ifUserRegistered(){
+    when(applicationUserRepository.existsByUsername(username)).thenReturn(true);
+    when(applicationUserRepository.findByUsername(username)).thenReturn(Optional.of(testUser));
+    assertEquals(testUserDTO,applicationUserService.login(testUserDTO));
+  }
+
+}
