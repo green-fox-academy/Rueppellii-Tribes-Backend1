@@ -16,9 +16,6 @@ import java.util.List;
 public class BuildingService {
 
   private BuildingRepository buildingRepository;
-  @Autowired
-  private KingdomRepository kingdomRepository;
-
 
   @Autowired
   public BuildingService(BuildingRepository buildingRepository) {
@@ -33,16 +30,5 @@ public class BuildingService {
     if (isValidBuilding(building)) {
       return buildingRepository.save(building);
     } else throw new BuildingNotValidException("Building is not valid");
-  }
-
-  public void setStarterBuildings(Kingdom kingdom) {
-    List<Building> buildings = new ArrayList<>();
-    Building mine = BuildingFactory.createBuilding(BuildingType.mine);
-    Building farm = BuildingFactory.createBuilding(BuildingType.farm);
-    mine.setKingdom(kingdom);
-    farm.setKingdom(kingdom);
-    buildings.add(mine);
-    buildings.add(farm);
-    kingdom.setBuildings(buildings);
   }
 }

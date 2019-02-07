@@ -1,12 +1,19 @@
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
+import com.greenfox.tribes1.Building.Building;
+import com.greenfox.tribes1.Building.BuildingFactory;
+import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
+import com.greenfox.tribes1.Resources.KingdomResource;
+import com.greenfox.tribes1.Resources.ResourceFactory;
+import com.greenfox.tribes1.Resources.ResourceType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,4 +53,27 @@ public class KingdomService {
   public List<Kingdom> findAll() {
     return kingdomRepository.findAll();
   }
+
+  public void setStarterBuildings(Kingdom kingdom) {
+    List<Building> buildings = new ArrayList<>();
+    Building mine = BuildingFactory.createBuilding(BuildingType.mine);
+    Building farm = BuildingFactory.createBuilding(BuildingType.farm);
+    mine.setKingdom(kingdom);
+    farm.setKingdom(kingdom);
+    buildings.add(mine);
+    buildings.add(farm);
+    kingdom.setBuildings(buildings);
+  }
+
+  public void setStarterResource(Kingdom kingdom) {
+    List<KingdomResource> resources = new ArrayList<>();
+    KingdomResource gold = ResourceFactory.createResource(ResourceType.gold);
+    KingdomResource food = ResourceFactory.createResource(ResourceType.food);
+    gold.setKingdom(kingdom);
+    food.setKingdom(kingdom);
+    resources.add(gold);
+    resources.add(food);
+    kingdom.setResources(resources);
+  }
+
 }

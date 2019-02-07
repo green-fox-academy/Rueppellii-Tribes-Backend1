@@ -13,5 +13,4 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 class Food extends KingdomResource {
-
 }

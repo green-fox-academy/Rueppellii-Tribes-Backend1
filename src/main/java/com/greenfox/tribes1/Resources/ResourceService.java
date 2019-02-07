@@ -27,38 +27,7 @@ public class ResourceService {
     throw new NotValidResourceException("Resource validation failed");
   }
 
-  public void setStarterResource(Kingdom kingdom) {
-    List<KingdomResource> resources = new ArrayList<>();
-    KingdomResource gold = ResourceFactory.createResource(ResourceType.gold);
-    KingdomResource food = ResourceFactory.createResource(ResourceType.food);
-    gold.setKingdom(kingdom);
-    food.setKingdom(kingdom);
-    resources.add(gold);
-    resources.add(food);
-    kingdom.setResources(resources);
-  }
-
-
   public boolean validResource(KingdomResource resource) {
     return resource != null;
   }
-//
-//  public void updateResource(Kingdom kingdom) {
-//    /*KingdomResource actualResource;
-//    for (int i = 0; i < kingdom.getResources().size(); i++) {
-//      actualResource = kingdom.getResources().get(i);
-//      if (actualResource instanceof Food) {
-//        actualResource.
-//            setAmount(actualResource.getAmount();
-//      }
-//      if (actualResource instanceof Gold) {
-//        actualResource.
-//            setAmount(actualResource.getAmount());
-//      }
-//    }*/
-//  }
-//
-//  public Long resourceToAdd(Building building, Long passedTime, KingdomResource resource) {
-//    return 0L;
-//  }
 }

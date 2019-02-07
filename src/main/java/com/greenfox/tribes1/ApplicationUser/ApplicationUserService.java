@@ -21,68 +21,60 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationUserService {
-  
+
   private ApplicationUserRepository applicationUserRepository;
-  private BuildingService buildingService;
-  private ResourceService resourceService;
-  private KingdomRepository kingdomRepository;
-  private BuildingRepository buildingRepository;
   private BCryptPasswordEncoder encoder;
-  private ResourceRepository resourceRepository;
+  private KingdomService kingdomService;
 
   @Autowired
-  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BuildingService buildingService, ResourceService resourceService, KingdomRepository kingdomRepository, BuildingRepository buildingRepository, BCryptPasswordEncoder encoder, ResourceRepository resourceRepository) {
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder encoder, KingdomService kingdomService) {
     this.applicationUserRepository = applicationUserRepository;
-    this.buildingService = buildingService;
-    this.resourceService = resourceService;
-    this.kingdomRepository = kingdomRepository;
-    this.buildingRepository = buildingRepository;
     this.encoder = encoder;
-    this.resourceRepository = resourceRepository;
+    this.kingdomService = kingdomService;
   }
 
   public ApplicationUser findByUsername(String username) {
     return applicationUserRepository.findByUsername(username).orElse(null);
   }
 
-  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException, NotValidKingdomNameException {
-    if (!applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
+  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+    String userName = applicationUserDTO.getUsername();
+
+    if (!applicationUserRepository.existsByUsername(userName)) {
+      String kingdomName = applicationUserDTO.getKingdomName();
+
       ApplicationUser userToBeSaved = createUserFromDTO(applicationUserDTO);
       userToBeSaved.setPassword(encoder.encode(applicationUserDTO.getPassword()));
-      String kingdomName = applicationUserDTO.getKingdomName();
-      Kingdom myKingdom;
-      if (isKingdomNameNullOrEmpty(kingdomName)) {
-        myKingdom = new Kingdom(String.format("%s's kingdom", userToBeSaved.getUsername()));
-      } else {
-        myKingdom = new Kingdom(kingdomName);
-      }
 
-      userToBeSaved.setKingdom(myKingdom);
-      myKingdom.setApplicationUser(userToBeSaved);
+      Kingdom kingdom = createKingdom(kingdomName, userName);
+      kingdom.setApplicationUser(userToBeSaved);
 
-      buildingService.setStarterBuildings(userToBeSaved.getKingdom());
-      resourceService.setStarterResource(userToBeSaved.getKingdom());
-      ApplicationUser applicationUser = applicationUserRepository.save(userToBeSaved);
-      System.out.println(buildingRepository.findById(1L).get().getKingdom());
-      System.out.println(resourceRepository.findById(1L).get().getKingdom());
-      System.out.println(kingdomRepository.findById(1L).get().getBuildings());
-      System.out.println(kingdomRepository.findById(1L).get().getResources());
+      userToBeSaved.setKingdom(kingdom);
 
-      return applicationUser;
+      kingdomService.setStarterBuildings(kingdom);
+      kingdomService.setStarterResource(kingdom);
+
+      return applicationUserRepository.save(userToBeSaved);
     }
     throw new UsernameTakenException("Username already taken, please choose an other one.");
+  }
+
+  private Kingdom createKingdom(String kingdomName, String username) {
+    if (isKingdomNameNullOrEmpty(kingdomName)) {
+      return new Kingdom(String.format("%s's kingdom", username));
+    }
+    return new Kingdom(kingdomName);
   }
 
   public ApplicationUser createUserFromDTO(ApplicationUserDTO applicationUserDTO) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
   }
-  
+
   public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
   }
-
 
   public ResponseEntity login(ApplicationUserDTO applicationUserDTO) {
     if (applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
@@ -92,13 +84,13 @@ public class ApplicationUserService {
     }
     throw new UsernameNotFoundException("No such user: " + applicationUserDTO.getUsername());
   }
-  
+
   private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
     return applicationUserRepository
-        .findByUsername(applicationUserDTO.getUsername())
-        .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
+            .findByUsername(applicationUserDTO.getUsername())
+            .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
   }
-  
+
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
     return kingdomName == null || kingdomName.isEmpty();
   }

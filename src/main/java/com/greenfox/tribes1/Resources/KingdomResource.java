@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public abstract class KingdomResource {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -23,11 +23,11 @@ public abstract class KingdomResource {
   private Timestamp updated_at;
   //private Long amountPerMinute;
   @ManyToOne(
-      fetch = FetchType.EAGER
+          fetch = FetchType.EAGER
   )
   @JoinTable(name = "kingdom_resources",
-      inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"),
-      joinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"))
+          joinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
   private Kingdom kingdom;
 
 }
