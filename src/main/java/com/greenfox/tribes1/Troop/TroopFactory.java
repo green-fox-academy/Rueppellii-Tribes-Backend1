@@ -4,7 +4,7 @@ import com.greenfox.tribes1.Troop.Model.Troop;
 
 public class TroopFactory {
 
-  public Troop makeTroop(TroopType troopType) {
+  public static Troop createTroop(TroopType troopType) {
     return troopType.makeTroop();
   }
 }

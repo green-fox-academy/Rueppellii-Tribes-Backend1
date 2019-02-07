@@ -22,7 +22,7 @@ public abstract class Troop {
   @NotNull
   @PositiveOrZero
   private Long level;
-  private Long HP;
+  private Double HP;
   private Long attack;
   private Long defense;
   private Timestamp started_at;

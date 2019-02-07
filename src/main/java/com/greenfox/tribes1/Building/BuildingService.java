@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Building;
 
+import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.BuildingNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,29 @@ public class BuildingService {
     } else throw new BuildingNotValidException("Building is not valid");
   }
 
+  public Building findById(Long id) throws BuildingIdNotFoundException {
+    if (buildingRepository.findById(id).isPresent()) {
+      return buildingRepository.findById(id).get();
+    } else throw new BuildingIdNotFoundException("There is no Building with such Id");
+  }
+//Todo TRB-29
+  public void upgradeBarracks(Building buildingToUpgrade) throws BuildingNotValidException {
+    buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1);
+    saveBuilding(buildingToUpgrade);
+  }
+
+  //Todo TRB-49
+  public void upgradeFarm(Building buildingToUpgrade) throws BuildingNotValidException {
+    buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1);
+    saveBuilding(buildingToUpgrade);
+  }
+
+  //Todo TRB-50
+  public void upgradeMine(Building buildingToUpgrade) throws BuildingNotValidException {
+    buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1);
+    saveBuilding(buildingToUpgrade);
+  }
 }

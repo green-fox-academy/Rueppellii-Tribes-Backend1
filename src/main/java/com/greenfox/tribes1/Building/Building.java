@@ -15,7 +15,7 @@ public abstract class Building {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long level;
-  private Long HP;
+  private Double HP;
   private Timestamp started_at;
   private Timestamp finished_at;
 

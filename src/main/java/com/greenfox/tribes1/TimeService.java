@@ -1,10 +1,7 @@
 package com.greenfox.tribes1;
 
 import com.greenfox.tribes1.Exception.DateNotGivenException;
-import com.greenfox.tribes1.Progression.PBuilding;
 import com.greenfox.tribes1.Progression.Progression;
-import com.greenfox.tribes1.Progression.ProgressionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Instant;

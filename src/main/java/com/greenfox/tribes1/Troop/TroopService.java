@@ -1,5 +1,7 @@
 package com.greenfox.tribes1.Troop;
 
+import com.greenfox.tribes1.Building.Building;
+import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import com.greenfox.tribes1.Exception.TroopNotValidException;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +28,15 @@ public class TroopService {
     return troop != null;
   }
 
+  public Troop findById(Long id) throws TroopIdNotFoundException {
+    if (troopRepository.findById(id).isPresent()) {
+      return troopRepository.findById(id).get();
+    } else throw new TroopIdNotFoundException("There is no Troop with such Id");
+  }
+
+  public void upgradeTroop(Troop troopToUpgrade) throws TroopNotValidException {
+    troopToUpgrade.setLevel(troopToUpgrade.getLevel() + 1L);
+    troopToUpgrade.setHP(troopToUpgrade.getHP() * 1.1);
+    save(troopToUpgrade);
+  }
 }

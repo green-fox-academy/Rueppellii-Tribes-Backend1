@@ -11,18 +11,18 @@ import java.sql.Timestamp;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name ="Progression_Type")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Progression {
+public class Progression {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long model_id;
   private boolean isCreate;
+  private String type;
   private Timestamp finished_at;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
