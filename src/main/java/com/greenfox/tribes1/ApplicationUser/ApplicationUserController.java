@@ -11,7 +11,7 @@ import javax.validation.Valid;
 @RestController
 public class ApplicationUserController {
 
-  ApplicationUserService applicationUserService;
+  private ApplicationUserService applicationUserService;
 
   @Autowired
   public ApplicationUserController(ApplicationUserService applicationUserService) {
@@ -22,10 +22,5 @@ public class ApplicationUserController {
   public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException, NotValidKingdomNameException {
     ApplicationUser applicationUser = applicationUserService.registerNewUser(applicationUserDTO);
     return ResponseEntity.ok().body(applicationUserService.createDTOwithKingdomfromUser(applicationUser));
-  }
-
-  @PostMapping("/login")
-  public ResponseEntity login(@Valid @RequestBody ApplicationUserDTO applicationUserDTO){
-    return applicationUserService.login(applicationUserDTO);
   }
 }

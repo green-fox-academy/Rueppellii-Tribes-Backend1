@@ -17,22 +17,16 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
-  private final JwtSettings jwtSettings;
-
-  @Autowired
-  public JwtAuthenticationProvider(JwtSettings jwtSettings) {
-    this.jwtSettings = jwtSettings;
-  }
 
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     RawAccessJwtToken rawAccessJwtToken = (RawAccessJwtToken) authentication.getCredentials();
 
-    Jws<Claims> jwsClaims = rawAccessJwtToken.parseClaims(jwtSettings.TOKEN_SIGNING_KEY);
+    Jws<Claims> jwsClaims = rawAccessJwtToken.parseClaims(JwtSettings.TOKEN_SIGNING_KEY);
     String subject = jwsClaims.getBody().getSubject();
     List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
     List<GrantedAuthority> authorities = scopes.stream()
-            .map(authority -> new SimpleGrantedAuthority(authority))
+            .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
     UserContext context = UserContext.create(subject, authorities);

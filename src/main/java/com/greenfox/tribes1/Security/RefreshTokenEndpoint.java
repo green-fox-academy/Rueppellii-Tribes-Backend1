@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Security;
 
+import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Security.Config.JwtSettings;
 import com.greenfox.tribes1.Security.Config.WebSecurityConfig;
 import com.greenfox.tribes1.Security.JWT.Extractor.TokenExtractor;
@@ -8,7 +9,7 @@ import com.greenfox.tribes1.Security.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,25 +23,27 @@ import java.util.Collections;
 
 @RestController
 public class RefreshTokenEndpoint {
-  @Autowired
   private JwtTokenFactory tokenFactory;
-  @Autowired
-  private JwtSettings jwtSettings;
-  @Autowired
-  private UserDetailsServiceImpl userService;
-  @Autowired
+  private UserService userService;
   private TokenVerifier tokenVerifier;
-  @Autowired
   @Qualifier("jwtHeaderTokenExtractor")
   private TokenExtractor tokenExtractor;
 
+  @Autowired
+  public RefreshTokenEndpoint(JwtTokenFactory tokenFactory, UserService userService, TokenVerifier tokenVerifier, TokenExtractor tokenExtractor) {
+    this.tokenFactory = tokenFactory;
+    this.userService = userService;
+    this.tokenVerifier = tokenVerifier;
+    this.tokenExtractor = tokenExtractor;
+  }
+
   @RequestMapping(value = "/refreshtoken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
   public @ResponseBody
-  JwtToken refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+  JwtToken refreshToken(HttpServletRequest request) {
     String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.AUTHENTICATION_HEADER_NAME));
 
     RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
-    RefreshToken refreshToken = RefreshToken.create(rawToken, jwtSettings.TOKEN_SIGNING_KEY).orElseThrow(() -> new UnsupportedOperationException());
+    RefreshToken refreshToken = RefreshToken.create(rawToken, JwtSettings.TOKEN_SIGNING_KEY).orElseThrow(UnsupportedOperationException::new);
 
     String jti = refreshToken.getJti();
     if (!tokenVerifier.verify(jti)) {
@@ -48,8 +51,7 @@ public class RefreshTokenEndpoint {
     }
 
     String subject = refreshToken.getSubject();
-    User user = (User) userService.loadUserByUsername(subject);
-
+    ApplicationUser user = userService.getByUsername(subject).orElseThrow(() -> new UsernameNotFoundException("No such user: " + subject));
 
     UserContext userContext = UserContext.create(user.getUsername(), Collections.emptyList());
 
