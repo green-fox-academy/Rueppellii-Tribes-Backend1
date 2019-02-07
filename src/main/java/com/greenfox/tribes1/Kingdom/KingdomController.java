@@ -12,48 +12,47 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class KingdomController {
-  
+
   private KingdomService kingdomService;
-  
+
   @Autowired
   public KingdomController(KingdomService kingdomService) {
     this.kingdomService = kingdomService;
   }
-  
+
   @GetMapping(value = "/kingdomUser")
   public ResponseEntity kingdomDTO(@RequestBody ApplicationUser applicationUser) {
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
     return ResponseEntity.ok()
-        .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
+            .body(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
   }
-  
+
   @GetMapping("/kingdom/resources")
   public ResponseEntity kingdomResourcesDTO(@RequestBody ApplicationUser applicationUser) {
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUser(applicationUser);
-    return ResponseEntity.ok()
-        .body(kingdomService.createKingdomResourceDTOFromKingdom(kingdomByUser));
+    return ResponseEntity.ok(kingdomService.createKingdomResourceDTOFromKingdom(kingdomByUser));
   }
-  
+
   @PutMapping("/kingdom")
   public ResponseEntity KingdomNameChange(Kingdom kingdom, String newName) {
     Kingdom kingdomWithNewMName = kingdomService.renameKingdom(kingdom, newName);
     return ResponseEntity.ok()
-        .body(kingdomService.createKingdomDTOFromKingdom(kingdomWithNewMName));
+            .body(kingdomService.createKingdomDTOFromKingdom(kingdomWithNewMName));
   }
-  
+
   @GetMapping("/kingdom")
   public ResponseEntity kingdomDTOA(Authentication authentication) {
     UserContext userContext = (UserContext) authentication.getPrincipal();
     System.out.println(userContext.getUsername());
     Kingdom kingdomByUsername = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
-    
+
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUsername));
     // return  ResponseEntity.ok().build();
   }
-  
+
   @GetMapping("/kingdomlist")
   public ResponseEntity kingdomList() {
     return ResponseEntity.ok(kingdomService.findAll());
   }
-  
+
 }

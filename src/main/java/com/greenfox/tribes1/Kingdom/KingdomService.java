@@ -54,10 +54,8 @@ public class KingdomService {
   }
   
   public Kingdom renameKingdom(Kingdom kingdom, String newKingdomName) {
-    if (validKingdomName(newKingdomName)) {
-      kingdom.setName(newKingdomName);
-      kingdomRepository.save(kingdom);
-    }
-    return kingdom;
+    //null check needed
+    kingdom.setName(newKingdomName);
+    return kingdomRepository.save(kingdom);
   }
 }
