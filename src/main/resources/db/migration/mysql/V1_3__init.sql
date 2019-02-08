@@ -2,7 +2,7 @@ CREATE TABLE `troop`
 (
   `id`          bigint(20)          NOT NULL AUTO_INCREMENT,
   `level`       bigint(20) UNSIGNED NOT NULL,
-  `HP`          bigint(20) DEFAULT NULL,
+  `HP`          float (20) DEFAULT NULL,
   `attack`      bigint(20) DEFAULT NULL,
   `defense`     bigint(20) DEFAULT NULL,
   `started_at`  TIMESTAMP(6),

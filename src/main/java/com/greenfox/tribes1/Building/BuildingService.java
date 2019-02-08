@@ -36,21 +36,21 @@ public class BuildingService {
 //Todo TRB-29
   public void upgradeBarracks(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
     saveBuilding(buildingToUpgrade);
   }
 
   //Todo TRB-49
   public void upgradeFarm(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1F);
     saveBuilding(buildingToUpgrade);
   }
 
   //Todo TRB-50
   public void upgradeMine(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1F);
     saveBuilding(buildingToUpgrade);
   }
 }

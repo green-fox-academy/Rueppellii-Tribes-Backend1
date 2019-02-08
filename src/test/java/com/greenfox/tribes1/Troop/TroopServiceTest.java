@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class TroopServiceTest {
   private TroopService troopService;
-  private Troop testTroop = new TroopFactory().makeTroop(TroopType.TestTroop);
+  private Troop testTroop = new TroopFactory().createTroop(TroopType.troop);
   private Troop nullTroop = null;
 
   @Mock

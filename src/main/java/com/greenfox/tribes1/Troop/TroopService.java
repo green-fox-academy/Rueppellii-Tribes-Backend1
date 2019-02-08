@@ -37,7 +37,7 @@ public class TroopService {
 
   public void upgradeTroop(Troop troopToUpgrade) throws TroopNotValidException {
     troopToUpgrade.setLevel(troopToUpgrade.getLevel() + 1L);
-    troopToUpgrade.setHP(troopToUpgrade.getHP() * 1.1);
+    troopToUpgrade.setHP(troopToUpgrade.getHP() * 1.1F);
     save(troopToUpgrade);
   }
 }
