@@ -7,6 +7,9 @@ import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
 import com.greenfox.tribes1.Security.Model.JwtTokenFactory;
 import com.greenfox.tribes1.TestTokenProvider;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,54 +53,52 @@ public class KingdomControllerTest {
 
   private String token;
   private TestTokenProvider testTokenProvider;
-
   private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
           MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
-
-  private Long id = 1l;
   private String username = "username";
-  private String userEmail = "user@user.com";
-  private String kingdomName = "kingdomName";
   private Kingdom testKingdom;
   private KingdomDTO testKingdomDTO;
-  private ApplicationUser testApplicationUser;
-  private Building mine;
-
-  String kingdom = ("{\n"
-          + "\"id\":1,\n"
-          + "\"kingdomName\":\"kingdomName\",\n"
-          + "\"applicationUserName\":\"username\"\n"
-          + "}\n");
-
-  String mineJson = "[\n" +
-          "    {\n" +
-          "        \"id\": null,\n" +
-          "        \"level\": null,\n" +
-          "        \"started_at\": null,\n" +
-          "        \"finished_at\": null,\n" +
-          "        \"kingdom\": null,\n" +
-          "        \"hp\": null\n" +
-          "    }\n" +
-          "]";
-
-  String empty = "[]";
+  private String kingdom;
+  private String mineJson;
 
   @Before
-  public void init() {
+  public void init() throws JSONException {
+    String kingdomName = "kingdomName";
+    Long id = 1L;
+
     testTokenProvider = new TestTokenProvider(tokenFactory);
+
     testKingdom = Kingdom.builder()
             .id(id)
             .name(kingdomName)
             .build();
-    testApplicationUser = ApplicationUser.builder()
+
+    String userEmail = "user@user.com";
+    ApplicationUser testApplicationUser = ApplicationUser.builder()
             .id(id)
             .username(username)
             .userEmail(userEmail)
             .kingdom(testKingdom)
             .build();
+
     testKingdom.setApplicationUser(testApplicationUser);
     testKingdomDTO = new ModelMapper().map(testKingdom, KingdomDTO.class);
     testKingdom.setBuildings(new ArrayList<>());
+
+    kingdom = new JSONObject()
+            .put("id", 1)
+            .put("kingdomName", kingdomName)
+            .put("applicationUserName", username)
+            .toString();
+
+    mineJson = new JSONArray()
+            .put(0, (new JSONObject()
+                    .put("id", null)
+                    .put("level", null)
+                    .put("started_at", null)
+                    .put("finished_at", null)
+                    .put("kingdom", null)
+                    .put("hp", null))).toString();
   }
 
   @Test
@@ -158,7 +159,7 @@ public class KingdomControllerTest {
   @Test
   public void getKingdomBuilding_StatusOk_ReturnsMine() throws Exception {
     token = testTokenProvider.createMockToken(username);
-    mine = BuildingFactory.createBuilding(BuildingType.mine);
+    Building mine = BuildingFactory.createBuilding(BuildingType.mine);
     List<Building> buildingList = new ArrayList<>();
     buildingList.add(mine);
     testKingdom.setBuildings(buildingList);
@@ -174,6 +175,8 @@ public class KingdomControllerTest {
 
   @Test
   public void getKingdomBuildings_returnsEmptyList() throws Exception {
+    String empty = "[]";
+
     token = testTokenProvider.createMockToken(username);
     when(kingdomService.findKingdomByApplicationUserName(Mockito.any(String.class))).thenReturn(testKingdom);
 
