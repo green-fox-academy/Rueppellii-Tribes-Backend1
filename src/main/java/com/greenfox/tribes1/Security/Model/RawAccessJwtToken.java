@@ -1,8 +1,7 @@
 package com.greenfox.tribes1.Security.Model;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
+import org.springframework.security.authentication.BadCredentialsException;
 
 public class RawAccessJwtToken implements JwtToken {
   private String token;
@@ -12,7 +11,12 @@ public class RawAccessJwtToken implements JwtToken {
   }
 
   public Jws<Claims> parseClaims(String signingKey) {
-    return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(this.token);
+
+    try {
+      return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(this.token);
+    } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException ex) {
+      throw new BadCredentialsException("Invalid JWT token: ", ex);
+    }
   }
 
   @Override

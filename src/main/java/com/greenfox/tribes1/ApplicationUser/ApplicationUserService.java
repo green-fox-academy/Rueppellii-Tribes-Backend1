@@ -2,31 +2,32 @@ package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
-import com.greenfox.tribes1.Exception.ErrorMsg;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Security.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
-public class ApplicationUserService {
-  
-  private ApplicationUserRepository applicationUserRepository;
-  
-  @Autowired
-  public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
-    this.applicationUserRepository = applicationUserRepository;
-  }
+import java.util.Optional;
 
-  @Autowired
+@Service
+public class ApplicationUserService implements UserService {
+
+  private ApplicationUserRepository applicationUserRepository;
   private BCryptPasswordEncoder encoder;
 
-  public ApplicationUser findByUsername(String username) {
-    return applicationUserRepository.findByUsername(username).orElse(null);
+  @Autowired
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder encoder) {
+    this.applicationUserRepository = applicationUserRepository;
+    this.encoder = encoder;
+  }
+
+  @Override
+  public Optional<ApplicationUser> getByUsername(String username) {
+    return this.applicationUserRepository.findByUsername(username);
   }
 
   public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
@@ -49,28 +50,12 @@ public class ApplicationUserService {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUserDTO, ApplicationUser.class);
   }
-  
+
   public ApplicationUserWithKingdomDTO createDTOwithKingdomfromUser(ApplicationUser applicationUser) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(applicationUser, ApplicationUserWithKingdomDTO.class);
   }
 
-
-  public ResponseEntity login(ApplicationUserDTO applicationUserDTO) {
-    if (applicationUserRepository.existsByUsername(applicationUserDTO.getUsername())) {
-      if (isPasswordMatching(applicationUserDTO)) {
-        return ResponseEntity.ok().body(new ErrorMsg("ok", "ok"));
-      }
-    }
-    throw new UsernameNotFoundException("No such user: " + applicationUserDTO.getUsername());
-  }
-  
-  private Boolean isPasswordMatching(ApplicationUserDTO applicationUserDTO) {
-    return applicationUserRepository
-        .findByUsername(applicationUserDTO.getUsername())
-        .map(applicationUser -> applicationUser.getPassword().equals(applicationUserDTO.getPassword())).orElse(false);
-  }
-  
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
     return kingdomName == null || kingdomName.isEmpty();
   }

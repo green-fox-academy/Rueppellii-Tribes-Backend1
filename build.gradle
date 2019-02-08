@@ -43,3 +43,7 @@ dependencies {
             'org.springframework.security:spring-security-test')
     annotationProcessor("org.projectlombok:lombok")
 }
+
+test {
+    environment "TRIBES_TOKEN_SIGNING_KEY", "secret"
+}
