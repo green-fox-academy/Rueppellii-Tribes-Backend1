@@ -19,18 +19,14 @@ public class TimeService {
   }
 
   public Boolean isTimestampExpired (Timestamp timestamp) {
-    Instant currentTime = Instant.now();
-    Long timestampMillis = currentTime.toEpochMilli();
-    Timestamp current = new Timestamp(timestampMillis);
-    return current.getTime() > timestamp.getTime();
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+    return currentTime.getTime() > timestamp.getTime();
   }
 
   public Timestamp calculateBuildingTimeForNewBuildingOrTroop (Progression progression){
-    Instant currentTime = Instant.now();
-    Long timestampMillis = currentTime.toEpochMilli();
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     Long buildingTime = buildingTime(progression);
-    return new Timestamp(timestampMillis + TimeUnit.MINUTES.toMillis(buildingTime));
-
+    return new Timestamp(currentTime.getTime() + TimeUnit.MINUTES.toMillis(buildingTime));
   }
 
 //  Todo extend method, to Upgrade by progressiontype and LVL
