@@ -33,7 +33,7 @@ public class TimeService {
   public Long buildingTime (Progression progression) {
     if (progression.isCreate()) {
       return 1L;
-    } //else
+    } //else Sorry Dani
 //    --> new buildig or troop: 1 min DONE
 //    --> upgrade buildig: LVL * 5 min TODO
 //    --> upgrade troop: LVL * 1 min TODO
