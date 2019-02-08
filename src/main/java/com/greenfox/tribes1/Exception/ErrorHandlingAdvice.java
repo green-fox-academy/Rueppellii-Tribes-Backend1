@@ -94,4 +94,11 @@ public class ErrorHandlingAdvice {
   ErrorMsg notValidBuildingOrTroopType(NotValidTypeException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
+
+  @ResponseBody
+  @ExceptionHandler(ProgressionIdNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  ErrorMsg progressionIdNotFound(ProgressionIdNotFoundException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
 }

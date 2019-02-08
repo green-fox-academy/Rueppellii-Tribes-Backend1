@@ -2,8 +2,8 @@ CREATE TABLE `progression` (
   `id`         bigint(20) AUTO_INCREMENT,
   `model_id`       bigint(20),
   `is_create`   boolean,
+  `type` varchar (20),
   `finished_at` timestamp(6),
-  `progression_type` varchar (20),
 
   PRIMARY KEY (`id`)
 );

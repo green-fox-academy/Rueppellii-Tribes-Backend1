@@ -2,8 +2,11 @@ package com.greenfox.tribes1.Building;
 
 import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.BuildingNotValidException;
+import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class BuildingService {
@@ -26,10 +29,10 @@ public class BuildingService {
   }
 
   public Building findById(Long id) throws BuildingIdNotFoundException {
-    if (buildingRepository.findById(id).isPresent()) {
-      return buildingRepository.findById(id).get();
-    } else throw new BuildingIdNotFoundException("There is no Building with such Id");
+    return Optional.of(buildingRepository.findById(id)).get().orElseThrow(()
+            -> new BuildingIdNotFoundException(("There is no Building with such Id")));
   }
+
 //Todo TRB-29
   public void upgradeBarracks(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
