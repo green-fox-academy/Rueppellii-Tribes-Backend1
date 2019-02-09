@@ -28,7 +28,7 @@ public class KingdomController {
   @PutMapping("/kingdom")
   public ResponseEntity change_kingdomName(Kingdom kingdom, String newName) {
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdom));
-  }t 
+  }
 
   @GetMapping("kingdom/buildings")
   public ResponseEntity show_buildings(Authentication authentication) {
