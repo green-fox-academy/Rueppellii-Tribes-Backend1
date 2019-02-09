@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
+import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class ApplicationUserController {
   }
   
   @PostMapping("/register")
-  public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+  public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException, NotValidKingdomNameException {
     ApplicationUser applicationUser = applicationUserService.registerNewUser(applicationUserDTO);
     return ResponseEntity.ok().body(applicationUserService.createDTOwithKingdomfromUser(applicationUser));
   }

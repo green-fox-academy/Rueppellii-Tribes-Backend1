@@ -5,28 +5,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.sql.Timestamp;
 
+@Entity(name = "Food")
+@DiscriminatorValue("Food")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Food extends KingdomResource implements Updatable {
-  
+
+  @Autowired
+  @Transient
   TimeService timeService;
-  
+
   public Food(Long amount) {
     this.setAmount(amount);
   }
-  
+
+  @Autowired
   public Food(TimeService timeService) {
     this.timeService = timeService;
   }
-  
+
   public void setResourcePerMinute() {
     setAmountPerMinute(8L);
   }
-  
+
   @Override
   @SneakyThrows
   public Long update() {

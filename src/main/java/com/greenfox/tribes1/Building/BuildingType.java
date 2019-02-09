@@ -18,9 +18,9 @@ public enum BuildingType {
     public Building makeBuilding(){return new Barracks();}
   },
 
-  townhall {
+  townHall {
     public Building makeBuilding() {
-      return new Townhall();
+      return new TownHall();
     }
   };
 
