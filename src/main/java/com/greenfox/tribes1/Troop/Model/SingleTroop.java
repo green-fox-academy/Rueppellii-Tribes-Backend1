@@ -10,5 +10,5 @@ import javax.persistence.Entity;
 @DiscriminatorValue("TestTroop")
 @Getter
 @Setter
-public class TestTroop extends Troop {
+public class SingleTroop extends Troop {
 }

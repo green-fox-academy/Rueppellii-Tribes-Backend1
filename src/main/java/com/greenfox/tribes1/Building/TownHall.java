@@ -14,6 +14,6 @@ public class TownHall extends Building {
 
   public TownHall() {
     this.setLevel(1L);
-    this.setHP(5000L);
+    this.setHP(5000.0f);
   }
 }

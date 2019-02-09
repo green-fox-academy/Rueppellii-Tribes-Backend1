@@ -3,7 +3,7 @@ CREATE TABLE `building`
   `building_type` varchar(255) NOT NULL,
   `id`            bigint(20) AUTO_INCREMENT,
   `level`         bigint(20),
-  `HP`            bigint(20),
+  `HP`            float(20),
   `started_at`    timestamp(6),
   `finished_at`   timestamp(6),
   PRIMARY KEY (`id`)
