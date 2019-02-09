@@ -5,6 +5,7 @@ import com.greenfox.tribes1.Building.BuildingFactory;
 import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
+import com.greenfox.tribes1.Kingdom.DTO.KingdomResourceDTO;
 import com.greenfox.tribes1.Resources.KingdomResource;
 import com.greenfox.tribes1.Resources.ResourceFactory;
 import com.greenfox.tribes1.Resources.ResourceType;
@@ -39,6 +40,11 @@ public class KingdomService {
   public KingdomDTO createKingdomDTOFromKingdom(Kingdom kingdom) {
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(kingdom, KingdomDTO.class);
+  }
+
+  public KingdomResourceDTO createKingdomResourceDTOFromKingdom(Kingdom kingdom) {
+    ModelMapper modelMapper = new ModelMapper();
+    return modelMapper.map(kingdom, KingdomResourceDTO.class);
   }
 
   public List<Kingdom> findAll() {
