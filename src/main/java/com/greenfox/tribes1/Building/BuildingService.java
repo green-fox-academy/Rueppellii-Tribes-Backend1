@@ -2,7 +2,6 @@ package com.greenfox.tribes1.Building;
 
 import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.BuildingNotValidException;
-import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
