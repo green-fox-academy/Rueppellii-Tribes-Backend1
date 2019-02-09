@@ -14,6 +14,6 @@ public class Farm extends Building {
 
   public Farm() {
     this.setLevel(1L);
-    this.setHP(150L);
+    this.setHP(150.0f);
   }
 }

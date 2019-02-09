@@ -1,15 +1,17 @@
-CREATE TABLE `progression` (
-  `id`         bigint(20) AUTO_INCREMENT,
-  `model_id`       bigint(20),
+CREATE TABLE `progression`
+(
+  `id`          bigint(20) AUTO_INCREMENT,
+  `model_id`    bigint(20),
   `is_create`   boolean,
-  `type` varchar (20),
+  `type`        varchar(20),
   `finished_at` timestamp(6),
 
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `kingdom_progression` (
-  `kingdom_id`          bigint(20) not null,
+CREATE TABLE `kingdom_progression`
+(
+  `kingdom_id`     bigint(20) not null,
   `progression_id` bigint(20) NOT NULL,
   PRIMARY KEY (`progression_id`),
   KEY progression_id (`progression_id`),

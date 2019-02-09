@@ -14,6 +14,6 @@ public class Mine extends Building {
 
   public Mine() {
     this.setLevel(1L);
-    this.setHP(200L);
+    this.setHP(200.0f);
   }
 }
