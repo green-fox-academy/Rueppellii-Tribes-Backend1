@@ -23,22 +23,20 @@ import java.util.Optional;
 public class ProgressionService {
   private ProgressionRepository progressionRepository;
   private TimeService timeService;
-  private KingdomService kingdomService;
   private BuildingService buildingService;
   private TroopService troopService;
 
   @Autowired
-  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, KingdomService kingdomService, BuildingService buildingService, TroopService troopService) {
+  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, BuildingService buildingService, TroopService troopService) {
     this.progressionRepository = progressionRepository;
     this.timeService = timeService;
-    this.kingdomService = kingdomService;
     this.buildingService = buildingService;
     this.troopService = troopService;
   }
 
 //  Todo: check what will we get exactly from frontend (Progression or Strings with ALL of the progressiondata)
 //  Todo: modify method according to that
-  public void saveProgression (Progression progression) {
+  public void saveProgression (Progression progression) throws TroopIdNotFoundException, BuildingIdNotFoundException {
     progression.setFinished_at(timeService.calculateBuildingTimeForNewBuildingOrTroop(progression)); //Todo: is it needed OR I get a complete progression from frontend?
     progressionRepository.save(progression);
   }
