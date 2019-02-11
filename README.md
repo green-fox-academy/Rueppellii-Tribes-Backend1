@@ -13,6 +13,8 @@ Environment variables:
 |DATABASE_HOST | *your own localhost so far /NOT USED YET/* |
 |DATABASE_PORT | *the port you've set /NOT USED YET/* |
 |PROFILE | dev |
+|TRIBES_TOKEN_SIGNING_KEY | *a signing key specified by you* |
+|TRIBES_LOG_LVL | *select on of these: DEBUG, INFO or ERROR* |
 
 **HEROKU:**
 
