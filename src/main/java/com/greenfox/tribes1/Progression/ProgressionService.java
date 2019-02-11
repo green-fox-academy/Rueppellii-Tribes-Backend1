@@ -15,12 +15,12 @@ import com.greenfox.tribes1.Troop.TroopType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProgressionService {
+
   private ProgressionRepository progressionRepository;
   private TimeService timeService;
   private BuildingService buildingService;
@@ -34,19 +34,20 @@ public class ProgressionService {
     this.troopService = troopService;
   }
 
-//  Todo: check what will we get exactly from frontend (Progression or Strings with ALL of the progressiondata)
+  //  Todo: check what will we get exactly from frontend (Progression or Strings with ALL of the progressiondata)
 //  Todo: modify method according to that
+
   public void saveProgression (Progression progression) throws TroopIdNotFoundException, BuildingIdNotFoundException {
     progression.setFinished_at(timeService.calculateBuildingTimeForNewBuildingOrTroop(progression)); //Todo: is it needed OR I get a complete progression from frontend?
     progressionRepository.save(progression);
   }
 
-  public void safeDeleteProgression (Progression progression) {
+  public void safeDeleteProgression(Progression progression) {
     progression.setKingdom(null);
     progressionRepository.delete(progression);
   }
 
-  public Progression findById (Long id) throws ProgressionIdNotFoundException {
+  public Progression findById(Long id) throws ProgressionIdNotFoundException {
     return Optional.of(progressionRepository.findById(id)).get().orElseThrow(()
             -> new ProgressionIdNotFoundException(("There is no Troop with such Id")));
   }
@@ -55,7 +56,7 @@ public class ProgressionService {
     return progressionRepository.findAll();
   }
 
-//TODO Progression SQL!!!!!!
+  //TODO Progression SQL!!!!!!
   public void findProgressionsWithExpiredTimestamp_CreateOrUpgradeModelFromThem_DeleteThem() throws BuildingTypeNotValidException, TroopTypeNotValidException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException, TroopNotValidException {
     List<Progression> allProgressionModelsList = findAllProgressionModel();
     for (int i = 0; i < allProgressionModelsList.size(); i++) {
@@ -74,33 +75,33 @@ public class ProgressionService {
     }
   }
 
-  public Boolean isItBuildingToCreate (Progression progression) {
+  public Boolean isItBuildingToCreate(Progression progression) {
     return progression.isCreate() && isTypeBuilding(progression);
   }
 
-  public Boolean isItBuildingToUpgrade (Progression progression) {
+  public Boolean isItBuildingToUpgrade(Progression progression) {
     return !progression.isCreate() && isTypeBuilding(progression);
   }
 
-  public Boolean isItTroopToCreate (Progression progression) {
+  public Boolean isItTroopToCreate(Progression progression) {
     return progression.isCreate() && isTypeTroop(progression);
   }
 
-  public Boolean isItTroopToUpgrade (Progression progression) {
+  public Boolean isItTroopToUpgrade(Progression progression) {
     return !progression.isCreate() && isTypeTroop(progression);
   }
 
-  public Boolean isTypeBuilding (Progression progression) {
+  public Boolean isTypeBuilding(Progression progression) {
     return (progression.getType().equals("barracks") ||
             progression.getType().equals("farm") ||
             progression.getType().equals("mine"));
   }
 
-  public Boolean isTypeTroop (Progression progression) {
+  public Boolean isTypeTroop(Progression progression) {
     return progression.getType().equals("troop");
   }
 
-  public void createNewBuildingFromProgression_AndAddItToKingdom (Progression progression) throws BuildingTypeNotValidException {
+  public void createNewBuildingFromProgression_AndAddItToKingdom(Progression progression) throws BuildingTypeNotValidException {
     String type = progression.getType();
     if (type.equals("barracks")) {
       Building newBuilding = BuildingFactory.createBuilding(BuildingType.barracks);
@@ -111,18 +112,22 @@ public class ProgressionService {
     } else if (type.equals("mine")) {
       Building newBuilding = BuildingFactory.createBuilding(BuildingType.mine);
       addBuildingToKingdom(progression, newBuilding);
-    } else throw new BuildingTypeNotValidException("There is no such type of building");
+    } else {
+      throw new BuildingTypeNotValidException("There is no such type of building");
+    }
   }
 
-  public void createNewTroopFromProgression_AndAddItToKingdom (Progression progression) throws BuildingTypeNotValidException, TroopTypeNotValidException {
+  public void createNewTroopFromProgression_AndAddItToKingdom(Progression progression) throws BuildingTypeNotValidException, TroopTypeNotValidException {
     String type = progression.getType();
     if (type.equals("troop")) {
-      Troop newTroop = TroopFactory.createTroop(TroopType.troop);
+      Troop newTroop = TroopFactory.createTroop(TroopType.TestTroop);
       addTroopToKingdom(progression, newTroop);
-    } else throw new TroopTypeNotValidException("There is no such type of troop");
+    } else {
+      throw new TroopTypeNotValidException("There is no such type of troop");
+    }
   }
 
-  public void upgradeBuildingFromProgression (Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, BuildingNotValidException {
+  public void upgradeBuildingFromProgression(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, BuildingNotValidException {
     Building buildingToUpgrade = (Building) getExactBuildingOrTroop_FromProgressionModelId(progression);
     String buildingType = progression.getType();
     if (buildingType.equals("barracks")) {
@@ -131,21 +136,25 @@ public class ProgressionService {
       buildingService.upgradeFarm(buildingToUpgrade);
     } else if (buildingType.equals("mine")) {
       buildingService.upgradeMine(buildingToUpgrade);
-    } else throw new NotValidTypeException("Invalid Building type");
-     //TODO TRB-29, 49, 50 for buildingUpgrade
+    } else {
+      throw new NotValidTypeException("Invalid Building type");
+    }
+    //TODO TRB-29, 49, 50 for buildingUpgrade
   }
 
-  public void upgradeTroopFromProgression (Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, TroopNotValidException {
+  public void upgradeTroopFromProgression(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, TroopNotValidException {
     Troop troopToUpgrade = (Troop) getExactBuildingOrTroop_FromProgressionModelId((progression));
     String troopType = progression.getType();
     if (troopType.equals("troop")) {
       troopService.upgradeTroop(troopToUpgrade);
-    } else throw new NotValidTypeException("Invalid Troop type");
+    } else {
+      throw new NotValidTypeException("Invalid Troop type");
+    }
     //TODO TRB-48 (Dani) for troopUpgrade
   }
 
-  public Object getExactBuildingOrTroop_FromProgressionModelId (Progression progression) throws BuildingIdNotFoundException, TroopIdNotFoundException, NotValidTypeException {
-    if (!isTypeBuilding(progression) || (!isTypeTroop(progression)) ) {
+  public Object getExactBuildingOrTroop_FromProgressionModelId(Progression progression) throws BuildingIdNotFoundException, TroopIdNotFoundException, NotValidTypeException {
+    if (!isTypeBuilding(progression) || (!isTypeTroop(progression))) {
       throw new NotValidTypeException("Invalid Troop or Building Type");
     } else if (isTypeBuilding(progression)) {
       return buildingService.findById(progression.getModel_id());
@@ -153,8 +162,8 @@ public class ProgressionService {
     return troopService.findById(progression.getModel_id());
   }
 
-//  Todo: Made by TRB-21 setStarterBuildings method's logic
-  public void addBuildingToKingdom (Progression progression, Building newBuilding) {
+  //  Todo: Made by TRB-21 setStarterBuildings method's logic
+  public void addBuildingToKingdom(Progression progression, Building newBuilding) {
     Kingdom kingdomAddTo = progression.getKingdom();
     List<Building> buildingsOfKingdom = kingdomAddTo.getBuildings();
 
@@ -163,8 +172,8 @@ public class ProgressionService {
     kingdomAddTo.setBuildings(buildingsOfKingdom);
   }
 
-//  Todo: Made by TRB-21 setStarterBuildings method's logic
-  public void addTroopToKingdom (Progression progression, Troop newTroop) {
+  //  Todo: Made by TRB-21 setStarterBuildings method's logic
+  public void addTroopToKingdom(Progression progression, Troop newTroop) {
     Kingdom kingdomAddTo = progression.getKingdom();
     List<Troop> troopsOfKingdom = kingdomAddTo.getTroops();
 

@@ -9,14 +9,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class TroopServiceTest {
+
   private TroopService troopService;
-  private Troop testTroop = new TroopFactory().createTroop(TroopType.troop);
+  private Troop testTroop = new TroopFactory().createTroop(TroopType.TestTroop);
   private Troop nullTroop = null;
 
   @Mock

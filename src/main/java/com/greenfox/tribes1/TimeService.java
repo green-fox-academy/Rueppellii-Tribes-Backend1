@@ -39,6 +39,7 @@ public class TimeService {
     return currentTime.getTime() > timestamp.getTime();
   }
 
+
   public Timestamp calculateBuildingTimeForNewBuildingOrTroop(Progression progression) throws TroopIdNotFoundException, BuildingIdNotFoundException {
     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     Long buildingTime = buildingTime(progression);
@@ -46,6 +47,7 @@ public class TimeService {
   }
 
   //  Todo extend method, to Upgrade by progressiontype and LVL
+
   public Long buildingTime(Progression progression) throws BuildingIdNotFoundException, TroopIdNotFoundException {
     if (progression.isCreate()) {
       return 1L;
