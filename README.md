@@ -6,7 +6,7 @@ Environment variables:
 
 | Key | Value |
 | --- | ----- | 
-|DATASOURCE_URL | jdbc:mysql://localhost:3306/devma |
+|DATASOURCE_URL | jdbc:mysql://localhost/yourDBname |
 |DATASOURCE_USERNAME | *your local mysql username* |
 |DATASOURCE_PASSWORD | *your local mysql password* |
 |HIBERNATE_DIALECT | org.hibernate.dialect.MySQL57Dialect|
