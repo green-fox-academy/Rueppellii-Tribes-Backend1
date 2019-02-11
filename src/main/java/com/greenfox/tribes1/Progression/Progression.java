@@ -1,4 +1,4 @@
-package com.greenfox.tribes1.Resources;
+package com.greenfox.tribes1.Progression;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.AllArgsConstructor;
@@ -11,22 +11,23 @@ import java.sql.Timestamp;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "resource_type")
 @Getter
 @Setter
-public abstract class KingdomResource {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Progression {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private Long amount;
-  private Timestamp updated_at;
-  //private Long amountPerMinute;
-  @ManyToOne(
-          fetch = FetchType.EAGER
-  )
-  @JoinTable(name = "kingdom_resources",
-          joinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"),
+  private Long model_id;
+  private boolean isCreate;
+  private String type;
+  private Timestamp finished_at;
+
+  @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @JoinTable(name = "kingdom_progression",
+          joinColumns = @JoinColumn(name = "progression_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
   private Kingdom kingdom;
 
