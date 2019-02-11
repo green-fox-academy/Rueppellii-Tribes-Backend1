@@ -38,15 +38,15 @@ VALUES (1, 'testKingdom1'),
        (2, 'testKingdom2'),
        (3, 'testKingdom3');
 
-INSERT INTO troop(id, level, HP, attack, defense, started_at, finished_at)
-VALUES (1, 1, 1, 1, 1, '2019-02-04 03:00:00', '2019-02-04 03:12:00'),
-       (2, 5, 5, 5, 5, '2019-02-05 13:00:00', '2019-02-05 15:00:00'),
-       (3, 10, 10, 10, 10, '2019-02-06 22:30:00', '2019-02-10 22:30:00');
+INSERT INTO troop(troop_type, id, level, HP, attack, defense, started_at, finished_at)
+VALUES ('SingleTroop', 1, 1, 1, 1, 1, '2019-02-04 03:00:00', '2019-02-04 03:12:00'),
+       ('SingleTroop', 2, 5, 5, 5, 5, '2019-02-05 13:00:00', '2019-02-05 15:00:00'),
+       ('SingleTroop', 3, 10, 10, 10, 10, '2019-02-06 22:30:00', '2019-02-10 22:30:00');
 
-INSERT INTO building(id, level, HP, started_at, finished_at)
-VALUES (1, 1, 1, '2019-02-04 03:00:00', '2019-02-04 03:12:00'),
-       (2, 5, 5, '2019-02-05 13:00:00', '2019-02-05 15:00:00'),
-       (3, 10, 10, '2019-02-06 22:30:00', '2019-02-10 22:30:00');
+INSERT INTO building(building_type, id, level, HP, started_at, finished_at)
+VALUES ('Mine', 1, 1, 1, '2019-02-04 03:00:00', '2019-02-04 03:12:00'),
+       ('Barracks', 2, 5, 5, '2019-02-05 13:00:00', '2019-02-05 15:00:00'),
+       ('TownHall', 3, 10, 10, '2019-02-06 22:30:00', '2019-02-10 22:30:00');
 
 INSERT INTO application_user_kingdom(kingdom_id, application_user_id)
 VALUES (1, 1),
@@ -63,10 +63,10 @@ VALUES (1, 1),
        (2, 2),
        (3, 3);
 
-INSERT INTO kingdom_resource(id, amount, updated_at)
-VALUES (1, 0, '2019-02-04 08:00:00'),
-       (2, 10, '2019-02-10 16:00:00'),
-       (3, 500, '2019-02-11 10:00:00');
+INSERT INTO kingdom_resource(resource_type, id, amount, updated_at)
+VALUES ('Gold', 1, 0, '2019-02-04 08:00:00'),
+       ('Food', 2, 10, '2019-02-10 16:00:00'),
+       ('Gold', 3, 500, '2019-02-11 10:00:00');
 
 INSERT INTO kingdom_resources(resources_id, kingdom_id)
 VALUES (1, 1),
