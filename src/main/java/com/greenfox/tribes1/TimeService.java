@@ -3,8 +3,8 @@ package com.greenfox.tribes1;
 import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.Progression.Progression;
 import org.springframework.stereotype.Service;
+
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -18,19 +18,19 @@ public class TimeService {
     return null;
   }
 
-  public Boolean isTimestampExpired (Timestamp timestamp) {
+  public Boolean isTimestampExpired(Timestamp timestamp) {
     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     return currentTime.getTime() > timestamp.getTime();
   }
 
-  public Timestamp calculateBuildingTimeForNewBuildingOrTroop (Progression progression){
+  public Timestamp calculateBuildingTimeForNewBuildingOrTroop(Progression progression) {
     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     Long buildingTime = buildingTime(progression);
     return new Timestamp(currentTime.getTime() + TimeUnit.MINUTES.toMillis(buildingTime));
   }
 
-//  Todo extend method, to Upgrade by progressiontype and LVL
-  public Long buildingTime (Progression progression) {
+  //  Todo extend method, to Upgrade by progressiontype and LVL
+  public Long buildingTime(Progression progression) {
     if (progression.isCreate()) {
       return 1L;
     } //else if (progressionService.isTypeBuilding(progression) {
@@ -44,7 +44,7 @@ public class TimeService {
     return null;
   }
 
-  public Boolean isTimestampValid (Timestamp timestamp) throws DateNotGivenException {
+  public Boolean isTimestampValid(Timestamp timestamp) throws DateNotGivenException {
     if (timestamp == null) {
       throw new DateNotGivenException("Date not given!");
     }

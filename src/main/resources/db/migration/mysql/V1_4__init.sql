@@ -1,7 +1,7 @@
 CREATE TABLE `kingdom_resource`
 (
   `resource_type` varchar(255) NOT NULL,
-  `id`            bigint(20) AUTO_INCREMENT,
+  `id`            bigint(20)  AUTO_INCREMENT,
   `amount`        bigint(20)  DEFAULT NULL,
   `updated_at`    datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
