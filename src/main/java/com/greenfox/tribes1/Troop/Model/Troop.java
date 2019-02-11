@@ -11,18 +11,20 @@ import javax.validation.constraints.PositiveOrZero;
 import java.sql.Timestamp;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "troop_type")
 @NoArgsConstructor
 @Getter
 @Setter
 public abstract class Troop {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @NotNull
   @PositiveOrZero
   private Long level;
-  private Long HP;
+  private Float HP;
   private Long attack;
   private Long defense;
   private Timestamp started_at;

@@ -2,6 +2,7 @@ package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
+import com.greenfox.tribes1.Kingdom.KingdomService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,9 @@ public class ApplicationUserServiceTest {
   @Mock
   ApplicationUserRepository applicationUserRepository;
 
+  @Mock
+  KingdomService kingdomService;
+
   private ApplicationUserDTO testUserDTO = ApplicationUserDTO.builder()
           .username(username)
           .password(password)
@@ -41,7 +45,7 @@ public class ApplicationUserServiceTest {
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
-    applicationUserService = new ApplicationUserService(applicationUserRepository, encoder);
+    applicationUserService = new ApplicationUserService(applicationUserRepository, encoder, kingdomService);
   }
 
   @Test
