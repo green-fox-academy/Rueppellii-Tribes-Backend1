@@ -82,6 +82,8 @@ public class KingdomControllerTest {
 
   String empty = "[]";
 
+  String failure = "{\"status\":\"error\",\"message\":\"Auth failure\"}";
+
   @Before
   public void init() {
     testTokenProvider = new TestTokenProvider(tokenFactory);
@@ -119,14 +121,13 @@ public class KingdomControllerTest {
             .andExpect(status().isOk());
   }
 
-  //WORKING but CHECK NEEDED!!!!!!!!!!!!
-  @Test(expected = NullPointerException.class)
+  @Test
   public void getKingdom_returnsError_ifTokenNotProvided() throws Exception {
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
-            // .header("fakeName", "noValues")
     )
-            .andExpect(status().is4xxClientError());
+            .andExpect(content().json(failure))
+            .andExpect(status().isUnauthorized());
   }
 
   @Test
