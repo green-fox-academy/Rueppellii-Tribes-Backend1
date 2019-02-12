@@ -23,7 +23,7 @@ public class Progression {
   private Long model_id;
   private Long level;
   private String type;
-  private Timestamp finished_at;
+  private Timestamp finished;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinTable(name = "kingdom_progression",

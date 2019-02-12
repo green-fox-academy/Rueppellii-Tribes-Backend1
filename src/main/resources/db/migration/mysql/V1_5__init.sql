@@ -4,7 +4,7 @@ CREATE TABLE `progression`
   `model_id`    bigint(20),
   `level`       bigint(20),
   `type`        varchar(20),
-  `finished_at` timestamp(6),
+  `finished` timestamp(6),
 
   PRIMARY KEY (`id`)
 );
