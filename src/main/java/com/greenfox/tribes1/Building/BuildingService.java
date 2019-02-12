@@ -3,18 +3,18 @@ package com.greenfox.tribes1.Building;
 import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.BuildingNotValidException;
 import com.greenfox.tribes1.KingdomElementService;
+import com.greenfox.tribes1.Upgradable;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Service
-public class BuildingService implements KingdomElementService<Building> {
+public class BuildingService implements KingdomElementService<Building>, Upgradable<Building> {
 
   private BuildingRepository buildingRepository;
-  private Predicate<Building> isValid = (a) -> (a != null);
+  //private Predicate<Building> isValid = (a) -> (a != null);
 
   @Autowired
   public BuildingService(BuildingRepository buildingRepository) {
@@ -51,27 +51,24 @@ public class BuildingService implements KingdomElementService<Building> {
     //TODO: problem: if building.setHP breaks, the level remains set, but the HP doesn't
     building.setLevel(building.getLevel() + 1L);
     building.setHP(building.getHP() * 1.1F);
-    save(building);
+    save(Optional.of(building));
   }
 
   @Override
   public Building findById(Long id) throws BuildingIdNotFoundException {
-    return Optional.of(buildingRepository.findById(id)).get().orElseThrow(()
-            -> new BuildingIdNotFoundException(("There is no Building with such Id")));
+    return Optional.of(buildingRepository.findById(id)).get()
+            .orElseThrow(() -> new BuildingIdNotFoundException(("There is no Building with such Id")));
   }
 
   @Override
   @SneakyThrows
-  public Building save(Building building) {
-    //TODO: refactor
-    if (isValid.test(building)) {
-      return buildingRepository.save(building);
-    }
-    throw new BuildingNotValidException("Building is not valid");
+  public Building save(Optional<Building> building) {
+    return buildingRepository.save(building
+            .orElseThrow(() -> new BuildingNotValidException("Building is not valid")));
   }
 
   @Override
-  public void update(Building building) throws Exception {
+  public void update(Building building) {
     //TODO: discuss how we should update our buildings
   }
 }

@@ -2,6 +2,7 @@ package com.greenfox.tribes1.Resources;
 
 import com.greenfox.tribes1.Exception.NotValidResourceException;
 import com.greenfox.tribes1.KingdomElementService;
+import com.greenfox.tribes1.Upgradable;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,6 @@ public class ResourceService implements KingdomElementService<KingdomResource> {
   }
 
   @Override
-  public void upgrade(KingdomResource kingdomResource) {
-
-  }
-
-  @Override
   @SneakyThrows
   public KingdomResource findById(Long id) {
     return Optional.of(resourceRepository.findById(id)).get().orElseThrow(()
@@ -33,17 +29,15 @@ public class ResourceService implements KingdomElementService<KingdomResource> {
   }
 
   @Override
-  public KingdomResource save(KingdomResource kingdomResource) throws NotValidResourceException {
+  public KingdomResource save(Optional<KingdomResource> kingdomResource) throws NotValidResourceException {
     //TODO: refactor
-    if (isValid.test(kingdomResource)) {
-      return resourceRepository.save(kingdomResource);
-    }
-    throw new NotValidResourceException("Resource validation failed");
+    return resourceRepository.save(kingdomResource
+            .orElseThrow(() -> new NotValidResourceException("Resource validation failed")));
   }
 
   @Override
   public void update(KingdomResource kingdomResource) throws NotValidResourceException {
     kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
-    save(kingdomResource);
+    save(Optional.of(kingdomResource));
   }
 }

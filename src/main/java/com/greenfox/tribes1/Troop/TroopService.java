@@ -3,8 +3,8 @@ package com.greenfox.tribes1.Troop;
 import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import com.greenfox.tribes1.Exception.TroopNotValidException;
 import com.greenfox.tribes1.KingdomElementService;
-import com.greenfox.tribes1.Resources.KingdomResource;
 import com.greenfox.tribes1.Troop.Model.Troop;
+import com.greenfox.tribes1.Upgradable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 @Service
-public class TroopService implements KingdomElementService<Troop> {
+public class TroopService implements KingdomElementService<Troop>, Upgradable<Troop> {
 
   private Predicate<Troop> isValid = (a) -> (a != null);
   private TroopRepository troopRepository;
@@ -24,14 +24,14 @@ public class TroopService implements KingdomElementService<Troop> {
 
   @Override
   public void update(Troop troop) throws Exception {
-  //TODO
+    //TODO
   }
 
   @Override
   public void upgrade(Troop troop) throws TroopNotValidException {
     troop.setLevel(troop.getLevel() + 1L);
     troop.setHP(troop.getHP() * 1.1F);
-    save(troop);
+    save(Optional.of(troop));
   }
 
   @Override
@@ -41,11 +41,8 @@ public class TroopService implements KingdomElementService<Troop> {
   }
 
   @Override
-  public Troop save(Troop troop) throws TroopNotValidException {
-    //TODO: refactor
-    if (isValid.test(troop)) {
-      return troopRepository.save(troop);
-    }
-    throw new TroopNotValidException("Troop is not valid");
+  public Troop save(Optional<Troop> troop) throws TroopNotValidException {
+    return (troopRepository.save(troop
+            .orElseThrow(() -> new TroopNotValidException("Troop is not valid!"))));
   }
 }
