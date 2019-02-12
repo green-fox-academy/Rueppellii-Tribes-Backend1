@@ -5,6 +5,7 @@ import com.greenfox.tribes1.Exception.TroopNotValidException;
 import com.greenfox.tribes1.KingdomElementService;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import com.greenfox.tribes1.Upgradable;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,8 @@ public class TroopService implements KingdomElementService<Troop>, Upgradable<Tr
   }
 
   @Override
-  public void upgrade(Troop troop) throws TroopNotValidException {
+  @SneakyThrows
+  public void upgrade(Troop troop) {
     troop.setLevel(troop.getLevel() + 1L);
     troop.setHP(troop.getHP() * 1.1F);
     save(Optional.of(troop));
@@ -36,8 +38,8 @@ public class TroopService implements KingdomElementService<Troop>, Upgradable<Tr
 
   @Override
   public Troop findById(Long id) throws TroopIdNotFoundException {
-    return Optional.of(troopRepository.findById(id)).get().orElseThrow(()
-            -> new TroopIdNotFoundException(("There is no Troop with such Id")));
+    return troopRepository.findById(id)
+            .orElseThrow(() -> new TroopIdNotFoundException(("There is no Troop with such Id")));
   }
 
   @Override

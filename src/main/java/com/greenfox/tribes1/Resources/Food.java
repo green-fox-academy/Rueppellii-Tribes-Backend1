@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 public class Food extends KingdomResource {
 
   //Todo: remove @Transient somehow and make code cleaner
-  @Autowired
   @Transient
   TimeService timeService;
 
