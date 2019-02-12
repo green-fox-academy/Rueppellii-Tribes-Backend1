@@ -38,6 +38,6 @@ public class TroopServiceTest {
 
   @Test(expected = TroopNotValidException.class)
   public void save_unsuccessful() throws TroopNotValidException {
-    troopService.save(Optional.of(nullTroop));
+    troopService.save(Optional.ofNullable(nullTroop));
   }
 }
