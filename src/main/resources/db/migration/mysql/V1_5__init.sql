@@ -2,7 +2,7 @@ CREATE TABLE `progression`
 (
   `id`          bigint(20) AUTO_INCREMENT,
   `model_id`    bigint(20),
-  `is_create`   boolean,
+  `level`       bigint(20),
   `type`        varchar(20),
   `finished_at` timestamp(6),
 

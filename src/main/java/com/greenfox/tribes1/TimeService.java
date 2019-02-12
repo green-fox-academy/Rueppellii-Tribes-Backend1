@@ -20,7 +20,7 @@ public class TimeService {
 
   public Boolean isTimestampExpired(Timestamp timestamp) {
     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-    return currentTime.getTime() > timestamp.getTime();
+    return currentTime.after(timestamp);
   }
 
   public Timestamp calculateBuildingTimeForNewBuildingOrTroop(Progression progression) {
