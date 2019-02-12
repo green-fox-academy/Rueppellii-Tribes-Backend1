@@ -6,14 +6,14 @@ import lombok.Setter;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Entity(name = "Barracks")
-@DiscriminatorValue("Barracks")
+@Entity(name="TownHall")
+@DiscriminatorValue("TownHall")
 @Getter
 @Setter
-public class Barracks extends Building {
+public class TownHall extends Building {
 
-  public Barracks() {
+  public TownHall() {
     this.setLevel(1L);
-    this.setHP(250.0f);
+    this.setHP(5000.0f);
   }
 }

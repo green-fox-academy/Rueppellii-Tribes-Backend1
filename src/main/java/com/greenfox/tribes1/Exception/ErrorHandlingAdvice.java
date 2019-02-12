@@ -2,8 +2,6 @@ package com.greenfox.tribes1.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -60,6 +58,55 @@ public class ErrorHandlingAdvice {
   @ExceptionHandler(TroopNotValidException.class)
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   ErrorMsg notValidTroop(TroopNotValidException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(BuildingTypeNotValidException.class)
+  @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+  ErrorMsg notValidBuildingType(BuildingTypeNotValidException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(TroopTypeNotValidException.class)
+  @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+  ErrorMsg notValidTroopType(TroopTypeNotValidException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(BuildingIdNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  ErrorMsg buildingIdNotFound(BuildingIdNotFoundException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(TroopIdNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  ErrorMsg troopIdNotFound(TroopIdNotFoundException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(NotValidTypeException.class)
+  @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+  ErrorMsg notValidBuildingOrTroopType(NotValidTypeException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(ProgressionIdNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  ErrorMsg progressionIdNotFound(ProgressionIdNotFoundException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(NotValidResourceException.class)
+  @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+  ErrorMsg notValidResource(NotValidResourceException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
 }
