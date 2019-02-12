@@ -24,9 +24,10 @@ public class Kingdom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   @JsonManagedReference
-  List<KingdomResource> resources;
+  private List<KingdomResource> resources;
 
   @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
@@ -37,7 +38,7 @@ public class Kingdom {
 
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   @JsonManagedReference
-  List<Building> buildings;
+  private List<Building> buildings;
 
   public Kingdom(String name) {
     this.name = name;
@@ -53,7 +54,7 @@ public class Kingdom {
     resources.add(resourceFactory.getResource(ResourceType.gold));*/
   }
 
-  protected List<KingdomResource> getResources() {
+  public List<KingdomResource> getResources() {
     return resources;
   }
 }
