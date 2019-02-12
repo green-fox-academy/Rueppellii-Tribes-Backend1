@@ -43,4 +43,11 @@ public class KingdomController {
     Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
     return ResponseEntity.ok(kingdomByUser.getResources());
   }
+
+  @GetMapping("/kingdom/troops")
+  public ResponseEntity show_troops(Authentication authentication) {
+    UserContext userContext = (UserContext) authentication.getPrincipal();
+    Kingdom kingdomByUser = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
+    return ResponseEntity.ok(kingdomByUser.getTroops());
+  }
 }

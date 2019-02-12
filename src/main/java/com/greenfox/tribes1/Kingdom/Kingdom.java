@@ -29,7 +29,7 @@ public class Kingdom {
   @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
 
-  @OneToMany
+  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   private List<Troop> troops;
 
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
