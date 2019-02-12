@@ -8,6 +8,4 @@ public interface ResourceRepository extends JpaRepository<KingdomResource, Long>
 
   @Override
   Optional<KingdomResource> findById(Long id);
-
-  Optional<KingdomResource> findKingdomResourceById(Long id);
 }
