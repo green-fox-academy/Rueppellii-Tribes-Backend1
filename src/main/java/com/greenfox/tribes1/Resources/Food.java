@@ -19,7 +19,8 @@ import java.sql.Timestamp;
 @Setter
 public class Food extends KingdomResource {
 
-  //Todo: remove @Transient somehow and make code cleaner
+  //TODO: remove @Transient somehow and make code cleaner
+  //TODO: figure out how to remove TimeService
   @Transient
   TimeService timeService;
 
