@@ -44,6 +44,6 @@ public class BuildingServiceTest {
 
   @Test(expected = BuildingNotValidException.class)
   public void saveNotValidBuilding_ThrowsException() throws BuildingNotValidException {
-    buildingService.save(Optional.of(mine));
+    buildingService.save(Optional.ofNullable(mine));
   }
 }
