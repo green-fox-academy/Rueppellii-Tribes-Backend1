@@ -31,7 +31,7 @@ public class TimeService {
 
   //  Todo extend method, to Upgrade by progressiontype and LVL
   public Long buildingTime(Progression progression) {
-    if (progression.isCreate()) {
+    if (progression.getLevel() == 0) {
       return 1L;
     } //else if (progressionService.isTypeBuilding(progression) {
 //          Building building = buildingService.findById(progression.getModelId());

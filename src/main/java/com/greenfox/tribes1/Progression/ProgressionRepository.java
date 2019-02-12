@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ProgressionRepository extends JpaRepository<Progression, Long> {
 //  Progression findById
-  List<Progression> findByTypeAndFinished_atIsLessThanAnAndLevelEquals(String type, Timestamp now, Long level);
+  List<Progression> findByTypeAndFinishedIsLessThanAndLevelEquals(String type, Timestamp now, Long level);
+  List<Progression> findByTypeAndFinishedIsLessThanAndLevelGreaterThan(String type, Timestamp now, Long level);
+  List<Progression> findByFinishedLessThan(Timestamp now);
 }

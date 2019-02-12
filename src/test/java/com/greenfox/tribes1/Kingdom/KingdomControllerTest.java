@@ -96,7 +96,7 @@ public class KingdomControllerTest {
                     .put("id", null)
                     .put("level", null)
                     .put("started_at", null)
-                    .put("finished_at", null)
+                    .put("finished", null)
                     .put("kingdom", null)
                     .put("hp", null))).toString();
   }
