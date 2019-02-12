@@ -48,18 +48,15 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
   @Override
   public void upgrade(Building building) {
     //TODO: checkBuildingType() ++ separate counting logic to somewhere else;
-    //TODO: problem: if building.setHP breaks, the level remains set, but the HP doesn't
-    //TODO: atomicity
+    //TODO: atomicity, transactions (databases) --> rollback
     //TODO: implement building.upgrade();
-    building.setLevel(building.getLevel() + 1L);
+    /*building.setLevel(building.getLevel() + 1L);
     building.setHP(building.getHP() * 1.1F);
-    save(Optional.of(building));
+    save(Optional.of(building));*/
   }
 
   @Override
   public Building findById(Long id) throws BuildingIdNotFoundException {
-    //TODO: findById throws IllegalArgumentException
-    //TODO: .orElseThrow may never be executed
     return buildingRepository.findById(id)
             .orElseThrow(() -> new BuildingIdNotFoundException(("There is no Building with such Id")));
   }
