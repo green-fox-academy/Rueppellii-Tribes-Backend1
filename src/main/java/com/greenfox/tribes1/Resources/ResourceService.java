@@ -23,8 +23,6 @@ public class ResourceService implements KingdomElementService<KingdomResource> {
   @Override
   @SneakyThrows
   public KingdomResource findById(Long id) {
-    //TODO: findById throws IllegalArgumentException
-    //TODO: .orElseThrow may never be executed
 
     return resourceRepository.findById(id).orElseThrow(()
             -> new NotValidResourceException("There is no Building with such Id"));
