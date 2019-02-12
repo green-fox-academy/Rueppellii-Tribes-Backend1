@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class Gold extends KingdomResource implements Updatable {
 
+  //Todo: remove @Transient somehow and make code cleaner
   @Autowired
   @Transient
   TimeService timeService;
@@ -26,7 +27,6 @@ public class Gold extends KingdomResource implements Updatable {
   public Gold(Long id, Long amount, Timestamp updated_at, Long amountPerMinute, Building building, Kingdom kingdom, TimeService timeService) {
     super(id, amount, updated_at, amountPerMinute, building, kingdom);
     this.timeService = timeService;
-
   }
 
   public Gold(Long amount) {
