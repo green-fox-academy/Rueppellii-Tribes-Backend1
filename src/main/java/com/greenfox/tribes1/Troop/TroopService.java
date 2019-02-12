@@ -3,15 +3,18 @@ package com.greenfox.tribes1.Troop;
 import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import com.greenfox.tribes1.Exception.TroopNotValidException;
 import com.greenfox.tribes1.KingdomElementService;
+import com.greenfox.tribes1.Resources.KingdomResource;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Service
 public class TroopService implements KingdomElementService<Troop> {
 
+  private Predicate<Troop> isValid = (a) -> (a != null);
   private TroopRepository troopRepository;
 
   @Autowired
@@ -19,40 +22,29 @@ public class TroopService implements KingdomElementService<Troop> {
     this.troopRepository = troopRepository;
   }
 
-  public Troop save(Troop troop) throws TroopNotValidException {
-    if (isValidTroop(troop)) {
-      return troopRepository.save(troop);
-    }
-    throw new TroopNotValidException("Troop is not valid");
+  @Override
+  public void update(KingdomResource kingdomResource) throws Exception {
+
   }
 
-  public boolean isValidTroop(Troop troop) {
-    return troop != null;
+  @Override
+  public void upgrade(Troop troop) throws TroopNotValidException {
+    troop.setLevel(troop.getLevel() + 1L);
+    troop.setHP(troop.getHP() * 1.1F);
+    save(troop);
   }
 
+  @Override
   public Troop findById(Long id) throws TroopIdNotFoundException {
     return Optional.of(troopRepository.findById(id)).get().orElseThrow(()
             -> new TroopIdNotFoundException(("There is no Troop with such Id")));
   }
 
-  public void upgradeTroop(Troop troopToUpgrade) throws TroopNotValidException {
-    troopToUpgrade.setLevel(troopToUpgrade.getLevel() + 1L);
-    troopToUpgrade.setHP(troopToUpgrade.getHP() * 1.1F);
-    save(troopToUpgrade);
-  }
-
   @Override
-  public Troop upgrade() {
-    return null;
-  }
-  
-  @Override
-  public Troop findById() {
-    return null;
-  }
-
-  @Override
-  public Troop save() {
-    return null;
+  public Troop save(Troop troop) throws TroopNotValidException {
+    if (isValid.test(troop)) {
+      return troopRepository.save(troop);
+    }
+    throw new TroopNotValidException("Troop is not valid");
   }
 }
