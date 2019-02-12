@@ -63,12 +63,12 @@ public class BuildingService implements KingdomElementService<Building> {
   @Override
   @SneakyThrows
   public Building save(Building building) {
-
+    //TODO: refactor
     if (isValid.test(building)) {
       return buildingRepository.save(building);
     }
     throw new BuildingNotValidException("Building is not valid");
-}
+  }
 
   @Override
   public void update(Building building) throws Exception {

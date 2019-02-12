@@ -23,8 +23,8 @@ public class TroopService implements KingdomElementService<Troop> {
   }
 
   @Override
-  public void update(KingdomResource kingdomResource) throws Exception {
-
+  public void update(Troop troop) throws Exception {
+  //TODO
   }
 
   @Override
@@ -42,6 +42,7 @@ public class TroopService implements KingdomElementService<Troop> {
 
   @Override
   public Troop save(Troop troop) throws TroopNotValidException {
+    //TODO: refactor
     if (isValid.test(troop)) {
       return troopRepository.save(troop);
     }

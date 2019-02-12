@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 @Service
@@ -35,6 +34,7 @@ public class ResourceService implements KingdomElementService<KingdomResource> {
 
   @Override
   public KingdomResource save(KingdomResource kingdomResource) throws NotValidResourceException {
+    //TODO: refactor
     if (isValid.test(kingdomResource)) {
       return resourceRepository.save(kingdomResource);
     }

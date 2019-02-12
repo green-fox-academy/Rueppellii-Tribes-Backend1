@@ -6,7 +6,6 @@ import com.greenfox.tribes1.Building.BuildingService;
 import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import com.greenfox.tribes1.Kingdom.KingdomService;
 import com.greenfox.tribes1.TimeService;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import com.greenfox.tribes1.Troop.TroopFactory;
@@ -23,15 +22,13 @@ public class ProgressionService {
 
   private ProgressionRepository progressionRepository;
   private TimeService timeService;
-  private KingdomService kingdomService;
   private BuildingService buildingService;
   private TroopService troopService;
 
   @Autowired
-  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, KingdomService kingdomService, BuildingService buildingService, TroopService troopService) {
+  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, BuildingService buildingService, TroopService troopService) {
     this.progressionRepository = progressionRepository;
     this.timeService = timeService;
-    this.kingdomService = kingdomService;
     this.buildingService = buildingService;
     this.troopService = troopService;
   }
@@ -131,12 +128,16 @@ public class ProgressionService {
   public void upgradeBuildingFromProgression(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, BuildingNotValidException {
     Building buildingToUpgrade = (Building) getExactBuildingOrTroop_FromProgressionModelId(progression);
     String buildingType = progression.getType();
+
+    //TODO: check validity with predicate --> orElseThrow(()->...)
+    //buildingService.upgrade(buildingToUpgrade);
+
     if (buildingType.equals("barracks")) {
-      buildingService.upgradeBarracks(buildingToUpgrade);
+      buildingService.upgrade(buildingToUpgrade);
     } else if (buildingType.equals("farm")) {
-      buildingService.upgradeFarm(buildingToUpgrade);
+      buildingService.upgrade(buildingToUpgrade);
     } else if (buildingType.equals("mine")) {
-      buildingService.upgradeMine(buildingToUpgrade);
+      buildingService.upgrade(buildingToUpgrade);
     } else {
       throw new NotValidTypeException("Invalid Building type");
     }
@@ -147,7 +148,7 @@ public class ProgressionService {
     Troop troopToUpgrade = (Troop) getExactBuildingOrTroop_FromProgressionModelId((progression));
     String troopType = progression.getType();
     if (troopType.equals("troop")) {
-      troopService.upgradeTroop(troopToUpgrade);
+      troopService.upgrade(troopToUpgrade);
     } else {
       throw new NotValidTypeException("Invalid Troop type");
     }
