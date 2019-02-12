@@ -2,7 +2,6 @@ package com.greenfox.tribes1.Resources;
 
 import com.greenfox.tribes1.Exception.NotValidResourceException;
 import com.greenfox.tribes1.KingdomElementService;
-import com.greenfox.tribes1.Upgradable;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
