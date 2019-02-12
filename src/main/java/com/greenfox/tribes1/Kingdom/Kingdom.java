@@ -33,7 +33,7 @@ public class Kingdom {
   private List<Troop> troops;
 
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
-  List<Building> buildings;
+  private List<Building> buildings;
 
   public Kingdom(String name) {
     this.name = name;

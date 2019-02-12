@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Building;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public abstract class Building {
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"),
           joinColumns = @JoinColumn(name = "buildings_id", referencedColumnName = "id"))
 
+  @JsonIgnore
   private Kingdom kingdom;
 
 }
