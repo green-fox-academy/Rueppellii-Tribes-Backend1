@@ -1,8 +1,8 @@
 package com.greenfox.tribes1.Troop;
 
-import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import com.greenfox.tribes1.Exception.TroopNotValidException;
+import com.greenfox.tribes1.KingdomElementService;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class TroopService {
+public class TroopService implements KingdomElementService<Troop> {
 
   private TroopRepository troopRepository;
 
@@ -39,5 +39,20 @@ public class TroopService {
     troopToUpgrade.setLevel(troopToUpgrade.getLevel() + 1L);
     troopToUpgrade.setHP(troopToUpgrade.getHP() * 1.1F);
     save(troopToUpgrade);
+  }
+
+  @Override
+  public Troop upgrade() {
+    return null;
+  }
+  
+  @Override
+  public Troop findById() {
+    return null;
+  }
+
+  @Override
+  public Troop save() {
+    return null;
   }
 }

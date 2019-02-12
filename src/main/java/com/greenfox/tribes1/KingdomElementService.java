@@ -1,5 +1,14 @@
 package com.greenfox.tribes1;
 
-public interface KingdomElementService {
+import java.util.function.Predicate;
 
+public interface KingdomElementService<T> {
+
+  public T upgrade();
+
+  Predicate isValid = t -> t != null;
+
+  public T findById();
+
+  public T save();
 }
