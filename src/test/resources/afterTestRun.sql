@@ -1,14 +1,14 @@
 DELETE
-FROM application_user;
-
-DELETE
-FROM kingdom;
-
-DELETE
 FROM troop;
+
+DELETE
+FROM kingdom_resource;
 
 DELETE
 FROM building;
 
 DELETE
-FROM kingdom_resource;
+FROM application_user;
+
+DELETE
+FROM kingdom;
