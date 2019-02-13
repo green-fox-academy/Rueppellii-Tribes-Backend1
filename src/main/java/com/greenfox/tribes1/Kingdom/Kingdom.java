@@ -4,16 +4,14 @@ import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Resources.KingdomResource;
 import com.greenfox.tribes1.Troop.Model.Troop;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -37,19 +35,5 @@ public class Kingdom {
 
   public Kingdom(String name) {
     this.name = name;
-  }
-
-  public Kingdom() {
-    resourceCreator();
-  }
-
-  private void resourceCreator() {
-    /*ResourceFactory resourceFactory = new ResourceFactory();
-    resources.add(resourceFactory.getResource(ResourceType.food));
-    resources.add(resourceFactory.getResource(ResourceType.gold));*/
-  }
-
-  protected List<KingdomResource> getResources() {
-    return resources;
   }
 }
