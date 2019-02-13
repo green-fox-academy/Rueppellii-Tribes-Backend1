@@ -5,6 +5,7 @@ import com.greenfox.tribes1.Exception.ErrorMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,6 +34,8 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
       mapper.writeValue(response.getWriter(), new ErrorMsg("error", "Wrong password!"));
     } else if (e instanceof UsernameNotFoundException) {
       mapper.writeValue(response.getWriter(), new ErrorMsg("error", e.getMessage()));
+    } else if (e instanceof AuthenticationServiceException){
+      mapper.writeValue(response.getWriter(), new ErrorMsg("error", "Auth failure"));
     }
     mapper.writeValue(response.getWriter(), new ErrorMsg("error", "unknown error"));
   }

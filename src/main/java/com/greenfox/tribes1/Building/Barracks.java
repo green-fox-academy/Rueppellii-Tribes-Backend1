@@ -16,4 +16,9 @@ public class Barracks extends Building {
     this.setLevel(1L);
     this.setHP(250.0f);
   }
+
+  @Override
+  void upgrade() {
+
+  }
 }

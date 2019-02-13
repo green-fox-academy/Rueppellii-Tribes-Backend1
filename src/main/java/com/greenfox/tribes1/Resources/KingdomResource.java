@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Resources;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public abstract class KingdomResource implements Updatable {
   @JoinTable(name = "kingdom_resources",
           joinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
+  @JsonBackReference
   private Kingdom kingdom;
 
   KingdomResource() {
