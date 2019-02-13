@@ -10,5 +10,5 @@ public interface KingdomElementService<T> {
 
   public T save(Optional<T> object) throws Exception;
 
-  public void update(T t) throws Exception;
+  public void refresh(T t) throws Exception;
 }

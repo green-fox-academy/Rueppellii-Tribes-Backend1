@@ -11,4 +11,9 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 public class SingleTroop extends Troop {
+
+  @Override
+  public void levelUp() {
+
+  }
 }

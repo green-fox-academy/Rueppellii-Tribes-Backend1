@@ -35,4 +35,6 @@ public abstract class Troop {
           joinColumns = @JoinColumn(name = "troops_id", referencedColumnName = "id"),
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
   private Kingdom kingdom;
+
+  public abstract void levelUp();
 }

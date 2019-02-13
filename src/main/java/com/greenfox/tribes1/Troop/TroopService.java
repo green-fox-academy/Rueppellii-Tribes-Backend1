@@ -24,20 +24,19 @@ public class TroopService implements KingdomElementService<Troop>, Upgradable<Tr
   }
 
   @Override
-  public void update(Troop troop) throws Exception {
+  public void refresh(Troop troop) throws Exception {
     //TODO
   }
 
   @Override
   @SneakyThrows
   public void upgrade(Troop troop) {
-    troop.setLevel(troop.getLevel() + 1L);
-    troop.setHP(troop.getHP() * 1.1F);
+    troop.levelUp();
     save(Optional.of(troop));
   }
 
   @Override
-  public Troop findById(Long id) throws TroopIdNotFoundException{
+  public Troop findById(Long id) throws TroopIdNotFoundException {
     return troopRepository.findById(id)
             .orElseThrow(() -> new TroopIdNotFoundException(("There is no Troop with such Id")));
   }

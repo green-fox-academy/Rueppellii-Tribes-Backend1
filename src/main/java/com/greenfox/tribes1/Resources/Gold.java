@@ -45,6 +45,10 @@ public class Gold extends KingdomResource implements Updatable {
   @Override
   @SneakyThrows
   public Long update() {
-    return getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
+    return getBuilding().getLevel()
+            * getAmountPerMinute()
+            * timeService.calculateDifference(
+            getUpdated_at(), new Timestamp(System.currentTimeMillis())
+    ) + getAmount();
   }
 }

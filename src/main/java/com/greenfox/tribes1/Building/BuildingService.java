@@ -51,6 +51,7 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
     /*building.setLevel(building.getLevel() + 1L);
     building.setHP(building.getHP() * 1.1F);
     save(Optional.of(building));*/
+    //TODO: building.upgrade();
   }
 
   @Override
@@ -67,7 +68,7 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
   }
 
   @Override
-  public void update(Building building) {
+  public void refresh(Building building) {
     //TODO: discuss how we should update our buildings
   }
 }

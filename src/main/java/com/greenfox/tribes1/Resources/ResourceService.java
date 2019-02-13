@@ -35,8 +35,8 @@ public class ResourceService implements KingdomElementService<KingdomResource> {
   }
 
   @Override
-  public void update(KingdomResource kingdomResource) throws NotValidResourceException {
-    kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
+  public void refresh(KingdomResource kingdomResource) throws NotValidResourceException {
+    kingdomResource.update();
     save(Optional.of(kingdomResource));
   }
 }

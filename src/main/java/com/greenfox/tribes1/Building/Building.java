@@ -3,7 +3,6 @@ package com.greenfox.tribes1.Building;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,6 +14,8 @@ import java.sql.Timestamp;
 @Setter
 
 public abstract class Building {
+
+  abstract void upgrade();
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
