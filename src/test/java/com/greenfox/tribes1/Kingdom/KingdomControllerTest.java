@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -61,6 +62,8 @@ public class KingdomControllerTest {
   private String kingdom;
   private String mineJson;
 
+  String failedAuth = "{\"status\":\"error\",\"message\":\"Auth failure\"}";
+
   @Before
   public void init() throws JSONException {
     String kingdomName = "kingdomName";
@@ -96,7 +99,7 @@ public class KingdomControllerTest {
                     .put("id", null)
                     .put("level", null)
                     .put("started_at", null)
-                    .put("finished_at", null)
+                    .put("finished", null)
                     .put("kingdom", null)
                     .put("hp", null))).toString();
   }
@@ -121,13 +124,14 @@ public class KingdomControllerTest {
   }
 
   //WORKING but CHECK NEEDED!!!!!!!!!!!!
-  @Test(expected = NullPointerException.class)
+  @Test
   public void getKingdom_returnsError_ifTokenNotProvided() throws Exception {
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
             // .header("fakeName", "noValues")
     )
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isUnauthorized())
+            .andExpect(content().json(failedAuth));
   }
 
   @Test

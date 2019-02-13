@@ -6,7 +6,6 @@ import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import com.greenfox.tribes1.Progression.Progression;
-import com.greenfox.tribes1.Troop.Model.Troop;
 import com.greenfox.tribes1.Troop.TroopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,7 @@ public class TimeService {
 
   public Boolean isTimestampExpired(Timestamp timestamp) {
     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-    return currentTime.getTime() > timestamp.getTime();
+    return currentTime.after(timestamp);
   }
 
 
@@ -48,28 +47,17 @@ public class TimeService {
 
   //  Todo extend method, to Upgrade by progressiontype and LVL
 
-  public Long buildingTime(Progression progression) throws BuildingIdNotFoundException, TroopIdNotFoundException {
-    if (progression.isCreate()) {
+
+  public Long buildingTime(Progression progression) {
+    if (progression.getLevel() == 0) {
       return 1L;
-    } else if (isTypeBuilding(progression)) {
-      Building building = buildingService.findById(progression.getModel_id());
-      return building.getLevel() * 5L;
-    } else if (isTypeTroop(progression)) {
-      Troop troop = troopService.findById(progression.getModel_id());
-      return troop.getLevel();
+    } else if (progression.getLevel() != 0 && progression.getType().equals("troop")) {
+      return progression.getLevel();
+    } else {
+      return progression.getLevel() * 5;
     }
-    return null;
-  }
-  // temporary solution, *warning* duplication alert!
-  public Boolean isTypeBuilding(Progression progression) {
-    return (progression.getType().equals("barracks") ||
-            progression.getType().equals("farm") ||
-            progression.getType().equals("mine"));
   }
 
-  public Boolean isTypeTroop(Progression progression) {
-    return progression.getType().equals("troop");
-  }
 
   public Boolean isTimestampValid(Timestamp timestamp) throws DateNotGivenException {
     if (timestamp == null) {
@@ -78,3 +66,4 @@ public class TimeService {
     return true;
   }
 }
+

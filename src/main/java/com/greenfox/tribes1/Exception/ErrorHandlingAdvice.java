@@ -26,12 +26,12 @@ public class ErrorHandlingAdvice {
     return new ErrorMsg("error", "Missing parameter(s): " + errors);
   }
 
-  @ResponseBody
+/*  @ResponseBody
   @ExceptionHandler(AuthenticationServiceException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorMsg missingToken(AuthenticationServiceException ex) {
     return new ErrorMsg("error", ex.getMessage());
-  }
+  }*/
 
   @ResponseBody
   @ExceptionHandler(UsernameTakenException.class)
