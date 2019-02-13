@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 
-public abstract class Building implements Upgradable<Building> {
+public abstract class Building{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +32,6 @@ public abstract class Building implements Upgradable<Building> {
   @JsonBackReference
 
   private Kingdom kingdom;
+  abstract void upgrade();
 
 }

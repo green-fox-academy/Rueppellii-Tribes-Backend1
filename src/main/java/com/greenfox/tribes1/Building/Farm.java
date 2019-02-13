@@ -18,7 +18,6 @@ public class Farm extends Building {
   }
 
   @Override
-  public void upgrade(Building building) {
+  void upgrade() {
     //TODO
-  }
-}
+  }}

@@ -18,7 +18,7 @@ public class Barracks extends Building {
   }
 
   @Override
-  public void upgrade(Building building) {
+  void upgrade() {
     //TODO
   }
 }
