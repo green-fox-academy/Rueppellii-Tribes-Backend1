@@ -2,7 +2,6 @@ package com.greenfox.tribes1.Building;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import com.greenfox.tribes1.Upgradable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 
-public abstract class Building{
+public abstract class Building {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +31,7 @@ public abstract class Building{
   @JsonBackReference
 
   private Kingdom kingdom;
+
   abstract void upgrade();
 
 }
