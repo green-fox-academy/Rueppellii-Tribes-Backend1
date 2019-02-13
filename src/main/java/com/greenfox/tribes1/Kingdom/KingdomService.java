@@ -95,6 +95,6 @@ public class KingdomService {
 
   public Kingdom getKindomFromAuth(Authentication authentication){
     UserContext userContext = (UserContext) authentication.getPrincipal();
-    return kingdomRepository.findKingdomByApplicationUser_Username(userContext.getUsername());
+    return findKingdomByApplicationUserName(userContext.getUsername());
   }
 }

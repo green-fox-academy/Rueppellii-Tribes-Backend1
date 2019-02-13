@@ -34,6 +34,8 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
       mapper.writeValue(response.getWriter(), new ErrorMsg("error", "Wrong password!"));
     } else if (e instanceof UsernameNotFoundException) {
       mapper.writeValue(response.getWriter(), new ErrorMsg("error", e.getMessage()));
+    } else if (e instanceof AuthenticationServiceException){
+      mapper.writeValue(response.getWriter(), new ErrorMsg("error", "Auth failure"));
     }
     mapper.writeValue(response.getWriter(), new ErrorMsg("error", "unknown error"));
   }
