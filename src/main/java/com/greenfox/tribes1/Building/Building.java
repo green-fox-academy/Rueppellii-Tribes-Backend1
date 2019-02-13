@@ -25,10 +25,7 @@ public abstract class Building {
   private Timestamp finished_at;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinTable(name = "kingdom_buildings",
-          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"),
-          joinColumns = @JoinColumn(name = "buildings_id", referencedColumnName = "id"))
-
+  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   private Kingdom kingdom;
 
 }

@@ -26,9 +26,7 @@ public class Progression {
   private Timestamp finished_at;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinTable(name = "kingdom_progression",
-          joinColumns = @JoinColumn(name = "progression_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
+  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   private Kingdom kingdom;
 
 }

@@ -26,12 +26,8 @@ public abstract class KingdomResource implements Updatable {
   @Transient
   private Building building;
 
-  @ManyToOne(
-          fetch = FetchType.EAGER
-  )
-  @JoinTable(name = "kingdom_resources",
-          joinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   private Kingdom kingdom;
 
   KingdomResource() {
