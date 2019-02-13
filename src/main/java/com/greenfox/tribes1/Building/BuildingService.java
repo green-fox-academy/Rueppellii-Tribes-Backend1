@@ -46,7 +46,7 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
   @Override
   public void upgrade(Building building) {
     //TODO: atomicity, transactions (databases) --> rollback
-    building.upgrade();
+    building.upgrade(building);
   }
 
   @Override
