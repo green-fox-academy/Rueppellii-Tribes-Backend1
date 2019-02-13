@@ -36,7 +36,7 @@ public class Kingdom {
   @JsonManagedReference
   private List<Troop> troops;
 
-  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "kingdom", cascade ={CascadeType.PERSIST, CascadeType.REMOVE})
   @JsonManagedReference
   private List<Building> buildings;
 

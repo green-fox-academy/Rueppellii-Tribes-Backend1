@@ -9,6 +9,7 @@ import com.greenfox.tribes1.Resources.KingdomResource;
 import com.greenfox.tribes1.Resources.ResourceFactory;
 import com.greenfox.tribes1.Resources.ResourceType;
 import com.greenfox.tribes1.Security.Model.UserContext;
+import com.greenfox.tribes1.Troop.Model.Troop;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -45,6 +46,11 @@ public class KingdomService {
 
   public List<Kingdom> findAll() {
     return kingdomRepository.findAll();
+  }
+
+  public void setStarterTroops(Kingdom kingdom) {
+    List<Troop> troops = new ArrayList<>();
+    kingdom.setTroops(troops);
   }
 
   public void setStarterBuildings(Kingdom kingdom) {
@@ -87,7 +93,7 @@ public class KingdomService {
     }
   }
 
-  public Kingdom getKindomFromAuht(Authentication authentication){
+  public Kingdom getKindomFromAuht(Authentication authentication) {
     UserContext userContext = (UserContext) authentication.getPrincipal();
     return kingdomRepository.findKingdomByApplicationUser_Username(userContext.getUsername());
   }

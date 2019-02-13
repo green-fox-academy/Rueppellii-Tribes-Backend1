@@ -14,7 +14,7 @@ public class ProgressionInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-    progressionService.checkConstruction();
+//    progressionService.checkConstruction();
     super.afterCompletion(request, response, handler, ex);
   }
 }

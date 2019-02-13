@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Kingdom;
 
+import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Progression.DTO.ProgressionDTO;
 import com.greenfox.tribes1.Progression.ProgressionService;
 import com.greenfox.tribes1.Security.Model.UserContext;
@@ -22,8 +23,11 @@ public class KingdomController {
   }
 
   @GetMapping("/kingdom")
-  public ResponseEntity show_kingdom(Authentication authentication) {
-    return ResponseEntity.ok(kingdomService.getKindomFromAuht(authentication));
+  public ResponseEntity show_kingdom(Authentication authentication) throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException {
+    progressionService.checkConstruction();
+    Kingdom kingdomByUser = kingdomService.getKindomFromAuht(authentication);
+    return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
+
   }
 
   @PutMapping("/kingdom")

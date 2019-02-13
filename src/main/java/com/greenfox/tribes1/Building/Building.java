@@ -30,7 +30,6 @@ public abstract class Building {
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"),
           joinColumns = @JoinColumn(name = "buildings_id", referencedColumnName = "id"))
   @JsonBackReference
-
   private Kingdom kingdom;
 
 }

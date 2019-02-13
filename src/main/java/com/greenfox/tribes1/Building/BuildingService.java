@@ -10,6 +10,7 @@ import java.util.Optional;
 @Service
 public class BuildingService {
 
+
   private BuildingRepository buildingRepository;
 
   @Autowired
@@ -51,5 +52,9 @@ public class BuildingService {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
     buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1F);
     saveBuilding(buildingToUpgrade);
+  }
+
+  public void removeById(Long id) throws BuildingIdNotFoundException {
+    buildingRepository.delete(findById(id));
   }
 }
