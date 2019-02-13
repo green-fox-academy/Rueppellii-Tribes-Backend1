@@ -19,6 +19,6 @@ public class Mine extends Building {
 
   @Override
   void upgrade() {
-
+    //TODO
   }
 }

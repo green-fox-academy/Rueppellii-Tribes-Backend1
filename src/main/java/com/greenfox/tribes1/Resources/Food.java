@@ -33,6 +33,7 @@ public class Food extends KingdomResource {
     this.timeService = timeService;
   }
 
+  //TODO: decide if we need this (probably not)
   public void setResourcePerMinute() {
     setAmountPerMinute(8L);
   }

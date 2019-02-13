@@ -38,6 +38,7 @@ public class Gold extends KingdomResource implements Updatable {
     this.timeService = timeService;
   }
 
+  //TODO: decide if we need this (probably not)
   public void setResourcePerMinute() {
     setAmountPerMinute(12L);
   }
