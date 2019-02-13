@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Entity(name="TownHall")
+@Entity(name = "TownHall")
 @DiscriminatorValue("TownHall")
 @Getter
 @Setter
