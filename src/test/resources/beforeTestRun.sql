@@ -23,7 +23,7 @@ DELETE
 FROM building;
 
 DELETE
-FROM kingdom_resource;
+FROM resource;
 
 -- testUser1 password: pass1
 -- testUser2 password: pass2
@@ -63,7 +63,7 @@ VALUES (1, 1),
        (2, 2),
        (3, 3);
 
-INSERT INTO kingdom_resource(resource_type, id, amount, updated_at)
+INSERT INTO resource(resource_type, id, amount, updated_at)
 VALUES ('Gold', 1, 0, '2019-02-04 08:00:00'),
        ('Food', 2, 10, '2019-02-10 16:00:00'),
        ('Gold', 3, 500, '2019-02-11 10:00:00');

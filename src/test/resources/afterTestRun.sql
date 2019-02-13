@@ -23,4 +23,4 @@ DELETE
 FROM building;
 
 DELETE
-FROM kingdom_resource;
+FROM resource;
