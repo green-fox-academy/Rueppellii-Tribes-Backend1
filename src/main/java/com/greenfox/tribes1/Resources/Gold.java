@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Gold extends KingdomResource implements Updatable {
+public class Gold extends Resource implements Updatable {
 
   @Autowired
   @Transient

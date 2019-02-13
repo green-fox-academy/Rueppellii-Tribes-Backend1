@@ -3,7 +3,6 @@ package com.greenfox.tribes1.Kingdom;
 import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Progression.DTO.ProgressionDTO;
 import com.greenfox.tribes1.Progression.ProgressionService;
-import com.greenfox.tribes1.Security.Model.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,7 +22,7 @@ public class KingdomController {
   }
 
   @GetMapping("/kingdom")
-  public ResponseEntity show_kingdom(Authentication authentication) throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException {
+  public ResponseEntity showKingdom(Authentication authentication) throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException {
     progressionService.checkConstruction();
     Kingdom kingdomByUser = kingdomService.getKindomFromAuth(authentication);
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
@@ -31,17 +30,17 @@ public class KingdomController {
   }
 
   @PutMapping("/kingdom")
-  public ResponseEntity change_kingdomName(Kingdom kingdom, String newName) {
+  public ResponseEntity changeKingdomName(Kingdom kingdom, String newName) {
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdom));
   }
 
   @GetMapping("/kingdom/buildings")
-  public ResponseEntity show_buildings(Authentication authentication) {
+  public ResponseEntity showBuildings(Authentication authentication) {
     return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getBuildings());
   }
 
   @GetMapping("/kingdom/resources")
-  public ResponseEntity show_resources(Authentication authentication) {
+  public ResponseEntity showResources(Authentication authentication) {
     return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getResources());
   }
 
@@ -57,7 +56,7 @@ public class KingdomController {
   }
 
   @GetMapping("/kingdom/troops")
-  public ResponseEntity show_troops(Authentication authentication) {
+  public ResponseEntity showTroops(Authentication authentication) {
     return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getTroops());
   }
 }

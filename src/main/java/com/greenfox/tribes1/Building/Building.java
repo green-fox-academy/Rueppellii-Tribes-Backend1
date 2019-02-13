@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

@@ -1,4 +1,4 @@
-CREATE TABLE `kingdom_resource`
+CREATE TABLE `resource`
 (
   `resource_type` varchar(255) NOT NULL,
   `id`            bigint(20)  AUTO_INCREMENT,
@@ -13,5 +13,5 @@ CREATE TABLE `kingdom_resources`
   `resources_id` bigint(20),
   PRIMARY KEY (`resources_id`),
   CONSTRAINT `kingdom_resources_kingdom_id` FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`),
-  CONSTRAINT `kingdom_resources_resources_id` FOREIGN KEY (`resources_id`) REFERENCES `kingdom_resource` (`id`)
+  CONSTRAINT `kingdom_resources_resources_id` FOREIGN KEY (`resources_id`) REFERENCES `resource` (`id`)
 );

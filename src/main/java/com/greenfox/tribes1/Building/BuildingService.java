@@ -33,7 +33,7 @@ public class BuildingService {
             -> new BuildingIdNotFoundException(("There is no Building with such Id")));
   }
 
-//Todo TRB-29
+  //Todo TRB-29
   public void upgradeBarracks(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
     buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
@@ -43,14 +43,14 @@ public class BuildingService {
   //Todo TRB-49
   public void upgradeFarm(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1F);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
     saveBuilding(buildingToUpgrade);
   }
 
   //Todo TRB-50
   public void upgradeMine(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() *1.1F);
+    buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
     saveBuilding(buildingToUpgrade);
   }
 

@@ -17,18 +17,18 @@ public class ResourceService {
     this.resourceRepository = resourceRepository;
   }
 
-  public KingdomResource saveResource(KingdomResource kingdomResource) throws NotValidResourceException {
+  public Resource saveResource(Resource kingdomResource) throws NotValidResourceException {
     if (validResource(kingdomResource)) {
       return resourceRepository.save(kingdomResource);
     }
     throw new NotValidResourceException("Resource validation failed");
   }
 
-  private boolean validResource(KingdomResource resource) {
+  private boolean validResource(Resource resource) {
     return resource != null;
   }
 
-  public void updateResource(KingdomResource kingdomResource) throws NotValidResourceException {
+  public void updateResource(Resource kingdomResource) throws NotValidResourceException {
     kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
     saveResource(kingdomResource);
   }
