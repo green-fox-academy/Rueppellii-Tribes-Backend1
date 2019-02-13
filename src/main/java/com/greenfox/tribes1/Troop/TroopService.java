@@ -37,7 +37,8 @@ public class TroopService implements KingdomElementService<Troop>, Upgradable<Tr
   }
 
   @Override
-  public Troop findById(Long id) throws TroopIdNotFoundException {
+  @SneakyThrows
+  public Troop findById(Long id) {
     return troopRepository.findById(id)
             .orElseThrow(() -> new TroopIdNotFoundException(("There is no Troop with such Id")));
   }
