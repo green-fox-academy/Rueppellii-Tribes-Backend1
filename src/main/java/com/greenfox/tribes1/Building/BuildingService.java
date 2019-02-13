@@ -45,13 +45,8 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
 
   @Override
   public void upgrade(Building building) {
-    //TODO: checkBuildingType() ++ separate counting logic to somewhere else;
     //TODO: atomicity, transactions (databases) --> rollback
-    //TODO: implement building.upgrade();
-    /*building.setLevel(building.getLevel() + 1L);
-    building.setHP(building.getHP() * 1.1F);
-    save(Optional.of(building));*/
-    //TODO: building.upgrade();
+    building.upgrade();
   }
 
   @Override

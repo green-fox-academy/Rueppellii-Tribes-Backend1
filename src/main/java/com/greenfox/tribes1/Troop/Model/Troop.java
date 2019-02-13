@@ -2,8 +2,8 @@ package com.greenfox.tribes1.Troop.Model;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
