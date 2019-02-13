@@ -39,8 +39,8 @@ public class TimeService {
 //    }
     // Valami ilyesmi volt...
 //    --> new buildig or troop: 1 min DONE
-//    --> upgrade buildig: LVL * 5 min TODO
-//    --> upgrade troop: LVL * 1 min TODO
+//    --> upgrade buildig: LVL * 5 min 
+//    --> upgrade troop: LVL * 1 min
     return null;
   }
 

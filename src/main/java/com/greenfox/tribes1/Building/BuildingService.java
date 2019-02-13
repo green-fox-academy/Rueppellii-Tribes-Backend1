@@ -24,21 +24,19 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
   /*public boolean isValidBuilding(Building building) {
     return building != null;
   }*/
-  /*  //Todo TRB-29
+  /*
   public void upgradeBarracks(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
     buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
     save(buildingToUpgrade);
   }
 
-  //Todo TRB-49
   public void upgradeFarm(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
     buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
     save(buildingToUpgrade);
   }
 
-  //Todo TRB-50
   public void upgradeMine(Building buildingToUpgrade) throws BuildingNotValidException {
     buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
     buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
