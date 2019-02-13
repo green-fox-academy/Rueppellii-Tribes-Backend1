@@ -29,8 +29,7 @@ public class ResourceService implements KingdomElementService<KingdomResource> {
   }
 
   @Override
-  @SneakyThrows
-  public KingdomResource save(Optional<KingdomResource> kingdomResource) {
+  public KingdomResource save(Optional<KingdomResource> kingdomResource) throws NotValidResourceException {
     return resourceRepository.save(kingdomResource
             .orElseThrow(() -> new NotValidResourceException("Resource validation failed")));
   }

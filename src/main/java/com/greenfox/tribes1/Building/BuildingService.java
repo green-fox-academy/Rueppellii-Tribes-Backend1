@@ -54,8 +54,7 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
   }
 
   @Override
-  @SneakyThrows
-  public Building findById(Long id) {
+  public Building findById(Long id) throws BuildingIdNotFoundException {
     return buildingRepository.findById(id)
             .orElseThrow(() -> new BuildingIdNotFoundException(("There is no Building with such Id")));
   }

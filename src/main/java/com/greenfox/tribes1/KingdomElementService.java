@@ -4,9 +4,11 @@ import java.util.Optional;
 
 public interface KingdomElementService<T> {
 
-  public T findById(Long id);
+  //TODO: throws Expression is not OK here
 
-  public T save(Optional<T> object);
+  public T findById(Long id) throws Exception;
 
-  public void update(T t);
+  public T save(Optional<T> object) throws Exception;
+
+  public void update(T t) throws Exception;
 }
