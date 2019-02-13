@@ -23,7 +23,7 @@ public class ApplicationUser {
   private String userEmail;
   
   @OneToOne(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
+  @JoinColumn(name = "kingdom_id")
   private Kingdom kingdom;
   
   public ApplicationUser(String username, String password, String userEmail) {

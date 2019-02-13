@@ -26,8 +26,7 @@ public class Kingdom {
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   List<KingdomResource> resources;
 
-  @OneToOne(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "application_user_id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   ApplicationUser applicationUser;
 
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
