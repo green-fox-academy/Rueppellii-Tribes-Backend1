@@ -31,7 +31,7 @@ public class ProgressionService {
   private TroopService troopService;
 
   private Long level = 0L;
-  private Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+//  private Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
 
   @Autowired
@@ -96,14 +96,17 @@ public class ProgressionService {
   }
 
   public List<Progression> listOfThingsToCreateWithExpiredTimestamp(String type) {
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     return progressionRepository.findByTypeAndFinishedIsLessThanAndLevelEquals(type, currentTime, level);
   }
 
   public List<Progression> listOfThingsToUpgradeeWithExpiredTimestamp(String type) {
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     return progressionRepository.findByTypeAndFinishedIsLessThanAndLevelGreaterThan(type, currentTime, level);
   }
 
   public List<Progression> listOfAllProgressionsWithExpiredTimestamp() {
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     return progressionRepository.findByFinishedLessThan(currentTime);
   }
 

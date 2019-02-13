@@ -2,6 +2,7 @@ package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.Progression.DTO.ProgressionDTO;
 import com.greenfox.tribes1.Progression.ProgressionService;
+import com.greenfox.tribes1.Security.Model.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
