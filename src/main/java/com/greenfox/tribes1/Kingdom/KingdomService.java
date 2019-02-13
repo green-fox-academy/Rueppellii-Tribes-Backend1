@@ -8,8 +8,10 @@ import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
 import com.greenfox.tribes1.Resources.KingdomResource;
 import com.greenfox.tribes1.Resources.ResourceFactory;
 import com.greenfox.tribes1.Resources.ResourceType;
+import com.greenfox.tribes1.Security.Model.UserContext;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -83,5 +85,10 @@ public class KingdomService {
     for (KingdomResource resource : resources) {
       resource.setKingdom(kingdom);
     }
+  }
+
+  public Kingdom getKindomFromAuht(Authentication authentication){
+    UserContext userContext = (UserContext) authentication.getPrincipal();
+    return kingdomRepository.findKingdomByApplicationUser_Username(userContext.getUsername());
   }
 }
