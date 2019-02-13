@@ -31,7 +31,7 @@ public class ProgressionService {
   private TroopService troopService;
 
   private Long level = 0L;
-  private Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+//  private Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
 
   @Autowired
@@ -96,14 +96,17 @@ public class ProgressionService {
   }
 
   public List<Progression> listOfThingsToCreateWithExpiredTimestamp(String type) {
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     return progressionRepository.findByTypeAndFinishedIsLessThanAndLevelEquals(type, currentTime, level);
   }
 
   public List<Progression> listOfThingsToUpgradeeWithExpiredTimestamp(String type) {
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     return progressionRepository.findByTypeAndFinishedIsLessThanAndLevelGreaterThan(type, currentTime, level);
   }
 
   public List<Progression> listOfAllProgressionsWithExpiredTimestamp() {
+    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     return progressionRepository.findByFinishedLessThan(currentTime);
   }
 
@@ -119,28 +122,28 @@ public class ProgressionService {
     safeDeleteAllProgressionsWithExpiredTimestamp();
   }
 
-  public void finishMineConstructions() throws NotValidKingdomNameException {
+  public void finishMineConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
     List<Progression> mines = listOfThingsToCreateWithExpiredTimestamp("mine");
     for (Progression mine : mines) {
       addBuildingToKingdom(mine, createNewBuilding(mine));
     }
   }
 
-  public void finishFarmConstructions() throws NotValidKingdomNameException {
+  public void finishFarmConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
     List<Progression> farms = listOfThingsToCreateWithExpiredTimestamp("farm");
     for (Progression farm : farms) {
       addBuildingToKingdom(farm, createNewBuilding(farm));
     }
   }
 
-  public void finishBarracksConstructions() throws NotValidKingdomNameException {
+  public void finishBarracksConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
     List<Progression> barracks = listOfThingsToCreateWithExpiredTimestamp("barracks");
     for (Progression barrack : barracks) {
       addBuildingToKingdom(barrack, createNewBuilding(barrack));
     }
   }
 
-  public void finishTroopConstructions() throws NotValidKingdomNameException {
+  public void finishTroopConstructions() throws NotValidKingdomNameException, TroopNotValidException {
     List<Progression> troops = listOfThingsToCreateWithExpiredTimestamp("troop");
     for (Progression troop : troops) {
       addTroopToKingdom(troop, createNewTroop(troop));
@@ -230,25 +233,30 @@ public class ProgressionService {
   }
 
   //  Todo: Made by TRB-21 setStarterBuildings method's logic
-  public void addBuildingToKingdom(Progression progression, Building newBuilding) throws NotValidKingdomNameException {
+  public void addBuildingToKingdom(Progression progression, Building newBuilding) throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
     Kingdom kingdomAddTo = progression.getKingdom();
     List<Building> buildingsOfKingdom = kingdomAddTo.getBuildings();
 
-    newBuilding.setKingdom(kingdomAddTo);
+//    buildingsOfKingdom.remove(1);
+//    buildingService.removeById(2L);
     buildingsOfKingdom.add(newBuilding);
+    newBuilding.setKingdom(kingdomAddTo);
     kingdomAddTo.setBuildings(buildingsOfKingdom);
-    kingdomService.saveKingdom(kingdomAddTo);
+//    kingdomService.saveKingdom(kingdomAddTo);
+    buildingService.saveBuilding(newBuilding);
+//    System.out.println(kingdomAddTo.getBuildings());
   }
 
   //  Todo: Made by TRB-21 setStarterBuildings method's logic
-  public void addTroopToKingdom(Progression progression, Troop newTroop) throws NotValidKingdomNameException {
+  public void addTroopToKingdom(Progression progression, Troop newTroop) throws NotValidKingdomNameException, TroopNotValidException {
     Kingdom kingdomAddTo = progression.getKingdom();
     List<Troop> troopsOfKingdom = kingdomAddTo.getTroops();
 
     newTroop.setKingdom(kingdomAddTo);
     troopsOfKingdom.add(newTroop);
     kingdomAddTo.setTroops(troopsOfKingdom);
-    kingdomService.saveKingdom(kingdomAddTo);
+//    kingdomService.saveKingdom(kingdomAddTo);
+    troopService.save(newTroop);
   }
 
   //TODO Progression SQL!!!!!!
@@ -285,7 +293,6 @@ public class ProgressionService {
 //  public Boolean isItTroopToUpgrade(Progression progression) {
 //    return !(progression.getLevel() == 0) && isTypeTroop(progression);
 //  }
-
 
 
 //  public void createNewBuildingFromProgression_AndAddItToKingdom(Progression progression) {

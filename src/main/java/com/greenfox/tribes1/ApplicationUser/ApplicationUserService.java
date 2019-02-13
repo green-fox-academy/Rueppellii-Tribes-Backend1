@@ -49,6 +49,7 @@ public class ApplicationUserService implements UserService {
 
       kingdomService.setStarterBuildings(kingdom);
       kingdomService.setStarterResource(kingdom);
+      kingdomService.setStarterTroops(kingdom);
 
       return applicationUserRepository.save(userToBeSaved);
     }

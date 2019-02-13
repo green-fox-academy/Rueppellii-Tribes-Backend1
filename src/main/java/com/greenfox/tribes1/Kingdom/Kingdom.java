@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Kingdom;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Resources.KingdomResource;
@@ -23,16 +24,20 @@ public class Kingdom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
-  List<KingdomResource> resources;
+  @JsonManagedReference
+  private List<KingdomResource> resources;
 
   @OneToOne(mappedBy = "kingdom")
   ApplicationUser applicationUser;
 
-  @OneToMany
+  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
+  @JsonManagedReference
   private List<Troop> troops;
 
-  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "kingdom", cascade ={CascadeType.PERSIST, CascadeType.REMOVE})
+  @JsonManagedReference
   private List<Building> buildings;
 
   public Kingdom(String name) {
@@ -49,7 +54,7 @@ public class Kingdom {
     resources.add(resourceFactory.getResource(ResourceType.gold));*/
   }
 
-  protected List<KingdomResource> getResources() {
+  public List<KingdomResource> getResources() {
     return resources;
   }
 }
