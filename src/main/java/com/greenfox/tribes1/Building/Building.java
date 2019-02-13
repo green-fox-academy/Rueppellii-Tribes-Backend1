@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Building;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public abstract class Building {
   @JoinTable(name = "kingdom_buildings",
           inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"),
           joinColumns = @JoinColumn(name = "buildings_id", referencedColumnName = "id"))
+  @JsonBackReference
 
   private Kingdom kingdom;
 
