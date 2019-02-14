@@ -27,13 +27,6 @@ public class ErrorHandlingAdvice {
   }
 
   @ResponseBody
-  @ExceptionHandler(AuthenticationServiceException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  ErrorMsg missingToken(AuthenticationServiceException ex) {
-    return new ErrorMsg("error", ex.getMessage());
-  }
-
-  @ResponseBody
   @ExceptionHandler(UsernameTakenException.class)
   @ResponseStatus(HttpStatus.CONFLICT)
   ErrorMsg usernameTaken(UsernameTakenException ex) {

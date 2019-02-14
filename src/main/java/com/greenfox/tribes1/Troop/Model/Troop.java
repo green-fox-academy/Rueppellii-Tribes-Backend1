@@ -1,9 +1,10 @@
 package com.greenfox.tribes1.Troop.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ import java.sql.Timestamp;
 public abstract class Troop {
 
   @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @NotNull
   @PositiveOrZero
@@ -31,8 +32,9 @@ public abstract class Troop {
   private Timestamp finished_at;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinTable(name = "kingdom_troops",
-          joinColumns = @JoinColumn(name = "troops_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
+  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
+  @JsonBackReference
   private Kingdom kingdom;
+
+  public abstract void levelUp();
 }

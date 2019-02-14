@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProgressionInterceptor extends HandlerInterceptorAdapter {
+
   private ProgressionService progressionService;
 
   @Autowired
@@ -15,8 +16,8 @@ public class ProgressionInterceptor extends HandlerInterceptorAdapter {
   }
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    progressionService.findProgressionsWithExpiredTimestamp_CreateOrUpgradeModelFromThem_DeleteThem();
-    return super.preHandle(request, response, handler);
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    //progressionService.checkConstruction();
+    super.afterCompletion(request, response, handler, ex);
   }
 }

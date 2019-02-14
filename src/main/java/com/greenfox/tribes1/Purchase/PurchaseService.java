@@ -36,7 +36,7 @@ public class PurchaseService {
     purchaseIfPossible(gold, 1L, upgradeCost);
   }
 
-  public void upgradeTroop(Kingdom kingdom, Long id) throws GoldNotEnoughException, NotValidResourceException, TroopIdNotFoundException {
+  public void purchaseTroopUpgrade(Kingdom kingdom, Long id) throws GoldNotEnoughException, NotValidResourceException, TroopIdNotFoundException {
     Troop troop = troopService.findById(id);
     List<KingdomResource> kingdomResources = kingdom.getResources();
     Gold gold = getGoldAmount(kingdomResources);
@@ -46,7 +46,7 @@ public class PurchaseService {
     purchaseIfPossible(gold, upgradeTo, troopUpgradeCost);
   }
 
-  public void upgradeBuilding(Kingdom kingdom, Long id) throws GoldNotEnoughException, BuildingIdNotFoundException, NotValidResourceException {
+  public void purchaseBuildingUpgrade(Kingdom kingdom, Long id) throws GoldNotEnoughException, BuildingIdNotFoundException, NotValidResourceException {
     Building building = buildingService.findById(id);
     List<KingdomResource> kingdomResources = kingdom.getResources();
     Gold gold = getGoldAmount(kingdomResources);
@@ -65,13 +65,12 @@ public class PurchaseService {
     return gold.getAmount() > upgradeCost;
   }
 
-  private void purchaseIfPossible(Gold gold, Long upgradeTo, Long upgradeCost) throws NotValidResourceException, GoldNotEnoughException {
+  private KingdomResource purchaseIfPossible(Gold gold, Long upgradeTo, Long upgradeCost) throws NotValidResourceException, GoldNotEnoughException {
     if (isGoldEnough(gold, upgradeCost)) {
       Long newGoldAmount = gold.getAmount() - upgradeTo * upgradeCost;
       gold.setAmount(newGoldAmount);
-      resourceService.saveResource(gold);
-    } else {
-      throw new GoldNotEnoughException("Not enough gold");
+      return resourceService.saveResource(gold);
     }
+    throw new GoldNotEnoughException("Not enough gold");
   }
 }

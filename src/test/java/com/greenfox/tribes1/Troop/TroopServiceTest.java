@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -16,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class TroopServiceTest {
 
   private TroopService troopService;
-  private Troop testTroop = new TroopFactory().createTroop(TroopType.TestTroop);
+  private Troop testTroop = new TroopFactory().createTroop(TroopType.troop);
   private Troop nullTroop = null;
 
   @Mock
@@ -31,11 +33,11 @@ public class TroopServiceTest {
   @Test
   public void save_successful() throws TroopNotValidException {
     when(troopRepository.save(testTroop)).thenReturn(testTroop);
-    assertEquals(troopService.save(testTroop), testTroop);
+    assertEquals(troopService.save(Optional.of(testTroop)), testTroop);
   }
 
   @Test(expected = TroopNotValidException.class)
   public void save_unsuccessful() throws TroopNotValidException {
-    troopService.save(nullTroop);
+    troopService.save(Optional.ofNullable(nullTroop));
   }
 }

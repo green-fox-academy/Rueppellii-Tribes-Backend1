@@ -20,7 +20,7 @@ public class TimeService {
 
   public Boolean isTimestampExpired(Timestamp timestamp) {
     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-    return currentTime.getTime() > timestamp.getTime();
+    return currentTime.after(timestamp);
   }
 
   public Timestamp calculateBuildingTimeForNewBuildingOrTroop(Progression progression) {
@@ -31,7 +31,7 @@ public class TimeService {
 
   //  Todo extend method, to Upgrade by progressiontype and LVL
   public Long buildingTime(Progression progression) {
-    if (progression.isCreate()) {
+    if (progression.getLevel() == 0) {
       return 1L;
     } //else if (progressionService.isTypeBuilding(progression) {
 //          Building building = buildingService.findById(progression.getModelId());
@@ -39,8 +39,8 @@ public class TimeService {
 //    }
     // Valami ilyesmi volt...
 //    --> new buildig or troop: 1 min DONE
-//    --> upgrade buildig: LVL * 5 min TODO
-//    --> upgrade troop: LVL * 1 min TODO
+//    --> upgrade buildig: LVL * 5 min 
+//    --> upgrade troop: LVL * 1 min
     return null;
   }
 
