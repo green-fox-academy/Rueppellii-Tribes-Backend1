@@ -101,6 +101,7 @@ public class KingdomControllerTest {
                     .put("finished", null)
                     .put("kingdom", null)
                     .put("hp", null))).toString();
+
     failedAuth = new JSONObject()
             .put("status", "error")
             .put("message", "Auth failure")

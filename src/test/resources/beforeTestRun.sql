@@ -36,7 +36,7 @@ VALUES ('Mine', 1, 1, 1, '2019-02-04 03:00:00', '2019-02-04 03:12:00', 1),
        ('Barracks', 2, 5, 5, '2019-02-05 13:00:00', '2019-02-05 15:00:00', 2),
        ('TownHall', 3, 10, 10, '2019-02-06 22:30:00', '2019-02-10 22:30:00', 3);
 
-INSERT INTO kingdom_resource(resource_type, id, amount, updated_at, kingdom_id)
+INSERT INTO resource(resource_type, id, amount, updated_at, kingdom_id)
 VALUES ('Gold', 1, 0, '2019-02-04 08:00:00', 1),
        ('Food', 2, 10, '2019-02-10 16:00:00', 2),
        ('Gold', 3, 500, '2019-02-11 10:00:00', 3);
