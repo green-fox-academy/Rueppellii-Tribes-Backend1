@@ -25,15 +25,13 @@ public class PurchaseService {
 
   private BuildingService buildingService;
   private ResourceService resourceService;
-  private TroopService troopService;
   private Long troopUpgradeCost = 10L;
   private Long buildingUpgradeCost = 100L;
 
   @Autowired
-  public PurchaseService(BuildingService buildingService, ResourceService resourceService, TroopService troopService) {
+  public PurchaseService(BuildingService buildingService, ResourceService resourceService) {
     this.buildingService = buildingService;
     this.resourceService = resourceService;
-    this.troopService = troopService;
   }
 
   public Resource purchaseBuilding(Kingdom kingdom, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException {
@@ -51,13 +49,22 @@ public class PurchaseService {
     throw new UpgradeErrorException("There is no barrack.");
   }
 
-  public Resource purchaseTroopUpgrade(Kingdom kingdom, Long id) throws GoldNotEnoughException, NotValidResourceException, TroopIdNotFoundException {
-    Troop troop = troopService.findById(id);
-    List<Resource> kingdomResources = kingdom.getResources();
-    Gold gold = getGold(kingdomResources);
-    Long upgradeTo = troop.getLevel() + 1L;
-
-    return purchaseIfPossible(gold, upgradeTo, troopUpgradeCost);
+  public List<Troop> purchaseTroopUpgrade(Kingdom kingdom, Long lvl, Long amount) throws GoldNotEnoughException, NotValidResourceException, TroopIdNotFoundException, UpgradeErrorException {
+    List<Troop> troops = kingdom.getTroops();
+    if (troops.stream().anyMatch(t -> t.getLevel().equals(lvl))) {
+      List<Troop> matchingLevelTroops = troops
+              .stream()
+              .filter(t -> t.getLevel().equals(lvl))
+              .limit(amount)
+              .collect(Collectors.toList());
+      List<Resource> kingdomResources = kingdom.getResources();
+      Gold gold = getGold(kingdomResources);
+      Long upgradeCost = matchingLevelTroops.size() * troopUpgradeCost;
+      Long upgradeTo = lvl + 1L;
+      purchaseIfPossible(gold, upgradeTo, upgradeCost);
+      return matchingLevelTroops;
+    }
+    throw new UpgradeErrorException("upgrade is not allowed");
   }
 
   public Resource purchaseBuildingUpgrade(Kingdom kingdom, Long id) throws GoldNotEnoughException, BuildingIdNotFoundException, NotValidResourceException, UpgradeErrorException {
@@ -70,7 +77,7 @@ public class PurchaseService {
     Long upgradeLevel = building.getLevel() + 1L;
     String type = building.getClass().getSimpleName();
 
-    if (type.equals("TownHall")|| townHall.getLevel() > building.getLevel()) {
+    if (type.equals("TownHall") || townHall.getLevel() > building.getLevel()) {
       return purchaseIfPossible(gold, upgradeLevel, buildingUpgradeCost);
     }
     throw new UpgradeErrorException("Building level can not be higher than TownHall level");
