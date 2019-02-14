@@ -1,6 +1,8 @@
 package com.greenfox.tribes1;
 
+import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.DateNotGivenException;
+import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import com.greenfox.tribes1.Progression.Progression;
 import org.springframework.stereotype.Service;
 
@@ -29,19 +31,14 @@ public class TimeService {
     return new Timestamp(currentTime.getTime() + TimeUnit.MINUTES.toMillis(buildingTime));
   }
 
-  //  Todo extend method, to Upgrade by progressiontype and LVL
   public Long buildingTime(Progression progression) {
     if (progression.getLevel() == 0) {
       return 1L;
-    } //else if (progressionService.isTypeBuilding(progression) {
-//          Building building = buildingService.findById(progression.getModelId());
-//          return building.getLvl() * 5L;
-//    }
-    // Valami ilyesmi volt...
-//    --> new buildig or troop: 1 min DONE
-//    --> upgrade buildig: LVL * 5 min 
-//    --> upgrade troop: LVL * 1 min
-    return null;
+    } else if (progression.getLevel() != 0 && progression.getType().equals("troop")) {
+      return progression.getLevel();
+    } else {
+      return progression.getLevel() * 5;
+    }
   }
 
   public Boolean isTimestampValid(Timestamp timestamp) throws DateNotGivenException {
@@ -51,3 +48,4 @@ public class TimeService {
     return true;
   }
 }
+
