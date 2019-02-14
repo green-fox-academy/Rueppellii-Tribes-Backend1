@@ -35,7 +35,7 @@ public class TimeService {
     } else if (progression.getLevel() != 0 && progression.getType().equals("troop")) {
       return progression.getLevel();
     } else {
-      //time should be changed to 5 mins
+      //TODO: time should be changed to 5 mins
       return progression.getLevel() * 1;
     }
   }
