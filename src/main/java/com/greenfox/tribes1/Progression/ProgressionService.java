@@ -36,7 +36,7 @@ public class ProgressionService {
   //  Todo: check what will we get exactly from frontend (Progression or Strings with ALL of the progressiondata)
 //  Todo: modify method according to that
   public void saveProgression(Progression progression) {
-    progression.setFinished_at(timeService.calculateBuildingTimeForNewBuildingOrTroop(progression)); //Todo: is it needed OR I get a complete progression from frontend?
+    progression.setFinished(timeService.calculateBuildingTimeForNewBuildingOrTroop(progression)); //Todo: is it needed OR I get a complete progression from frontend?
     progressionRepository.save(progression);
   }
 
@@ -58,7 +58,7 @@ public class ProgressionService {
   public void findProgressionsWithExpiredTimestamp_CreateOrUpgradeModelFromThem_DeleteThem() throws BuildingTypeNotValidException, TroopTypeNotValidException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException, TroopNotValidException {
     List<Progression> allProgressionModelsList = findAllProgressionModel();
     for (int i = 0; i < allProgressionModelsList.size(); i++) {
-      if (timeService.isTimestampExpired(allProgressionModelsList.get(i).getFinished_at())) {
+      if (timeService.isTimestampExpired(allProgressionModelsList.get(i).getFinished())) {
         if (isItBuildingToCreate(allProgressionModelsList.get(i))) {
           createNewBuildingFromProgression_AndAddItToKingdom(allProgressionModelsList.get(i));
         } else if (isItTroopToCreate(allProgressionModelsList.get(i))) {
@@ -74,19 +74,19 @@ public class ProgressionService {
   }
 
   public Boolean isItBuildingToCreate(Progression progression) {
-    return progression.isCreate() && isTypeBuilding(progression);
+    return progression.getLevel() == 0L && isTypeBuilding(progression);
   }
 
   public Boolean isItBuildingToUpgrade(Progression progression) {
-    return !progression.isCreate() && isTypeBuilding(progression);
+    return !(progression.getLevel() == 0L) && isTypeBuilding(progression);
   }
 
   public Boolean isItTroopToCreate(Progression progression) {
-    return progression.isCreate() && isTypeTroop(progression);
+    return progression.getLevel() == 0L && isTypeTroop(progression);
   }
 
   public Boolean isItTroopToUpgrade(Progression progression) {
-    return !progression.isCreate() && isTypeTroop(progression);
+    return !(progression.getLevel() == 0L) && isTypeTroop(progression);
   }
 
   public Boolean isTypeBuilding(Progression progression) {
@@ -118,7 +118,7 @@ public class ProgressionService {
   public void createNewTroopFromProgression_AndAddItToKingdom(Progression progression) throws BuildingTypeNotValidException, TroopTypeNotValidException {
     String type = progression.getType();
     if (type.equals("troop")) {
-      Troop newTroop = TroopFactory.createTroop(TroopType.TestTroop);
+      Troop newTroop = TroopFactory.createTroop(TroopType.troop);
       addTroopToKingdom(progression, newTroop);
     } else {
       throw new TroopTypeNotValidException("There is no such type of troop");
