@@ -71,7 +71,7 @@ public class KingdomController {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
     if (isBarrackThere(currentKingdom.getBuildings())) {
       purchaseService.purchase(currentKingdom, troopUpgradeCost);
-      progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom,type));
+     // progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom,type));
     }
     return ResponseEntity.ok().build();
   }
