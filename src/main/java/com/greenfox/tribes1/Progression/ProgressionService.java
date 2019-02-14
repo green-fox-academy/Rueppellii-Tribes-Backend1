@@ -32,6 +32,7 @@ public class ProgressionService {
 
   private Long level = 0L;
 
+  //Comment
   @Autowired
   public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, KingdomService kingdomService, BuildingService buildingService, TroopService troopService) {
     this.progressionRepository = progressionRepository;
