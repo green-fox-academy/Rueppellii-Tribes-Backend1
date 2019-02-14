@@ -16,9 +16,4 @@ public class Mine extends Building {
     this.setLevel(1L);
     this.setHP(200.0f);
   }
-
-  @Override
-  void levelUp() {
-    //TODO
-  }
 }

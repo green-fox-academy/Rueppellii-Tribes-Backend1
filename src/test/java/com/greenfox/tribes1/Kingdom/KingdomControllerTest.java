@@ -165,7 +165,7 @@ public class KingdomControllerTest {
   @Test
   public void getKingdomBuilding_StatusOk_ReturnsMine() throws Exception {
     token = testTokenProvider.createMockToken(username);
-    Building mine = BuildingFactory.createBuilding(BuildingType.mine);
+    Building mine = BuildingFactory.createBuilding(BuildingType.Mine);
     List<Building> buildingList = new ArrayList<>();
     buildingList.add(mine);
     testKingdom.setBuildings(buildingList);

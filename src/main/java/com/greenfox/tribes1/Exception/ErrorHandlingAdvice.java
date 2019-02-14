@@ -112,5 +112,14 @@ public class ErrorHandlingAdvice {
   @ResponseBody
   @ExceptionHandler(GoldNotEnoughException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
-  ErrorMsg notEnoughGold(GoldNotEnoughException ex) { return new ErrorMsg("error", ex.getMessage());}
+  ErrorMsg notEnoughGold(GoldNotEnoughException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(UpgradeErrorException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  ErrorMsg upgradeError(UpgradeErrorException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
 }

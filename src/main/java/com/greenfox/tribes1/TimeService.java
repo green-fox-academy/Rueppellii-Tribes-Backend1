@@ -1,8 +1,6 @@
 package com.greenfox.tribes1;
 
-import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.DateNotGivenException;
-import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
 import com.greenfox.tribes1.Progression.Progression;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +35,8 @@ public class TimeService {
     } else if (progression.getLevel() != 0 && progression.getType().equals("troop")) {
       return progression.getLevel();
     } else {
-      return progression.getLevel() * 5;
+      //time should be changed to 5 mins
+      return progression.getLevel() * 1;
     }
   }
 
