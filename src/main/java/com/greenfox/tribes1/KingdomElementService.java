@@ -6,9 +6,9 @@ public interface KingdomElementService<T> {
 
   //TODO: throws Expression is not OK here
 
-  public T findById(Long id) throws Exception;
+  T findById(Long id) throws Exception;
 
-  public T save(Optional<T> object) throws Exception;
+  T save(Optional<T> object) throws Exception;
 
-  public void refresh(T t) throws Exception;
+  void refresh(T t) throws Exception;
 }
