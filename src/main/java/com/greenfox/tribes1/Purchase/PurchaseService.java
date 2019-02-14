@@ -31,7 +31,7 @@ public class PurchaseService {
     this.troopService = troopService;
   }
 
-  public void purchase(Kingdom kingdom, Long id, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException {
+  public void purchase(Kingdom kingdom, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException {
     List<Resource> kingdomResources = kingdom.getResources();
     Gold gold = getGoldAmount(kingdomResources);
     purchaseIfPossible(gold, 1L, upgradeCost);
@@ -63,7 +63,7 @@ public class PurchaseService {
   }
 
   private Boolean isGoldEnough(Gold gold, Long upgradeCost) {
-    return gold.getAmount() > upgradeCost;
+    return gold.getAmount() >= upgradeCost;
   }
 
   private Resource purchaseIfPossible(Gold gold, Long upgradeTo, Long upgradeCost) throws NotValidResourceException, GoldNotEnoughException {
