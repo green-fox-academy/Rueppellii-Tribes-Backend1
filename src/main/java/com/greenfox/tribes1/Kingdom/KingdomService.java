@@ -28,6 +28,7 @@ public class KingdomService {
     this.kingdomRepository = kingdomRepository;
   }
 
+  // TODO: Need refactor! We aren't using this method, only in old tests!
   public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
     if (kingdom.getName() == null) {
       throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
