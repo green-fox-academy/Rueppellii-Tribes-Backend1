@@ -64,6 +64,6 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
 
   @Override
   public void refresh(Building building) {
-    //TODO: discuss how we should update our buildings
+    //TODO: IF any progression is over, create new Building();
   }
 }

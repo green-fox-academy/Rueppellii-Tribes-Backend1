@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Service
 public class ResourceService implements KingdomElementService<Resource> {
 
   private ResourceRepository resourceRepository;
   private TimeService timeService;
-  private Predicate<Resource> isValid = (a) -> (a != null);
 
   @Autowired
   public ResourceService(ResourceRepository resourceRepository, TimeService timeService) {
@@ -42,7 +40,9 @@ public class ResourceService implements KingdomElementService<Resource> {
   @Override
   public void refresh(Resource kingdomResource) throws NotValidResourceException, DateNotGivenException {
     Long difference = timeService.calculateDifference(kingdomResource.getUpdated_at(), new Timestamp(System.currentTimeMillis()));
-    kingdomResource.update(difference);
-    save(Optional.of(kingdomResource));
+    if (difference > 0) {
+      kingdomResource.update(difference);
+      save(Optional.of(kingdomResource));
+    }
   }
 }

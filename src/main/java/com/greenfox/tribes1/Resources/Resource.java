@@ -43,10 +43,8 @@ public abstract class Resource implements Updatable {
   @Override
   @SneakyThrows
   public void update(Long difference) {
-    if (difference > 0) {
-      setAmount(getAmountPerMinute() * difference
-              + getAmount());
-      setUpdated_at(new Timestamp(System.currentTimeMillis()));
-    }
+    setAmount(getAmountPerMinute() * difference
+            + getAmount());
+    setUpdated_at(new Timestamp(System.currentTimeMillis()));
   }
 }
