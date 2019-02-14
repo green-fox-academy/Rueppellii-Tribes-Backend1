@@ -5,7 +5,7 @@ import com.greenfox.tribes1.Troop.Model.Troop;
 
 public enum TroopType {
 
-  TestTroop {
+  troop {
     @Override
     public Troop makeTroop() {
       return new SingleTroop();
