@@ -6,7 +6,6 @@ import com.greenfox.tribes1.Building.BuildingService;
 import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import com.greenfox.tribes1.Kingdom.KingdomService;
 import com.greenfox.tribes1.Progression.DTO.ProgressionDTO;
 import com.greenfox.tribes1.TimeService;
 import com.greenfox.tribes1.Troop.Model.Troop;
@@ -26,18 +25,15 @@ public class ProgressionService {
 
   private ProgressionRepository progressionRepository;
   private TimeService timeService;
-  private KingdomService kingdomService;
   private BuildingService buildingService;
   private TroopService troopService;
 
   private Long level = 0L;
 
-  //Comment
   @Autowired
-  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, KingdomService kingdomService, BuildingService buildingService, TroopService troopService) {
+  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, BuildingService buildingService, TroopService troopService) {
     this.progressionRepository = progressionRepository;
     this.timeService = timeService;
-    this.kingdomService = kingdomService;
     this.buildingService = buildingService;
     this.troopService = troopService;
   }
@@ -156,22 +152,22 @@ public class ProgressionService {
 
   public void upgradeMine(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, BuildingNotValidException {
     Building buildingToUpgrade = (Building) getExactBuildingOrTroop_FromProgressionModelId(progression);
-    buildingService.upgradeMine(buildingToUpgrade);
+    buildingService.upgrade(buildingToUpgrade);
   }
 
   public void upgradeFarm(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, BuildingNotValidException {
     Building buildingToUpgrade = (Building) getExactBuildingOrTroop_FromProgressionModelId(progression);
-    buildingService.upgradeFarm(buildingToUpgrade);
+    buildingService.upgrade(buildingToUpgrade);
   }
 
   public void upgradeBarracks(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, BuildingNotValidException {
     Building buildingToUpgrade = (Building) getExactBuildingOrTroop_FromProgressionModelId(progression);
-    buildingService.upgradeBarracks(buildingToUpgrade);
+    buildingService.upgrade(buildingToUpgrade);
   }
 
   public void upgradeTroop(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, TroopNotValidException {
     Troop troopToUpgrade = (Troop) getExactBuildingOrTroop_FromProgressionModelId((progression));
-    troopService.upgradeTroop(troopToUpgrade);
+    troopService.upgrade(troopToUpgrade);
   }
 
   public Progression findById(Long id) throws ProgressionIdNotFoundException {
@@ -204,7 +200,7 @@ public class ProgressionService {
     buildingsOfKingdom.add(newBuilding);
     newBuilding.setKingdom(kingdomAddTo);
     kingdomAddTo.setBuildings(buildingsOfKingdom);
-    buildingService.saveBuilding(newBuilding);
+    buildingService.save(Optional.of(newBuilding));
   }
 
   public void addTroopToKingdom(Progression progression, Troop newTroop) throws NotValidKingdomNameException, TroopNotValidException {
@@ -214,6 +210,6 @@ public class ProgressionService {
     newTroop.setKingdom(kingdomAddTo);
     troopsOfKingdom.add(newTroop);
     kingdomAddTo.setTroops(troopsOfKingdom);
-    troopService.save(newTroop);
+    troopService.save(Optional.of(newTroop));
   }
 }

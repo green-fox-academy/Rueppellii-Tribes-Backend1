@@ -1,35 +1,42 @@
 package com.greenfox.tribes1.Resources;
 
 import com.greenfox.tribes1.Exception.NotValidResourceException;
-import com.greenfox.tribes1.Kingdom.KingdomRepository;
+import com.greenfox.tribes1.KingdomElementService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.function.Predicate;
+
 @Service
-public class ResourceService {
+public class ResourceService implements KingdomElementService<Resource> {
 
   private ResourceRepository resourceRepository;
-  @Autowired
-  private KingdomRepository kingdomRepository;
+  private Predicate<Resource> isValid = (a) -> (a != null);
 
   @Autowired
   public ResourceService(ResourceRepository resourceRepository) {
     this.resourceRepository = resourceRepository;
   }
 
-  public Resource saveResource(Resource kingdomResource) throws NotValidResourceException {
-    if (validResource(kingdomResource)) {
-      return resourceRepository.save(kingdomResource);
-    }
-    throw new NotValidResourceException("Resource validation failed");
+  @Override
+  @SneakyThrows
+  public Resource findById(Long id) {
+
+    return resourceRepository.findById(id).orElseThrow(()
+            -> new NotValidResourceException("There is no Building with such Id"));
   }
 
-  private boolean validResource(Resource resource) {
-    return resource != null;
+  @Override
+  public Resource save(Optional<Resource> resource) throws NotValidResourceException {
+    return resourceRepository.save(resource
+            .orElseThrow(() -> new NotValidResourceException("Resource validation failed")));
   }
 
-  public void updateResource(Resource kingdomResource) throws NotValidResourceException {
-    kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
-    saveResource(kingdomResource);
+  @Override
+  public void refresh(Resource kingdomResource) throws NotValidResourceException {
+    kingdomResource.update();
+    save(Optional.of(kingdomResource));
   }
 }

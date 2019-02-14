@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TroopFactory {
 
-  ResourceService resourceService;
+  private ResourceService resourceService;
 
   @Autowired
   public TroopFactory(ResourceService resourceService) {

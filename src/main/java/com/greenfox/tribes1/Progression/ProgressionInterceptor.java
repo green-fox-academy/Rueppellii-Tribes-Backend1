@@ -7,8 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProgressionInterceptor extends HandlerInterceptorAdapter {
-  @Autowired
+
   private ProgressionService progressionService;
+
+  @Autowired
+  public ProgressionInterceptor(ProgressionService progressionService) {
+    this.progressionService = progressionService;
+  }
 
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {

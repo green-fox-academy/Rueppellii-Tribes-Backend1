@@ -16,4 +16,9 @@ public class TownHall extends Building {
     this.setLevel(1L);
     this.setHP(5000.0f);
   }
+
+  @Override
+  void levelUp() {
+    //TODO
+  }
 }

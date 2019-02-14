@@ -27,22 +27,18 @@ public class Kingdom {
   @JsonManagedReference
   private List<Resource> resources;
 
-  @OneToOne(mappedBy = "kingdom")
+  @OneToOne(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   ApplicationUser applicationUser;
 
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   @JsonManagedReference
   private List<Troop> troops;
 
-  @OneToMany(mappedBy = "kingdom", cascade ={CascadeType.PERSIST, CascadeType.REMOVE})
+  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   @JsonManagedReference
   private List<Building> buildings;
 
   public Kingdom(String name) {
     this.name = name;
-  }
-
-  public List<Resource> getResources() {
-    return resources;
   }
 }
