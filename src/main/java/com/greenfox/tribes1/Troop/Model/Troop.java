@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Troop.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,5 +33,6 @@ public abstract class Troop {
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
+  @JsonBackReference
   private Kingdom kingdom;
 }

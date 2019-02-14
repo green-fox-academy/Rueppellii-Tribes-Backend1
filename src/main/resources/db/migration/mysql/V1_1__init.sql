@@ -10,7 +10,7 @@ CREATE TABLE `application_user`
 
 CREATE TABLE `kingdom`
 (
-  `id`                  bigint(20) AUTO_INCREMENT,
-  `name`                varchar(255) DEFAULT NULL,
+  `id`   bigint(20) AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );

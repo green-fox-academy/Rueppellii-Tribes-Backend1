@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Resources;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.AllArgsConstructor;
@@ -9,10 +10,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "resource_type")
+@AllArgsConstructor
 @Getter
 @Setter
 public abstract class KingdomResource implements Updatable {
@@ -28,6 +29,7 @@ public abstract class KingdomResource implements Updatable {
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
+  @JsonBackReference
   private Kingdom kingdom;
 
   KingdomResource() {

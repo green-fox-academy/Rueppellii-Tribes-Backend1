@@ -3,6 +3,8 @@ package com.greenfox.tribes1.ApplicationUser;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Progression.ProgressionInterceptor;
+import com.greenfox.tribes1.Progression.ProgressionService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
