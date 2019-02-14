@@ -55,7 +55,7 @@ public class KingdomController {
   @PostMapping("/kingdom/buildings")
   public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
-    purchaseService.purchase(currentKingdom, buildingUpgradeCost);
+    purchaseService.purchaseBuilding(currentKingdom, buildingUpgradeCost);
     progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));
     return ResponseEntity.ok().build();
   }
@@ -69,21 +69,15 @@ public class KingdomController {
   }
 
   @PostMapping("/kingdom/troop")
-  public ResponseEntity addTroop(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException {
+  public ResponseEntity addTroop(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException, UpgradeErrorException {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
-    if (isBarrackThere(currentKingdom.getBuildings())) {
-      purchaseService.purchase(currentKingdom, troopUpgradeCost);
-      progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));
-    }
+    purchaseService.purchaseTroop(currentKingdom, troopUpgradeCost);
+    progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));
     return ResponseEntity.ok().build();
   }
 
   @GetMapping("/kingdom/troops")
   public ResponseEntity showTroops(Authentication authentication) {
     return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getTroops());
-  }
-
-  private boolean isBarrackThere(List<Building> kingdomBuildings) {
-    return kingdomBuildings.stream().anyMatch(b -> b instanceof Barracks);
   }
 }

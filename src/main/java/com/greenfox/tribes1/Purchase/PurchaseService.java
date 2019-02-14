@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.Purchase;
 
 import com.google.common.collect.Iterables;
+import com.greenfox.tribes1.Building.Barracks;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Building.BuildingService;
 import com.greenfox.tribes1.Building.TownHall;
@@ -41,11 +42,13 @@ public class PurchaseService {
     return purchaseIfPossible(gold, 1L, buildingUpgradeCost);
   }
 
-  //Todo: add logic here from controller
-  public Resource purchaseTroop(Kingdom kingdom, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException {
-    List<Resource> kingdomResources = kingdom.getResources();
-    Gold gold = getGold(kingdomResources);
-    return purchaseIfPossible(gold, 1L, troopUpgradeCost);
+  public Resource purchaseTroop(Kingdom kingdom, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException, UpgradeErrorException {
+    if (isBarrackThere(kingdom.getBuildings())) {
+      List<Resource> kingdomResources = kingdom.getResources();
+      Gold gold = getGold(kingdomResources);
+      return purchaseIfPossible(gold, 1L, troopUpgradeCost);
+    }
+    throw new UpgradeErrorException("There is no barrack.");
   }
 
   public Resource purchaseTroopUpgrade(Kingdom kingdom, Long id) throws GoldNotEnoughException, NotValidResourceException, TroopIdNotFoundException {
@@ -89,5 +92,9 @@ public class PurchaseService {
       return resourceService.save(Optional.of(gold));
     }
     throw new GoldNotEnoughException("Not enough gold");
+  }
+
+  private boolean isBarrackThere(List<Building> kingdomBuildings) {
+    return kingdomBuildings.stream().anyMatch(b -> b instanceof Barracks);
   }
 }
