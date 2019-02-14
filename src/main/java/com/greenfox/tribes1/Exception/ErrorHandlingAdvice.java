@@ -109,4 +109,9 @@ public class ErrorHandlingAdvice {
   ErrorMsg notValidResource(NotValidResourceException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
+
+  @ResponseBody
+  @ExceptionHandler(GoldNotEnoughException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  ErrorMsg notEnoughGold(GoldNotEnoughException ex) { return new ErrorMsg("error", ex.getMessage());}
 }
