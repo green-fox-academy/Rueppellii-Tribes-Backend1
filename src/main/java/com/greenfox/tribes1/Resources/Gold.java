@@ -17,16 +17,17 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Gold extends KingdomResource implements Updatable {
+public class Gold extends Resource implements Updatable {
 
   @Autowired
   @Transient
   TimeService timeService;
 
+  //TODO: remove @Transient somehow and make code cleaner
+  //TODO: figure out how to remove TimeService
   public Gold(Long id, Long amount, Timestamp updated_at, Long amountPerMinute, Building building, Kingdom kingdom, TimeService timeService) {
     super(id, amount, updated_at, amountPerMinute, building, kingdom);
     this.timeService = timeService;
-
   }
 
   public Gold(Long amount) {
@@ -37,6 +38,7 @@ public class Gold extends KingdomResource implements Updatable {
     this.timeService = timeService;
   }
 
+  //TODO: decide if we need this (probably not)
   public void setResourcePerMinute() {
     setAmountPerMinute(12L);
   }
@@ -44,6 +46,10 @@ public class Gold extends KingdomResource implements Updatable {
   @Override
   @SneakyThrows
   public Long update() {
-    return getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
+    return getBuilding().getLevel()
+            * getAmountPerMinute()
+            * timeService.calculateDifference(
+            getUpdated_at(), new Timestamp(System.currentTimeMillis())
+    ) + getAmount();
   }
 }

@@ -15,7 +15,9 @@ public enum BuildingType {
   },
 
   barracks {
-    public Building makeBuilding(){return new Barracks();}
+    public Building makeBuilding() {
+      return new Barracks();
+    }
   },
 
   townHall {

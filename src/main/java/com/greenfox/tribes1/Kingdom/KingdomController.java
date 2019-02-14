@@ -1,7 +1,6 @@
 package com.greenfox.tribes1.Kingdom;
 
-import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
-import com.greenfox.tribes1.Exception.TroopIdNotFoundException;
+import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Progression.DTO.ProgressionDTO;
 import com.greenfox.tribes1.Progression.ProgressionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,33 +22,41 @@ public class KingdomController {
   }
 
   @GetMapping("/kingdom")
-  public ResponseEntity show_kingdom(Authentication authentication) {
-    return ResponseEntity.ok(kingdomService.getKindomFromAuht(authentication));
+  public ResponseEntity showKingdom(Authentication authentication) throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException {
+    progressionService.checkConstruction();
+    Kingdom kingdomByUser = kingdomService.getKindomFromAuth(authentication);
+    return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));
+
   }
 
   @PutMapping("/kingdom")
-  public ResponseEntity change_kingdomName(Kingdom kingdom, String newName) {
+  public ResponseEntity changeKingdomName(Kingdom kingdom, String newName) {
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdom));
   }
 
   @GetMapping("/kingdom/buildings")
-  public ResponseEntity show_buildings(Authentication authentication) {
-    return ResponseEntity.ok(kingdomService.getKindomFromAuht(authentication).getBuildings());
+  public ResponseEntity showBuildings(Authentication authentication) {
+    return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getBuildings());
   }
 
   @GetMapping("/kingdom/resources")
-  public ResponseEntity show_resources(Authentication authentication) {
-    return ResponseEntity.ok(kingdomService.getKindomFromAuht(authentication).getResources());
+  public ResponseEntity showResources(Authentication authentication) {
+    return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getResources());
   }
 
   @PostMapping("/kingdom/buildings")
-  public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) throws TroopIdNotFoundException, BuildingIdNotFoundException {
+  public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) {
     ProgressionDTO progressionDTO = new ProgressionDTO();
     progressionDTO.setType(type);
-    progressionDTO.setKingdom(kingdomService.getKindomFromAuht(authentication));
+    progressionDTO.setKingdom(kingdomService.getKindomFromAuth(authentication));
     progressionDTO.setLevel(0L);
     progressionDTO.setModel_id(0L);
     progressionService.saveProgression(progressionDTO);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/kingdom/troops")
+  public ResponseEntity showTroops(Authentication authentication) {
+    return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getTroops());
   }
 }

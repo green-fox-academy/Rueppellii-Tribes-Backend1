@@ -17,9 +17,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Food extends KingdomResource implements Updatable {
+public class Food extends Resource implements Updatable {
 
-  @Autowired
+  //TODO: remove @Transient somehow and make code cleaner
+  //TODO: figure out how to remove TimeService
   @Transient
   TimeService timeService;
 
@@ -32,6 +33,7 @@ public class Food extends KingdomResource implements Updatable {
     this.timeService = timeService;
   }
 
+  //TODO: decide if we need this (probably not)
   public void setResourcePerMinute() {
     setAmountPerMinute(8L);
   }
@@ -39,6 +41,10 @@ public class Food extends KingdomResource implements Updatable {
   @Override
   @SneakyThrows
   public Long update() {
-    return 2 * getBuilding().getLevel() * getAmountPerMinute() * timeService.calculateDifference(getUpdated_at(), new Timestamp(System.currentTimeMillis()));
+    return 2 * getBuilding().getLevel()
+            * getAmountPerMinute()
+            * timeService.calculateDifference(
+            getUpdated_at(), new Timestamp(System.currentTimeMillis())
+    ) + getAmount();
   }
 }
