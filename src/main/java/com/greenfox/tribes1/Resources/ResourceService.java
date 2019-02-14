@@ -26,7 +26,6 @@ public class ResourceService implements KingdomElementService<Resource> {
   @Override
   @SneakyThrows
   public Resource findById(Long id) {
-
     return resourceRepository.findById(id).orElseThrow(()
             -> new NotValidResourceException("There is no Building with such Id"));
   }
@@ -38,11 +37,11 @@ public class ResourceService implements KingdomElementService<Resource> {
   }
 
   @Override
-  public void refresh(Resource kingdomResource) throws NotValidResourceException, DateNotGivenException {
-    Long difference = timeService.calculateDifference(kingdomResource.getUpdated_at(), new Timestamp(System.currentTimeMillis()));
+  public void refresh(Resource resource) throws NotValidResourceException, DateNotGivenException {
+    Long difference = timeService.calculateDifference(resource.getUpdated_at(), new Timestamp(System.currentTimeMillis()));
     if (difference > 0) {
-      kingdomResource.update(difference);
-      save(Optional.of(kingdomResource));
+      resource.update(difference);
+      save(Optional.of(resource));
     }
   }
 }
