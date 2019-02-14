@@ -32,9 +32,7 @@ public abstract class Troop {
   private Timestamp finished_at;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinTable(name = "kingdom_troops",
-          joinColumns = @JoinColumn(name = "troops_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
+  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   @JsonBackReference
   private Kingdom kingdom;
 }
