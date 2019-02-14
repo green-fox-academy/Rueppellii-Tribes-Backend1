@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class TroopServiceTest {
 
   private TroopService troopService;
-  private Troop testTroop = new TroopFactory().createTroop(TroopType.TestTroop);
+  private Troop testTroop = new TroopFactory().createTroop(TroopType.troop);
   private Troop nullTroop = null;
 
   @Mock

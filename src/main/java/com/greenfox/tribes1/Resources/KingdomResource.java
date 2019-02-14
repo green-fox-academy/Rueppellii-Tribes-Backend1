@@ -10,10 +10,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "resource_type")
+@AllArgsConstructor
 @Getter
 @Setter
 public abstract class KingdomResource implements Updatable {
@@ -29,12 +29,8 @@ public abstract class KingdomResource implements Updatable {
   @Transient
   private Building building;
 
-  @ManyToOne(
-          fetch = FetchType.EAGER
-  )
-  @JoinTable(name = "kingdom_resources",
-          joinColumns = @JoinColumn(name = "resources_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   @JsonBackReference
   private Kingdom kingdom;
 

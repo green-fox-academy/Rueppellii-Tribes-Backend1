@@ -21,14 +21,12 @@ public class Progression {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long model_id;
-  private boolean isCreate;
+  private Long level;
   private String type;
-  private Timestamp finished_at;
+  private Timestamp finished;
 
   @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinTable(name = "kingdom_progression",
-          joinColumns = @JoinColumn(name = "progression_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "kingdom_id", referencedColumnName = "id"))
+  @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   private Kingdom kingdom;
 
 }

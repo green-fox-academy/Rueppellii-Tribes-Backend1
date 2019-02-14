@@ -6,14 +6,7 @@ CREATE TABLE `building`
   `HP`            float(20),
   `started_at`    timestamp(6),
   `finished_at`   timestamp(6),
-  PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `kingdom_buildings`
-(
-  `kingdom_id`   bigint(20) not null,
-  `buildings_id` bigint(20),
-  PRIMARY KEY (`buildings_id`),
-  CONSTRAINT kingdom_buildings_kingdom_id FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`),
-  CONSTRAINT kingdom_buildings_buildings_id FOREIGN KEY (`buildings_id`) REFERENCES `building` (`id`)
+  `kingdom_id`    bigint(20),
+  PRIMARY KEY (`id`),
+  CONSTRAINT building_kingdom_id FOREIGN KEY (`kingdom_id`) REFERENCES `kingdom` (`id`)
 );
