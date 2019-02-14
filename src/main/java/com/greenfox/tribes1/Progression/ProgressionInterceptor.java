@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProgressionInterceptor extends HandlerInterceptorAdapter {
+
   private ProgressionService progressionService;
 
   @Autowired

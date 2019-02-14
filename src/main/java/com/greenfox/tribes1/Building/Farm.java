@@ -18,7 +18,7 @@ public class Farm extends Building {
   }
 
   @Override
-  void upgrade() {
+  void levelUp() {
     //TODO
   }
 }

@@ -32,6 +32,6 @@ public abstract class Building {
 
   private Kingdom kingdom;
 
-  abstract void upgrade();
+  abstract void levelUp();
 
 }

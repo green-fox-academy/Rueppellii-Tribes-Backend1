@@ -18,7 +18,7 @@ public class TownHall extends Building {
   }
 
   @Override
-  void upgrade() {
+  void levelUp() {
     //TODO
   }
 }
