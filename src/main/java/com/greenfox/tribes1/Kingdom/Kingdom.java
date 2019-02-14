@@ -3,7 +3,7 @@ package com.greenfox.tribes1.Kingdom;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Building.Building;
-import com.greenfox.tribes1.Resources.KingdomResource;
+import com.greenfox.tribes1.Resources.Resource;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import lombok.*;
 
@@ -12,8 +12,8 @@ import java.util.List;
 
 @Entity
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Kingdom {
@@ -25,7 +25,7 @@ public class Kingdom {
 
   @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   @JsonManagedReference
-  private List<KingdomResource> resources;
+  private List<Resource> resources;
 
   @OneToOne(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   ApplicationUser applicationUser;

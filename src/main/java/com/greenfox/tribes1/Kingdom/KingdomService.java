@@ -5,11 +5,14 @@ import com.greenfox.tribes1.Building.BuildingFactory;
 import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
-import com.greenfox.tribes1.Resources.KingdomResource;
+import com.greenfox.tribes1.Resources.Resource;
 import com.greenfox.tribes1.Resources.ResourceFactory;
 import com.greenfox.tribes1.Resources.ResourceType;
+import com.greenfox.tribes1.Security.Model.UserContext;
+import com.greenfox.tribes1.Troop.Model.Troop;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,6 +48,11 @@ public class KingdomService {
     return kingdomRepository.findAll();
   }
 
+  public void setStarterTroops(Kingdom kingdom) {
+    List<Troop> troops = new ArrayList<>();
+    kingdom.setTroops(troops);
+  }
+
   public void setStarterBuildings(Kingdom kingdom) {
     List<Building> buildings = createBuildings();
     setKingdomForBuildings(buildings, kingdom);
@@ -66,22 +74,27 @@ public class KingdomService {
   }
 
   public void setStarterResource(Kingdom kingdom) {
-    List<KingdomResource> resources = createResources();
+    List<Resource> resources = createResources();
     setKingdomForResources(resources, kingdom);
     kingdom.setResources(resources);
   }
 
-  private List<KingdomResource> createResources() {
-    List<KingdomResource> resources = new ArrayList<>();
+  private List<Resource> createResources() {
+    List<Resource> resources = new ArrayList<>();
     for (ResourceType type : ResourceType.values()) {
       resources.add(ResourceFactory.createResource(type));
     }
     return resources;
   }
 
-  private void setKingdomForResources(List<KingdomResource> resources, Kingdom kingdom) {
-    for (KingdomResource resource : resources) {
+  private void setKingdomForResources(List<Resource> resources, Kingdom kingdom) {
+    for (Resource resource : resources) {
       resource.setKingdom(kingdom);
     }
+  }
+
+  public Kingdom getKindomFromAuth(Authentication authentication){
+    UserContext userContext = (UserContext) authentication.getPrincipal();
+    return findKingdomByApplicationUserName(userContext.getUsername());
   }
 }

@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 @Setter
-public abstract class KingdomResource implements Updatable {
+public abstract class Resource implements Updatable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public abstract class KingdomResource implements Updatable {
   @JsonBackReference
   private Kingdom kingdom;
 
-  KingdomResource() {
+  Resource() {
     amount = 500L;
   }
 }

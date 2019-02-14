@@ -1,7 +1,7 @@
 package com.greenfox.tribes1.Kingdom.DTO;
 
 import com.greenfox.tribes1.Building.Building;
-import com.greenfox.tribes1.Resources.KingdomResource;
+import com.greenfox.tribes1.Resources.Resource;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,9 +19,6 @@ public class KingdomDTO {
   private String kingdomName;
   private String applicationUserName;
   private List<Building> buildings;
-  private List<KingdomResource> resources;
+  private List<Resource> resources;
   private List<Troop> troops;
-//    Location location;
-  //  private ApplicationUser applicationUser;
-//    private Long userId;
 }

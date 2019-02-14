@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Food extends KingdomResource {
+public class Food extends Resource implements Updatable {
 
   //TODO: remove @Transient somehow and make code cleaner
   //TODO: figure out how to remove TimeService

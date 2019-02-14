@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ResourceRepository extends JpaRepository<KingdomResource, Long> {
+public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
   @Override
-  Optional<KingdomResource> findById(Long id);
+  Optional<Resource> findById(Long id);
 }

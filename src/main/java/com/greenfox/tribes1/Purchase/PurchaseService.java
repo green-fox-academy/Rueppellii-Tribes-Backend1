@@ -6,7 +6,7 @@ import com.greenfox.tribes1.Building.BuildingService;
 import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import com.greenfox.tribes1.Resources.Gold;
-import com.greenfox.tribes1.Resources.KingdomResource;
+import com.greenfox.tribes1.Resources.Resource;
 import com.greenfox.tribes1.Resources.ResourceService;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import com.greenfox.tribes1.Troop.TroopService;
@@ -32,14 +32,14 @@ public class PurchaseService {
   }
 
   public void purchase(Kingdom kingdom, Long id, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException {
-    List<KingdomResource> kingdomResources = kingdom.getResources();
+    List<Resource> kingdomResources = kingdom.getResources();
     Gold gold = getGoldAmount(kingdomResources);
     purchaseIfPossible(gold, 1L, upgradeCost);
   }
 
   public void purchaseTroopUpgrade(Kingdom kingdom, Long id) throws GoldNotEnoughException, NotValidResourceException, TroopIdNotFoundException {
     Troop troop = troopService.findById(id);
-    List<KingdomResource> kingdomResources = kingdom.getResources();
+    List<Resource> kingdomResources = kingdom.getResources();
     Gold gold = getGoldAmount(kingdomResources);
     Long upgradeTo = troop.getLevel() + 1L;
     Long troopUpgradeCost = 10L;
@@ -49,7 +49,7 @@ public class PurchaseService {
 
   public void purchaseBuildingUpgrade(Kingdom kingdom, Long id) throws GoldNotEnoughException, BuildingIdNotFoundException, NotValidResourceException {
     Building building = buildingService.findById(id);
-    List<KingdomResource> kingdomResources = kingdom.getResources();
+    List<Resource> kingdomResources = kingdom.getResources();
     Gold gold = getGoldAmount(kingdomResources);
     Long upgradeLevel = building.getLevel() + 1L;
     Long buildingUpgradeCost = 100L;
@@ -57,8 +57,8 @@ public class PurchaseService {
     purchaseIfPossible(gold, upgradeLevel, buildingUpgradeCost);
   }
 
-  private Gold getGoldAmount(List<KingdomResource> kingdomResources) {
-    List<KingdomResource> filteredResources = kingdomResources.stream().filter(r -> r instanceof Gold).collect(Collectors.toList());
+  private Gold getGoldAmount(List<Resource> kingdomResources) {
+    List<Resource> filteredResources = kingdomResources.stream().filter(r -> r instanceof Gold).collect(Collectors.toList());
     return (Gold) Iterables.getOnlyElement(filteredResources);
   }
 
@@ -66,7 +66,7 @@ public class PurchaseService {
     return gold.getAmount() > upgradeCost;
   }
 
-  private KingdomResource purchaseIfPossible(Gold gold, Long upgradeTo, Long upgradeCost) throws NotValidResourceException, GoldNotEnoughException {
+  private Resource purchaseIfPossible(Gold gold, Long upgradeTo, Long upgradeCost) throws NotValidResourceException, GoldNotEnoughException {
     if (isGoldEnough(gold, upgradeCost)) {
       Long newGoldAmount = gold.getAmount() - upgradeTo * upgradeCost;
       gold.setAmount(newGoldAmount);

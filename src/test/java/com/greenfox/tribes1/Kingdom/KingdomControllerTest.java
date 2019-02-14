@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -60,8 +61,7 @@ public class KingdomControllerTest {
   private KingdomDTO testKingdomDTO;
   private String kingdom;
   private String mineJson;
-
-  String failure = "{\"status\":\"error\",\"message\":\"Auth failure\"}";
+  private String failedAuth;
 
   @Before
   public void init() throws JSONException {
@@ -101,12 +101,17 @@ public class KingdomControllerTest {
                     .put("finished", null)
                     .put("kingdom", null)
                     .put("hp", null))).toString();
+
+    failedAuth = new JSONObject()
+            .put("status", "error")
+            .put("message", "Auth failure")
+            .toString();
   }
 
   @Test
   public void getKingdom_throwsException_ifUserNotFound() throws Exception {
     token = testTokenProvider.createMockToken(username);
-    when(kingdomService.findKingdomByApplicationUserName(username)).thenThrow(UsernameNotFoundException.class);
+    when(kingdomService.getKindomFromAuth(Mockito.any(Authentication.class))).thenThrow(UsernameNotFoundException.class);
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
                     .header("Authorization", token))
@@ -127,8 +132,8 @@ public class KingdomControllerTest {
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
     )
-            .andExpect(content().json(failure))
-            .andExpect(status().isUnauthorized());
+            .andExpect(status().isUnauthorized())
+            .andExpect(content().json(failedAuth));
   }
 
   @Test
@@ -142,8 +147,8 @@ public class KingdomControllerTest {
   @Test
   public void getKingdom_ReturnsKingdomDTO_StatusOK_HasCorrectMediaType_ServiceMethodsRunOnlyOnce() throws Exception {
     token = testTokenProvider.createMockToken(username);
-    when(kingdomService.findKingdomByApplicationUserName(Mockito.any(String.class))).thenReturn(testKingdom);
     when(kingdomService.createKingdomDTOFromKingdom(testKingdom)).thenReturn(testKingdomDTO);
+    when(kingdomService.getKindomFromAuth(Mockito.any(Authentication.class))).thenReturn(testKingdom);
 
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom")
@@ -152,7 +157,7 @@ public class KingdomControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(content().json(kingdom));
-    verify(kingdomService, times(1)).findKingdomByApplicationUserName(Mockito.any(String.class));
+    verify(kingdomService, times(1)).getKindomFromAuth(Mockito.any(Authentication.class));
     verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
     verifyNoMoreInteractions(kingdomService);
   }
@@ -165,6 +170,7 @@ public class KingdomControllerTest {
     buildingList.add(mine);
     testKingdom.setBuildings(buildingList);
     when(kingdomService.findKingdomByApplicationUserName(Mockito.any(String.class))).thenReturn(testKingdom);
+    when(kingdomService.getKindomFromAuth(Mockito.any(Authentication.class))).thenReturn(testKingdom);
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom/buildings")
                     .header("Authorization", token)
@@ -180,6 +186,7 @@ public class KingdomControllerTest {
 
     token = testTokenProvider.createMockToken(username);
     when(kingdomService.findKingdomByApplicationUserName(Mockito.any(String.class))).thenReturn(testKingdom);
+    when(kingdomService.getKindomFromAuth(Mockito.any(Authentication.class))).thenReturn(testKingdom);
 
     mockMvc.perform(
             MockMvcRequestBuilders.get("/kingdom/buildings")

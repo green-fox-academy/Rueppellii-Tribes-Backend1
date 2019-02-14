@@ -1,4 +1,4 @@
-CREATE TABLE `kingdom_resource`
+CREATE TABLE `resource`
 (
   `resource_type` varchar(255) NOT NULL,
   `id`            bigint(20) AUTO_INCREMENT,

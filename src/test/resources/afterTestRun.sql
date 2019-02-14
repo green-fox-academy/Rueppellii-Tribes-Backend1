@@ -2,7 +2,7 @@ DELETE
 FROM troop;
 
 DELETE
-FROM kingdom_resource;
+FROM resource;
 
 DELETE
 FROM building;
@@ -12,3 +12,4 @@ FROM application_user;
 
 DELETE
 FROM kingdom;
+
