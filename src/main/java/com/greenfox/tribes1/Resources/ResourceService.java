@@ -1,35 +1,42 @@
 package com.greenfox.tribes1.Resources;
 
 import com.greenfox.tribes1.Exception.NotValidResourceException;
-import com.greenfox.tribes1.Kingdom.KingdomRepository;
+import com.greenfox.tribes1.KingdomElementService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.function.Predicate;
+
 @Service
-public class ResourceService {
+public class ResourceService implements KingdomElementService<KingdomResource> {
 
   private ResourceRepository resourceRepository;
-  @Autowired
-  private KingdomRepository kingdomRepository;
+  private Predicate<KingdomResource> isValid = (a) -> (a != null);
 
   @Autowired
   public ResourceService(ResourceRepository resourceRepository) {
     this.resourceRepository = resourceRepository;
   }
 
-  public KingdomResource saveResource(KingdomResource kingdomResource) throws NotValidResourceException {
-    if (validResource(kingdomResource)) {
-      return resourceRepository.save(kingdomResource);
-    }
-    throw new NotValidResourceException("Resource validation failed");
+  @Override
+  @SneakyThrows
+  public KingdomResource findById(Long id) {
+
+    return resourceRepository.findById(id).orElseThrow(()
+            -> new NotValidResourceException("There is no Building with such Id"));
   }
 
-  private boolean validResource(KingdomResource resource) {
-    return resource != null;
+  @Override
+  public KingdomResource save(Optional<KingdomResource> kingdomResource) throws NotValidResourceException {
+    return resourceRepository.save(kingdomResource
+            .orElseThrow(() -> new NotValidResourceException("Resource validation failed")));
   }
 
-  public void updateResource(KingdomResource kingdomResource) throws NotValidResourceException {
-    kingdomResource.setAmount(kingdomResource.getAmount() + kingdomResource.update());
-    saveResource(kingdomResource);
+  @Override
+  public void refresh(KingdomResource kingdomResource) throws NotValidResourceException {
+    kingdomResource.update();
+    save(Optional.of(kingdomResource));
   }
 }

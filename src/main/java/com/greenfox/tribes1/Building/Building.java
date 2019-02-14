@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -26,5 +27,7 @@ public abstract class Building {
   @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   @JsonBackReference
   private Kingdom kingdom;
+
+  abstract void levelUp();
 
 }
