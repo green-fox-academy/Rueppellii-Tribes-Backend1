@@ -5,6 +5,7 @@ import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Progression.ProgressionService;
 import com.greenfox.tribes1.Purchase.PurchaseService;
+import com.greenfox.tribes1.Troop.Model.Troop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -68,6 +69,11 @@ public class KingdomController {
     return ResponseEntity.ok().build();
   }
 
+  @GetMapping("/kingdom/troops")
+  public ResponseEntity showTroops(Authentication authentication) {
+    return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getTroops());
+  }
+
   @PostMapping("/kingdom/troop")
   public ResponseEntity addTroop(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException, UpgradeErrorException {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
@@ -76,8 +82,11 @@ public class KingdomController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/kingdom/troops")
-  public ResponseEntity showTroops(Authentication authentication) {
-    return ResponseEntity.ok(kingdomService.getKindomFromAuth(authentication).getTroops());
+  //TODO: return with troop's details
+  @PutMapping("/kingdom/troop/{lvl}")
+  public ResponseEntity upgradeTroop(Authentication authentication, @PathVariable Long lvl, @RequestBody Long amount) throws TroopIdNotFoundException, GoldNotEnoughException, NotValidResourceException, UpgradeErrorException {
+    Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
+    List<Troop> matchingLevelTroops = purchaseService.purchaseTroopUpgrade(currentKingdom, lvl, amount);
+    return ResponseEntity.ok(matchingLevelTroops);
   }
 }
