@@ -6,6 +6,7 @@ import com.greenfox.tribes1.Kingdom.Kingdom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -37,5 +38,15 @@ public abstract class Resource implements Updatable {
   Resource() {
     updated_at = new Timestamp(System.currentTimeMillis());
     amount = 500L;
+  }
+
+  @Override
+  @SneakyThrows
+  public void update(Long difference) {
+    if (difference > 0) {
+      setAmount(getAmountPerMinute() * difference
+              + getAmount());
+      setUpdated_at(new Timestamp(System.currentTimeMillis()));
+    }
   }
 }
