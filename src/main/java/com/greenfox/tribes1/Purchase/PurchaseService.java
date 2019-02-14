@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +70,7 @@ public class PurchaseService {
     if (isGoldEnough(gold, upgradeCost)) {
       Long newGoldAmount = gold.getAmount() - upgradeTo * upgradeCost;
       gold.setAmount(newGoldAmount);
-      return resourceService.saveResource(gold);
+      return resourceService.save(Optional.of(gold));
     }
     throw new GoldNotEnoughException("Not enough gold");
   }
