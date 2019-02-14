@@ -35,6 +35,7 @@ public abstract class Resource implements Updatable {
   private Kingdom kingdom;
 
   Resource() {
+    updated_at = new Timestamp(System.currentTimeMillis());
     amount = 500L;
   }
 }
