@@ -2,25 +2,25 @@ package com.greenfox.tribes1.Building;
 
 public enum BuildingType {
 
-  farm {
+  Farm {
     public Building makeBuilding() {
       return new Farm();
     }
   },
 
-  mine {
+  Mine {
     public Building makeBuilding() {
       return new Mine();
     }
   },
 
-  barracks {
+  Barracks {
     public Building makeBuilding() {
       return new Barracks();
     }
   },
 
-  townHall {
+  TownHall {
     public Building makeBuilding() {
       return new TownHall();
     }

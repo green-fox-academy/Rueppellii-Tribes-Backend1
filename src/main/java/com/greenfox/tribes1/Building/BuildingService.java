@@ -1,20 +1,14 @@
 package com.greenfox.tribes1.Building;
 
-import com.google.common.collect.Iterables;
 import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.BuildingNotValidException;
 import com.greenfox.tribes1.KingdomElementService;
-import com.greenfox.tribes1.Resources.Food;
-import com.greenfox.tribes1.Resources.Gold;
-import com.greenfox.tribes1.Resources.Resource;
 import com.greenfox.tribes1.Upgradable;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BuildingService implements KingdomElementService<Building>, Upgradable<Building>{
@@ -68,7 +62,7 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
 
   @Override
   public void refresh(Building building) {
-    //TODO: discuss how we should update our buildings
+    //TODO: IF any progression is over, create new Building();
   }
 
   @Override

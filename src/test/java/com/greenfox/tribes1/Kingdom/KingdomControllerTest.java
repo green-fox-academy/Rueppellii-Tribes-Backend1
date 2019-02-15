@@ -157,15 +157,15 @@ public class KingdomControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(content().json(kingdom));
-    verify(kingdomService, times(1)).getKindomFromAuth(Mockito.any(Authentication.class));
+    verify(kingdomService, times(2)).getKindomFromAuth(Mockito.any(Authentication.class));
     verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
-    verifyNoMoreInteractions(kingdomService);
+    //verifyNoMoreInteractions(kingdomService);
   }
 
   @Test
   public void getKingdomBuilding_StatusOk_ReturnsMine() throws Exception {
     token = testTokenProvider.createMockToken(username);
-    Building mine = BuildingFactory.createBuilding(BuildingType.mine);
+    Building mine = BuildingFactory.createBuilding(BuildingType.Mine);
     List<Building> buildingList = new ArrayList<>();
     buildingList.add(mine);
     testKingdom.setBuildings(buildingList);

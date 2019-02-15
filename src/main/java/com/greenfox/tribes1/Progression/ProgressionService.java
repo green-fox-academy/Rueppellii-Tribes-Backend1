@@ -49,6 +49,36 @@ public class ProgressionService {
     return modelMapper.map(progressionDTO, Progression.class);
   }
 
+  public ProgressionDTO createProgressionDTOForCreation(Kingdom kingdom, String type) {
+    ProgressionDTO progressionDTO = ProgressionDTO.builder()
+            .type(type)
+            .kingdom(kingdom)
+            .level(0L)
+            .model_id(0L).build();
+    return progressionDTO;
+  }
+
+  public ProgressionDTO createProgressionDTOforBuildingUpgrade(Kingdom kingdom, Long id) throws BuildingIdNotFoundException {
+    Building buildingToUpgrade = buildingService.findById(id);
+    String type = buildingToUpgrade.getClass().getSimpleName();
+    ProgressionDTO progressionDTO = ProgressionDTO.builder()
+            .type(type)
+            .kingdom(kingdom)
+            .level(buildingToUpgrade.getLevel())
+            .model_id(id).build();
+    return progressionDTO;
+  }
+
+  public ProgressionDTO createProgressionDTOforTroopUpgrade(Kingdom kingdom, Long id) throws TroopIdNotFoundException {
+    Troop troopToUpgrade = troopService.findById(id);
+    ProgressionDTO progressionDTO = ProgressionDTO.builder()
+            .type("troop")
+            .kingdom(kingdom)
+            .level(troopToUpgrade.getLevel())
+            .model_id(id).build();
+    return progressionDTO;
+  }
+
   public void safeDeleteAllProgressionsWithExpiredTimestamp() {
     List<Progression> allExpired = listOfAllProgressionsWithExpiredTimestamp();
     for (Progression expired : allExpired) {
@@ -81,6 +111,7 @@ public class ProgressionService {
     finishFarmUpgrade();
     finishBarracksUpgrade();
     finishTroopUpgrade();
+    finishTownHallUpgrade();
     safeDeleteAllProgressionsWithExpiredTimestamp();
   }
 
@@ -106,7 +137,7 @@ public class ProgressionService {
   }
 
   public void finishTroopConstructions() throws NotValidKingdomNameException, TroopNotValidException {
-    List<Progression> troops = listOfThingsToCreateWithExpiredTimestamp("troop");
+    List<Progression> troops = listOfThingsToCreateWithExpiredTimestamp("Troop");
     for (Progression troop : troops) {
       addTroopToKingdom(troop, createNewTroop(troop));
 //      Todo: decrease resource/food method Csongi
@@ -134,6 +165,13 @@ public class ProgressionService {
     }
   }
 
+  public void finishTownHallUpgrade() throws BuildingIdNotFoundException, TroopIdNotFoundException, NotValidTypeException {
+    List<Progression> townHalls = listOfThingsToUpgradeeWithExpiredTimestamp("TownHall");
+    for(Progression townHall : townHalls){
+      upgradeTownHall(townHall);
+    }
+
+  }
   public void finishTroopUpgrade() throws TroopIdNotFoundException, NotValidTypeException, BuildingIdNotFoundException, TroopNotValidException {
     List<Progression> troops = listOfThingsToUpgradeeWithExpiredTimestamp("troop");
     for (Progression troop : troops) {
@@ -166,6 +204,11 @@ public class ProgressionService {
     buildingService.upgrade(buildingToUpgrade);
   }
 
+  public void upgradeTownHall(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException {
+    Building buildingToUpgrade = (Building) getExactBuildingOrTroop_FromProgressionModelId(progression);
+    buildingService.upgrade(buildingToUpgrade);
+  }
+
   public void upgradeTroop(Progression progression) throws NotValidTypeException, TroopIdNotFoundException, BuildingIdNotFoundException, TroopNotValidException {
     Troop troopToUpgrade = (Troop) getExactBuildingOrTroop_FromProgressionModelId((progression));
     troopService.upgrade(troopToUpgrade);
@@ -177,9 +220,11 @@ public class ProgressionService {
   }
 
   public Boolean isTypeBuilding(Progression progression) {
-    return (progression.getType().equals("barracks") ||
-            progression.getType().equals("farm") ||
-            progression.getType().equals("mine"));
+    return (progression.getType().equals("Barracks") ||
+            progression.getType().equals("Farm") ||
+            progression.getType().equals("Mine") ||
+            progression.getType().equals("TownHall")
+    );
   }
 
   public Boolean isTypeTroop(Progression progression) {
@@ -187,7 +232,7 @@ public class ProgressionService {
   }
 
   public Object getExactBuildingOrTroop_FromProgressionModelId(Progression progression) throws BuildingIdNotFoundException, TroopIdNotFoundException, NotValidTypeException {
-    if (!isTypeBuilding(progression) || (!isTypeTroop(progression))) {
+    if (!isTypeBuilding(progression) && (!isTypeTroop(progression))) {
       throw new NotValidTypeException("Invalid Troop or Building Type");
     } else if (isTypeBuilding(progression)) {
       return buildingService.findById(progression.getModel_id());

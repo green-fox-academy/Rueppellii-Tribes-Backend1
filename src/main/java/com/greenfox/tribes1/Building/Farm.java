@@ -9,7 +9,6 @@ import lombok.Setter;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity(name = "Farm")
