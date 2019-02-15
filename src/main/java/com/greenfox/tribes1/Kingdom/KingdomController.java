@@ -19,9 +19,6 @@ public class KingdomController {
   private KingdomService kingdomService;
   private ProgressionService progressionService;
   private PurchaseService purchaseService;
-  private Long buildingUpgradeCost = 100L;
-  private Long troopUpgradeCost = 10L;
-
 
   @Autowired
   public KingdomController(KingdomService kingdomService, ProgressionService progressionService, PurchaseService purchaseService) {
@@ -56,7 +53,7 @@ public class KingdomController {
   @PostMapping("/kingdom/buildings")
   public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
-    purchaseService.purchaseBuilding(currentKingdom, buildingUpgradeCost);
+    purchaseService.purchaseBuilding(currentKingdom);
     progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));
     return ResponseEntity.ok().build();
   }
@@ -77,7 +74,7 @@ public class KingdomController {
   @PostMapping("/kingdom/troop")
   public ResponseEntity addTroop(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException, UpgradeErrorException {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
-    purchaseService.purchaseTroop(currentKingdom, troopUpgradeCost);
+    purchaseService.purchaseTroop(currentKingdom);
     progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));
     return ResponseEntity.ok().build();
   }
