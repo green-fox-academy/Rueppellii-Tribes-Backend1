@@ -157,7 +157,7 @@ public class KingdomControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(content().json(kingdom));
-    verify(kingdomService, times(1)).getKindomFromAuth(Mockito.any(Authentication.class));
+    verify(kingdomService, times(2)).getKindomFromAuth(Mockito.any(Authentication.class));
     verify(kingdomService, times(1)).createKingdomDTOFromKingdom(testKingdom);
     //verifyNoMoreInteractions(kingdomService);
   }
