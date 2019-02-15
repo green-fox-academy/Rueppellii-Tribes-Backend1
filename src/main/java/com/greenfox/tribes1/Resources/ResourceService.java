@@ -44,4 +44,5 @@ public class ResourceService implements KingdomElementService<Resource> {
       save(Optional.of(resource));
     }
   }
+
 }

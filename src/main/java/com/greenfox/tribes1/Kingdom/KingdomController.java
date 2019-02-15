@@ -22,7 +22,7 @@ public class KingdomController {
   }
 
   @GetMapping("/kingdom")
-  public ResponseEntity showKingdom(Authentication authentication) throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException {
+  public ResponseEntity showKingdom(Authentication authentication) throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException, NotValidResourceException {
     progressionService.checkConstruction();
     Kingdom kingdomByUser = kingdomService.getKindomFromAuth(authentication);
     return ResponseEntity.ok(kingdomService.createKingdomDTOFromKingdom(kingdomByUser));

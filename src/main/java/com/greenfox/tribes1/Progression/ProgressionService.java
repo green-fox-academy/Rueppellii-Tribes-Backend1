@@ -1,5 +1,6 @@
 package com.greenfox.tribes1.Progression;
 
+import com.google.common.collect.Iterables;
 import com.greenfox.tribes1.Building.Building;
 import com.greenfox.tribes1.Building.BuildingFactory;
 import com.greenfox.tribes1.Building.BuildingService;
@@ -7,6 +8,8 @@ import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import com.greenfox.tribes1.Progression.DTO.ProgressionDTO;
+import com.greenfox.tribes1.Resources.Food;
+import com.greenfox.tribes1.Resources.ResourceService;
 import com.greenfox.tribes1.TimeService;
 import com.greenfox.tribes1.Troop.Model.Troop;
 import com.greenfox.tribes1.Troop.TroopFactory;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProgressionService {
@@ -27,15 +31,18 @@ public class ProgressionService {
   private TimeService timeService;
   private BuildingService buildingService;
   private TroopService troopService;
+  private ResourceService resourceService;
 
   private Long level = 0L;
 
   @Autowired
-  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, BuildingService buildingService, TroopService troopService) {
+  public ProgressionService(ProgressionRepository progressionRepository, TimeService timeService, BuildingService buildingService, TroopService troopService, ResourceService resourceService) {
     this.progressionRepository = progressionRepository;
     this.timeService = timeService;
     this.buildingService = buildingService;
     this.troopService = troopService;
+    this.resourceService = resourceService;
+
   }
 
   public void saveProgression(ProgressionDTO progressionDTO) {
@@ -72,7 +79,7 @@ public class ProgressionService {
     return progressionRepository.findByFinishedLessThan(currentTime);
   }
 
-  public void checkConstruction() throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingIdNotFoundException, NotValidTypeException, BuildingNotValidException, TroopNotValidException {
+  public void checkConstruction() throws NotValidKingdomNameException, TroopIdNotFoundException, BuildingIdNotFoundException, NotValidTypeException, BuildingNotValidException, TroopNotValidException, NotValidResourceException {
     finishMineConstructions();
     finishFarmConstructions();
     finishBarracksConstructions();
@@ -105,7 +112,7 @@ public class ProgressionService {
     }
   }
 
-  public void finishTroopConstructions() throws NotValidKingdomNameException, TroopNotValidException {
+  public void finishTroopConstructions() throws NotValidKingdomNameException, TroopNotValidException, NotValidResourceException {
     List<Progression> troops = listOfThingsToCreateWithExpiredTimestamp("troop");
     for (Progression troop : troops) {
       addTroopToKingdom(troop, createNewTroop(troop));
@@ -145,8 +152,9 @@ public class ProgressionService {
     return BuildingFactory.createBuilding(BuildingType.valueOf(type));
   }
 
-  public Troop createNewTroop(Progression progression) {
+  public Troop createNewTroop(Progression progression) throws NotValidResourceException {
     String type = progression.getType();
+    decreaseFood(progression);
     return TroopFactory.createTroop(TroopType.valueOf(type));
   }
 
@@ -211,5 +219,18 @@ public class ProgressionService {
     troopsOfKingdom.add(newTroop);
     kingdomAddTo.setTroops(troopsOfKingdom);
     troopService.save(Optional.of(newTroop));
+  }
+
+  public void decreaseFood(Progression progression) throws NotValidResourceException {
+    Food food = Iterables.getOnlyElement(progression
+            .getKingdom()
+            .getResources()
+            .stream()
+            .filter(r -> r instanceof Food)
+            .map(f -> (Food) f)
+            .collect(Collectors.toList()));
+
+    food.setAmount(food.getAmount() - 1);
+    resourceService.save(Optional.of(food));
   }
 }
