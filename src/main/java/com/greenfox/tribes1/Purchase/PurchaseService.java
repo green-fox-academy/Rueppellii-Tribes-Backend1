@@ -34,13 +34,13 @@ public class PurchaseService {
     this.resourceService = resourceService;
   }
 
-  public Resource purchaseBuilding(Kingdom kingdom, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException {
+  public Resource purchaseBuilding(Kingdom kingdom) throws GoldNotEnoughException, NotValidResourceException {
     List<Resource> kingdomResources = kingdom.getResources();
     Gold gold = getGold(kingdomResources);
     return purchaseIfPossible(gold, 1L, buildingUpgradeCost);
   }
 
-  public Resource purchaseTroop(Kingdom kingdom, Long upgradeCost) throws GoldNotEnoughException, NotValidResourceException, UpgradeErrorException {
+  public Resource purchaseTroop(Kingdom kingdom) throws GoldNotEnoughException, NotValidResourceException, UpgradeErrorException {
     if (isBarrackThere(kingdom.getBuildings())) {
       List<Resource> kingdomResources = kingdom.getResources();
       Gold gold = getGold(kingdomResources);

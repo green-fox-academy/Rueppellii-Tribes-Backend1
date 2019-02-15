@@ -82,7 +82,6 @@ public class KingdomController {
     return ResponseEntity.ok().build();
   }
 
-  //TODO: return with troop's details
   @PutMapping("/kingdom/troop/{lvl}")
   public ResponseEntity upgradeTroop(Authentication authentication, @PathVariable Long lvl, @RequestBody Long amount) throws TroopIdNotFoundException, GoldNotEnoughException, NotValidResourceException, UpgradeErrorException {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
