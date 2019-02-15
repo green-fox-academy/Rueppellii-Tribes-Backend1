@@ -23,7 +23,7 @@ public class Kingdom {
   private Long id;
   private String name;
 
-  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JsonManagedReference
   private List<Resource> resources;
 

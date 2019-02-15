@@ -25,7 +25,7 @@ public class TroopService implements KingdomElementService<Troop>, Upgradable<Tr
 
   @Override
   public void refresh(Troop troop) throws Exception {
-    //TODO
+    //TODO: IF any progression is over, create new Building();
   }
 
   @Override
