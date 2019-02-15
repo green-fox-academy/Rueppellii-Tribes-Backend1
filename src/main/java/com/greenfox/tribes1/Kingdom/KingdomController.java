@@ -6,6 +6,7 @@ import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Progression.ProgressionService;
 import com.greenfox.tribes1.Purchase.PurchaseService;
 import com.greenfox.tribes1.Troop.Model.Troop;
+import com.greenfox.tribes1.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -51,10 +52,11 @@ public class KingdomController {
   }
 
   @PostMapping("/kingdom/buildings")
-  public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException {
+  public ResponseEntity addBuilding(Authentication authentication, @RequestBody Type type) throws NotValidResourceException, GoldNotEnoughException {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
     purchaseService.purchaseBuilding(currentKingdom);
-    progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));
+    String type1 = type.getType();
+    progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type1));
     return ResponseEntity.ok().build();
   }
 

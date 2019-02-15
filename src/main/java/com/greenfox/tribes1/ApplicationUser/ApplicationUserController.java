@@ -4,12 +4,13 @@ import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
+@CrossOrigin()
 @RestController
 public class ApplicationUserController {
 
@@ -19,6 +20,7 @@ public class ApplicationUserController {
   public ApplicationUserController(ApplicationUserService applicationUserService) {
     this.applicationUserService = applicationUserService;
   }
+
 
   @PostMapping("/register")
   public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException, NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException {
