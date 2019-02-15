@@ -9,6 +9,7 @@ import com.greenfox.tribes1.Exception.*;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import com.greenfox.tribes1.Progression.DTO.ProgressionDTO;
 import com.greenfox.tribes1.Resources.Food;
+import com.greenfox.tribes1.Resources.Resource;
 import com.greenfox.tribes1.Resources.ResourceService;
 import com.greenfox.tribes1.TimeService;
 import com.greenfox.tribes1.Troop.Model.Troop;
@@ -32,7 +33,6 @@ public class ProgressionService {
   private BuildingService buildingService;
   private TroopService troopService;
   private ResourceService resourceService;
-
   private Long level = 0L;
 
   @Autowired
@@ -222,12 +222,11 @@ public class ProgressionService {
   }
 
   public void decreaseFood(Progression progression) throws NotValidResourceException {
-    Food food = Iterables.getOnlyElement(progression
+    Resource food = Iterables.getOnlyElement(progression
             .getKingdom()
             .getResources()
             .stream()
             .filter(r -> r instanceof Food)
-            .map(f -> (Food) f)
             .collect(Collectors.toList()));
 
     food.setAmount(food.getAmountPerMinute() - 1);

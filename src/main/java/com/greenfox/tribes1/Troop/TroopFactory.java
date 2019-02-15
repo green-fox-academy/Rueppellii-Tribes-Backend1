@@ -26,35 +26,6 @@ public class TroopFactory {
 
   public Troop makeTroop(TroopType troopType) throws NotValidResourceException {
 
-    /*List<Food> food =
-
-
-     probably have to move it to ProgressionService,
-     but consult with Sol first
-
-   TODO:copy
-    Food food =
-        Iterables.getOnlyElement( //casts List<Food> to Food as well
-            troopType.makeTroop()
-                .getKingdom()
-                .getResources()
-                .stream()
-                .filter(resource -> resource instanceof Food)
-                .map(f -> (Food) f)
-                .collect(Collectors.toList()));
-
-//troopUgprade(){
-
-decreaseResource();
-}
-
-
-    food.setAmountPerMinute(food.getAmountPerMinute() - 1);
-    resourceService.saveResource(food);
-
-    //Preconditions.checkArgument(food.size() == 1); Not needed due to getOnlyElement
-  */
-
     return troopType.makeTroop();
   }
 }
