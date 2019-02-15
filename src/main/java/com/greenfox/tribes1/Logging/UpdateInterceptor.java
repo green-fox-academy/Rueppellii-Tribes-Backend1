@@ -35,9 +35,7 @@ public class UpdateInterceptor extends HandlerInterceptorAdapter {
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    UserContext userContext = (UserContext) authentication.getPrincipal();
-    System.out.println(authentication.getName());
-    Kingdom kingdom = kingdomService.findKingdomByApplicationUserName(userContext.getUsername());
+    Kingdom kingdom = kingdomService.getKindomFromAuth(authentication);
     List<Resource> resourceList = kingdom.getResources();
     for (Resource aResourceList : resourceList) {
       resourceService.refresh(aResourceList);
