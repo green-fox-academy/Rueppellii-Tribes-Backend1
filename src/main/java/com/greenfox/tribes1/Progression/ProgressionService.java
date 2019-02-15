@@ -38,7 +38,7 @@ public class ProgressionService {
     this.troopService = troopService;
   }
 
-  public void saveProgression(ProgressionDTO progressionDTO) {
+  public void saveProgression(ProgressionDTO progressionDTO) throws Exception {
     Progression progressionToSave = createProgressionFromDTO(progressionDTO);
     progressionToSave.setFinished(timeService.calculateBuildingTimeForNewBuildingOrTroop(progressionToSave));
     progressionRepository.save(progressionToSave);
@@ -85,21 +85,21 @@ public class ProgressionService {
   }
 
   public void finishMineConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
-    List<Progression> mines = listOfThingsToCreateWithExpiredTimestamp("mine");
+    List<Progression> mines = listOfThingsToCreateWithExpiredTimestamp("Mine");
     for (Progression mine : mines) {
       addBuildingToKingdom(mine, createNewBuilding(mine));
     }
   }
 
   public void finishFarmConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
-    List<Progression> farms = listOfThingsToCreateWithExpiredTimestamp("farm");
+    List<Progression> farms = listOfThingsToCreateWithExpiredTimestamp("Farm");
     for (Progression farm : farms) {
       addBuildingToKingdom(farm, createNewBuilding(farm));
     }
   }
 
   public void finishBarracksConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
-    List<Progression> barracks = listOfThingsToCreateWithExpiredTimestamp("barracks");
+    List<Progression> barracks = listOfThingsToCreateWithExpiredTimestamp("Barracks");
     for (Progression barrack : barracks) {
       addBuildingToKingdom(barrack, createNewBuilding(barrack));
     }
@@ -109,25 +109,26 @@ public class ProgressionService {
     List<Progression> troops = listOfThingsToCreateWithExpiredTimestamp("troop");
     for (Progression troop : troops) {
       addTroopToKingdom(troop, createNewTroop(troop));
+//      Todo: decrease resource/food method Csongi
     }
   }
 
   public void finishMineUpgrade() throws TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException {
-    List<Progression> mines = listOfThingsToUpgradeeWithExpiredTimestamp("mine");
+    List<Progression> mines = listOfThingsToUpgradeeWithExpiredTimestamp("Mine");
     for (Progression mine : mines) {
       upgradeMine(mine);
     }
   }
 
   public void finishFarmUpgrade() throws TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException {
-    List<Progression> farms = listOfThingsToUpgradeeWithExpiredTimestamp("farm");
+    List<Progression> farms = listOfThingsToUpgradeeWithExpiredTimestamp("Farm");
     for (Progression farm : farms) {
       upgradeFarm(farm);
     }
   }
 
   public void finishBarracksUpgrade() throws TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException {
-    List<Progression> barracks = listOfThingsToUpgradeeWithExpiredTimestamp("barracks");
+    List<Progression> barracks = listOfThingsToUpgradeeWithExpiredTimestamp("Barracks");
     for (Progression barrack : barracks) {
       upgradeBarracks(barrack);
     }

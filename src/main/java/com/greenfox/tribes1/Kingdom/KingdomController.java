@@ -45,7 +45,7 @@ public class KingdomController {
   }
 
   @PostMapping("/kingdom/buildings")
-  public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) {
+  public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) throws Exception {
     ProgressionDTO progressionDTO = new ProgressionDTO();
     progressionDTO.setType(type);
     progressionDTO.setKingdom(kingdomService.getKindomFromAuth(authentication));
