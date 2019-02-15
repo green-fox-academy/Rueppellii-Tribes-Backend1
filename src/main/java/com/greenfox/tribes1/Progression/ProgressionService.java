@@ -230,7 +230,7 @@ public class ProgressionService {
             .map(f -> (Food) f)
             .collect(Collectors.toList()));
 
-    food.setAmount(food.getAmount() - 1);
+    food.setAmount(food.getAmountPerMinute() - 1);
     resourceService.save(Optional.of(food));
   }
 }
