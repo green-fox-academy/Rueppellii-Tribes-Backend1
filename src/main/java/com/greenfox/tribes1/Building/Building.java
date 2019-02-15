@@ -28,6 +28,9 @@ public abstract class Building {
   @JsonBackReference
   private Kingdom kingdom;
 
-  abstract void levelUp();
+  public void levelUp(){
+    setLevel(getLevel() + 1L);
+    setHP(getHP() * 1.1F);
+  }
 
 }
