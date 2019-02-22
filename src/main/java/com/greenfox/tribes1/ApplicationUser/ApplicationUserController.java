@@ -21,7 +21,7 @@ public class ApplicationUserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws UsernameTakenException, NotValidKingdomNameException, TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, TroopNotValidException, BuildingIdNotFoundException {
+  public ResponseEntity register(@Valid @RequestBody ApplicationUserDTO applicationUserDTO) throws RoleNotExistsException, UsernameTakenException {
     ApplicationUser applicationUser = applicationUserService.registerNewUser(applicationUserDTO);
     return ResponseEntity.ok().body(applicationUserService.createDTOwithKingdomfromUser(applicationUser));
   }
