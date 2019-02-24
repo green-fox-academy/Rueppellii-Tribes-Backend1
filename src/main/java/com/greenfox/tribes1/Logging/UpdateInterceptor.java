@@ -7,6 +7,7 @@ import com.greenfox.tribes1.Resources.ResourceService;
 import com.greenfox.tribes1.Security.Model.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -35,10 +36,12 @@ public class UpdateInterceptor extends HandlerInterceptorAdapter {
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    Kingdom kingdom = kingdomService.getKindomFromAuth(authentication);
-    List<Resource> resourceList = kingdom.getResources();
-    for (Resource aResourceList : resourceList) {
-      resourceService.refresh(aResourceList);
+    if (authentication.getAuthorities().stream().noneMatch(a -> ((GrantedAuthority) a).getAuthority().equals("ROLE_ADMIN"))) {
+      Kingdom kingdom = kingdomService.getKindomFromAuth(authentication);
+      List<Resource> resourceList = kingdom.getResources();
+      for (Resource aResourceList : resourceList) {
+        resourceService.refresh(aResourceList);
+      }
     }
     super.afterCompletion(request, response, handler, ex);
   }
