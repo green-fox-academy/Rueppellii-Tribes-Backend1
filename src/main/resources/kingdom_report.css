@@ -1,0 +1,97 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial Unicode MS, Lucida Sans Unicode, Arial, verdana, arial, helvetica, sans-serif;
+    font-size: 12px;
+}
+
+@page {
+
+    @bottom-left {
+        content: element(footer);
+        vertical-align: bottom;
+        padding-top: 5px;
+    }
+
+    @top-center {
+        content: element(header);
+        vertical-align: bottom;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    margin-top: 3.5cm;
+    margin-left: 2.5cm;
+    margin-right: 2.5cm;
+    margin-bottom: 2cm;
+
+}
+
+@page p1 {
+    size: A4 landscape;
+}
+
+@page p2 {
+    size: A4 landscape;
+}
+
+.p1 {
+    page: p1;
+}
+
+.p2 {
+    page: p2;
+}
+
+.header {
+    position: running(header);
+}
+
+#pagenumber:before {
+    content: counter(page);
+}
+
+#pagecount:before {
+    content: counter(pages);
+}
+
+.page-count {
+    text-align: right;
+}
+
+div .page1, .p1, .p2 {
+    margin-top: 10px;
+    width: 900px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    box-sizing: border-box;
+    padding-left: 3px;
+}
+
+th {
+    background: #ffffcc;
+}
+
+.header-container {
+    margin-top: 30px;
+}
+
+.footer {
+    width: 900px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    color: black;
+    text-align: right;
+}

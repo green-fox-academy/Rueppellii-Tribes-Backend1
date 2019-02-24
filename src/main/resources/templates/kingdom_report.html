@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" type="text/css" media="all" href="issue_pdf_style.css"/>
+    </head>
+
+    <body>
+
+        <div class="p1">
+
+            <div class="header" th:include="header::header"></div>
+            <div th:include="p1::p1"></div>
+            <div class='footer' th:include="footer::footer"></div>
+
+        </div>
+
+    </body>
+</html>

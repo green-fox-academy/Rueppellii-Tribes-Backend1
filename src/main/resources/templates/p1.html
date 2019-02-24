@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" type="text/css" media="all" href="issue_pdf_style.css"/>
+    </head>
+
+    <body>
+        <div th:fragment="p1" xmlns:th="http://www.thymeleaf.org">
+            <table class="persons-details">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>User</th>
+                    <th>Food</th>
+                    <th>Gold</th>
+                </tr>
+                </thead>
+                <tr th:each="kingdom : ${kingdoms}">
+                    <td th:text="${kingdom.id}"></td>
+                    <td th:text="${kingdom.name}"></td>
+                    <td th:text="${kingdom.applicationUser.username}"></td>
+                    <td th:each="resource : ${kingdom.resources}" th:text="${resource.amount}"></td>
+                </tr>
+            </table>
+        </div>
+
+    </body>
+</html>
