@@ -17,12 +17,12 @@ public class WebConfig implements WebMvcConfigurer {
 
   private List<String> excludeEndpoints = Arrays.asList("/register", "/login");
 
+  private UpdateInterceptor updateInterceptor;
+
   @Autowired
-  public void setUpdateInterceptor(UpdateInterceptor updateInterceptor) {
+  public WebConfig(UpdateInterceptor updateInterceptor) {
     this.updateInterceptor = updateInterceptor;
   }
-
-  UpdateInterceptor updateInterceptor;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -30,9 +30,4 @@ public class WebConfig implements WebMvcConfigurer {
     registry.addInterceptor(updateInterceptor).excludePathPatterns(excludeEndpoints);
     //registry.addInterceptor(new ProgressionInterceptor()).excludePathPatterns(excludeEndpoints);
   }
-
-  /*@Bean
-  UpdateInterceptor updateInterceptor() {
-    return new UpdateInterceptor();
-  }*/
 }
