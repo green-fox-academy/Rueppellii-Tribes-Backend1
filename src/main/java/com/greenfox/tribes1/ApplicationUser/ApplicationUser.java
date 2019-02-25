@@ -2,9 +2,11 @@ package com.greenfox.tribes1.ApplicationUser;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Role.Role;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -25,6 +27,9 @@ public class ApplicationUser {
   @OneToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "kingdom_id")
   private Kingdom kingdom;
+
+  //@ManyToMany
+ // private Set<Role> roles;
   
   public ApplicationUser(String username, String password, String userEmail) {
     this.username = username;
