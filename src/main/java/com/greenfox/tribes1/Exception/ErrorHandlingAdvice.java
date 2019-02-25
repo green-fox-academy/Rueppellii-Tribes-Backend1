@@ -1,6 +1,7 @@
 package com.greenfox.tribes1.Exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -120,6 +121,13 @@ public class ErrorHandlingAdvice {
   @ExceptionHandler(UpgradeErrorException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
   ErrorMsg upgradeError(UpgradeErrorException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
+
+  @ResponseBody
+  @ExceptionHandler(RoleNotExistException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  ErrorMsg roleNotProvided(RoleNotExistException ex){
     return new ErrorMsg("error", ex.getMessage());
   }
 }

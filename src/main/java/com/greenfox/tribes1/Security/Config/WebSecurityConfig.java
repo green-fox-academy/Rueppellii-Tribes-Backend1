@@ -87,18 +87,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             REGISTRATION_URL
     );
     http.cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint)
+              .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint)
             .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+              .sessionManagement()
+              .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .authorizeRequests()
-            .antMatchers(AUTHENTICATION_URL, REFRESH_TOKEN_URL, REGISTRATION_URL).permitAll()
-            .anyRequest().authenticated()
+              .authorizeRequests()
+              .antMatchers(AUTHENTICATION_URL, REFRESH_TOKEN_URL, REGISTRATION_URL).permitAll()
+              //.antMatchers("/admin/**").hasRole("ADMIN")
+              .anyRequest().authenticated()
             .and()
-            .addFilterBefore(new CustomCorsFilter(), UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList, API_ROOT_URL), UsernamePasswordAuthenticationFilter.class)
-            .logout().permitAll();
+              .addFilterBefore(new CustomCorsFilter(), UsernamePasswordAuthenticationFilter.class)
+              .addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+              .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList, API_ROOT_URL), UsernamePasswordAuthenticationFilter.class)
+              .logout().permitAll();
   }
 }

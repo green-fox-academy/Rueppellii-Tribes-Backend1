@@ -3,5 +3,7 @@ package com.greenfox.tribes1.Role;
 public enum RoleType {
   ADMIN, USER, SUPERUSER;
 
-  public getAuthority("ROLE_" + RoleType);
+  public String authority(){
+  return "ROLE_" + this.name();
+  }
 }

@@ -3,6 +3,7 @@ package com.greenfox.tribes1.Kingdom;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
+import com.greenfox.tribes1.Role.Role;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -31,11 +30,12 @@ public class KingdomServiceTest {
   private Kingdom validKingdomRueppellii = new Kingdom("Rueppellii");
   private KingdomDTO kingdomDTO = new ModelMapper().map(validKingdomNarnia, KingdomDTO.class);
   private List<Kingdom> testList = new ArrayList<>();
+  private Set<Role> roles = new HashSet<>();
   private Long testUserId = 1L;
   private String testUserName = "testuser";
   private String testUserpasswordassword = "password";
   private String testUserEmail = "testuser@user.com";
-  private ApplicationUser testApplicationUser = new ApplicationUser(testUserId, testUserName, testUserpasswordassword, testUserEmail, validKingdomNarnia);
+  private ApplicationUser testApplicationUser = new ApplicationUser(testUserId, testUserName, testUserpasswordassword, testUserEmail, validKingdomNarnia,roles);
   
   @Before
   public void init() {

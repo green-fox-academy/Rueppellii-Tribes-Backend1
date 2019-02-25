@@ -1,4 +1,4 @@
-/*package com.greenfox.tribes1.Josephus;
+package com.greenfox.tribes1.Josephus;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -42,6 +42,6 @@ public class Josephus {
         System.out.println("The winning position is " + winning);
     }
 }
-*/
+
 
 
