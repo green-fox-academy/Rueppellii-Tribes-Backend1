@@ -36,7 +36,7 @@ public class GithubController {
       return ResponseEntity.ok(weatherAPI);
     } catch (IOException e) {
       e.printStackTrace();
+      return ResponseEntity.badRequest().build();
     }
-    return ResponseEntity.badRequest().build();
   }
 }

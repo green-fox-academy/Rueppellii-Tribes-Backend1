@@ -5,10 +5,31 @@ import java.util.Scanner;
 
 public class Josephus {
     public static void main(String[] args) {
-        System.out.println("Give me the number of the players");
+       // System.out.println("Give me the number of the players");
+        System.out.println("Give me a number");
+
         Scanner input = new Scanner(System.in);
-        int members = input.nextInt();
-        josephus(members);
+        int number =input.nextInt();
+       // int members = input.nextInt();
+        //josephus(members);
+        System.out.println(test(number));
+    }
+
+    public static int test(int b){
+        int input = b;
+        try{
+            int result = 5/b;
+            //System.out.println("HAHOOO");
+            //System.exit(0);
+            //System.out.println("Text");
+            return 1;
+        }catch (ArithmeticException ex){
+            return 2;
+        }
+        finally {
+            return 3;
+        }
+
     }
 
     public static void josephus(int a) {
