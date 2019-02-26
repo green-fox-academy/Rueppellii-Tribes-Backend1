@@ -28,7 +28,7 @@ public class ApplicationUser {
   @JoinColumn(name = "kingdom_id")
   private Kingdom kingdom;
 
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH}, fetch = FetchType.EAGER)
+  @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
   @JoinTable(
           name = "application_users_roles",
           joinColumns = @JoinColumn(
