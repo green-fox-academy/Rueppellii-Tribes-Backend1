@@ -1,21 +1,18 @@
 package com.greenfox.tribes1;
 
-import com.greenfox.tribes1.Building.Barracks;
-import com.greenfox.tribes1.Building.Building;
-import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.Progression.Progression;
+import com.greenfox.tribes1.kingdomelement.Building.Barracks;
+import com.greenfox.tribes1.kingdomelement.Building.Building;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 import static org.aspectj.runtime.internal.Conversions.longValue;
-import java.util.function.Predicate;
 
 @Service
 public class TimeService {
@@ -48,15 +45,15 @@ public class TimeService {
       return oneMinute;
     } else if (progression.getLevel() != 0 && progression.getType().equals("troop")) {
 
-     Long maxLevelBarrack =  progression.getKingdom()
+      Long maxLevelBarrack = progression.getKingdom()
               .getBuildings().stream()
               .filter(r -> r instanceof Barracks)
               .map(Building::getLevel)
               .max(Comparator.naturalOrder())
               .orElseThrow(Exception::new);
 
-     Float troopCreationTimeMultiplier = (1 - (maxLevelBarrack * 0.05F));
-     return longValue(progression.getLevel() * oneMinute *  troopCreationTimeMultiplier);
+      Float troopCreationTimeMultiplier = (1 - (maxLevelBarrack * 0.05F));
+      return longValue(progression.getLevel() * oneMinute * troopCreationTimeMultiplier);
     } else {
       return progression.getLevel() * 5 * oneMinute;
     }

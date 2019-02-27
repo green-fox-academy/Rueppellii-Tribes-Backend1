@@ -1,8 +1,8 @@
 package com.greenfox.tribes1.kingdomelement.Building;
 
 import com.google.common.collect.Iterables;
-import com.greenfox.tribes1.Resources.Food;
-import com.greenfox.tribes1.Resources.Resource;
+import com.greenfox.tribes1.kingdomelement.Resources.Food;
+import com.greenfox.tribes1.kingdomelement.Resources.Resource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,19 +22,33 @@ public class Farm extends Building {
     this.setHP(150.0f);
   }
 
-
   @Override
   public void buildingUpgrade() {
-    levelUp();
+    increaseLevel();
+    increaseFoodAmount();
 
-    List<Resource> resourceList = getKingdom().getResources();
+  }
 
-    List<Resource> filteredResourceListForFood = resourceList.stream().filter(r -> r instanceof Food).collect(Collectors.toList());
-    Food food = (Food) Iterables.getOnlyElement(filteredResourceListForFood);
-
+  private void increaseFoodAmount() {
+    List<Resource> resources = getResourceList();
+    Food food = getFood(resources);
     food.setAmountPerMinute(food.getAmountPerMinute() + 5L);
 
   }
 
+  private List<Resource> getResourceList() {
+    List<Resource> resourceList = getKingdom().getResources();
+
+    return resourceList.stream()
+            .filter(r -> r instanceof Food)
+            .collect(Collectors.toList());
+
+  }
+
+  private Food getFood(List<Resource> resourceList) {
+
+    return (Food) Iterables
+            .getOnlyElement(resourceList);
+  }
 
 }

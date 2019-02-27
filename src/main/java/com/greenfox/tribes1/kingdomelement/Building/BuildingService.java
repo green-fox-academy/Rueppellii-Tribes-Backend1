@@ -1,82 +1,29 @@
 package com.greenfox.tribes1.kingdomelement.Building;
 
-import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
-import com.greenfox.tribes1.Exception.BuildingNotValidException;
-import com.greenfox.tribes1.KingdomElementService;
+import com.greenfox.tribes1.TimeService;
 import com.greenfox.tribes1.Upgradable;
-import lombok.SneakyThrows;
+import com.greenfox.tribes1.kingdomelement.KingdomElementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class BuildingService implements KingdomElementService<Building>, Upgradable<Building>{
+public class BuildingService extends KingdomElementService<Building> implements Upgradable<Building> {
 
   private BuildingRepository buildingRepository;
-  //private Predicate<Building> isValid = (a) -> (a != null);
 
   @Autowired
-  public BuildingService(BuildingRepository buildingRepository) {
-    this.buildingRepository = buildingRepository;
-  }
-
-  /*public boolean isValidBuilding(Building building) {
-    return building != null;
-  }*/
-  /*
-  public void upgradeBarracks(Building buildingToUpgrade) throws BuildingNotValidException {
-    buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
-    save(buildingToUpgrade);
-  }
-
-  public void upgradeFarm(Building buildingToUpgrade) throws BuildingNotValidException {
-    buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
-    save(buildingToUpgrade);
-  }
-
-  public void upgradeMine(Building buildingToUpgrade) throws BuildingNotValidException {
-    buildingToUpgrade.setLevel(buildingToUpgrade.getLevel() + 1L);
-    buildingToUpgrade.setHP(buildingToUpgrade.getHP() * 1.1F);
-    save(buildingToUpgrade);
-  }*/
-
-<<<<<<< HEAD:src/main/java/com/greenfox/tribes1/kingdomelement/Building/BuildingService.java
-  @Override
-  public void upgrade(Building building) {
-    //TODO: atomicity, transactions (databases) --> rollback
-    building.levelUp();
-    save(Optional.of(building));
-  }
-=======
-
-
-
->>>>>>> 9a878e28161ae955eeb9af6b7f5f02d2f4ed6f19:src/main/java/com/greenfox/tribes1/Building/BuildingService.java
-
-  @Override
-  public Building findById(Long id) throws BuildingIdNotFoundException {
-    return buildingRepository.findById(id)
-            .orElseThrow(() -> new BuildingIdNotFoundException(("There is no Building with such Id")));
+  public BuildingService(JpaRepository<Building, Long> repository, TimeService timeService) {
+    super(repository, timeService);
   }
 
   @Override
-  @SneakyThrows
-  public Building save(Optional<Building> building) {
-    return buildingRepository.save(building
-            .orElseThrow(() -> new BuildingNotValidException("Building is not valid")));
-  }
-
-  @Override
-  public void refresh(Building building) {
-    //TODO: IF any progression is over, create new Building();
+  protected Exception notFoundException() {
+    return null;
   }
 
   @Override
   public void upgrade(Building building) {
     building.buildingUpgrade();
-    save(Optional.of(building));
   }
 }

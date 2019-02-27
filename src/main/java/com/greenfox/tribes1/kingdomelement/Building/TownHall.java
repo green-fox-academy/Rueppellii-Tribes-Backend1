@@ -19,6 +19,6 @@ public class TownHall extends Building {
 
   @Override
   void buildingUpgrade() {
-    levelUp();
+    increaseLevel();
   }
 }

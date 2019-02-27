@@ -6,11 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.sql.Timestamp;
 import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class RightKingdomElementService<T extends KingdomElement> {
+public abstract class KingdomElementService<T extends KingdomElement> {
 
   private JpaRepository<T, Long> repository;
   private TimeService timeService;
@@ -25,14 +24,8 @@ public abstract class RightKingdomElementService<T extends KingdomElement> {
     return repository.save(entityToSave);
   }
 
-  @SneakyThrows
-  public final void refresh(T entity) {
-    Long difference = timeService.calculateDifference(entity.getUpdatedAt(), new Timestamp(System.currentTimeMillis()));
-    if (difference != null && difference > 0) {
-      // refreshInner(entity);
-      entity.update(difference);
-      save(entity);
-    }
+  public Optional<T> findById(Long id) {
+    return repository.findById(id);
   }
 
   protected void refreshInner(T entity) {

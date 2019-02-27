@@ -2,8 +2,8 @@ package com.greenfox.tribes1.Resources;
 
 import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.Exception.NotValidResourceException;
-import com.greenfox.tribes1.KingdomElementService;
 import com.greenfox.tribes1.TimeService;
+import com.greenfox.tribes1.kingdomelement.Resources.Food;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,7 @@ public class ResourceService implements KingdomElementService<Resource> {
             -> new NotValidResourceException("There is no Building with such Id"));
   }
 
-  @Override
-  public Resource save(Optional<Resource> resource) throws NotValidResourceException {
+  public Resource save(Food resource) throws NotValidResourceException {
     return resourceRepository.save(resource
             .orElseThrow(() -> new NotValidResourceException("Resource validation failed")));
   }

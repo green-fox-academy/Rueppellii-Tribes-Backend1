@@ -2,7 +2,7 @@ package com.greenfox.tribes1.kingdomelement.Building;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import com.greenfox.tribes1.Upgradable;
+import com.greenfox.tribes1.kingdomelement.KingdomElement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @DiscriminatorColumn(name = "building_type")
 @Getter
 @Setter
-public abstract class Building {
+public abstract class Building extends KingdomElement {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +29,11 @@ public abstract class Building {
   @JsonBackReference
   private Kingdom kingdom;
 
-  public void levelUp() {
+  public void increaseLevel() {
     setLevel(getLevel() + 1L);
     setHP(getHP() * 1.1F);
   }
 
   abstract void buildingUpgrade();
-
 
 }

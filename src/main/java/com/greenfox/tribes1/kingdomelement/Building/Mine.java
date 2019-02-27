@@ -24,7 +24,7 @@ public class Mine extends Building {
 
   @Override
   void buildingUpgrade() {
-    levelUp();
+    increaseLevel();
 
     List<Resource> resourceList = getKingdom().getResources();
 

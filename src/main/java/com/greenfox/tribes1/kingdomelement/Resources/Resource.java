@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 @Setter
-public abstract class Resource extends KingdomElement implements Updatable<Resource> {
+public abstract class Resource extends KingdomElement implements Updatable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

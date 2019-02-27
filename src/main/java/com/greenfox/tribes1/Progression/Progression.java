@@ -1,10 +1,8 @@
 package com.greenfox.tribes1.Progression;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.greenfox.tribes1.kingdomelement.Resources.Updatable;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,7 +13,8 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Progression {
+@Builder
+public class Progression implements Updatable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +28,8 @@ public class Progression {
   @JoinColumn(name = "kingdom_id", referencedColumnName = "id")
   private Kingdom kingdom;
 
+  @Override
+  public void update(Long difference) {
+
+  }
 }
