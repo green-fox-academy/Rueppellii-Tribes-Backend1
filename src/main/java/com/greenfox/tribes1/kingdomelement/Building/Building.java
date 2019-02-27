@@ -2,6 +2,7 @@ package com.greenfox.tribes1.kingdomelement.Building;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.greenfox.tribes1.Kingdom.Kingdom;
+import com.greenfox.tribes1.Upgradable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,5 +33,8 @@ public abstract class Building {
     setLevel(getLevel() + 1L);
     setHP(getHP() * 1.1F);
   }
+
+  abstract void buildingUpgrade();
+
 
 }

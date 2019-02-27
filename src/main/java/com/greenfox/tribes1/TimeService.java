@@ -1,12 +1,20 @@
 package com.greenfox.tribes1;
 
+import com.greenfox.tribes1.Building.Barracks;
+import com.greenfox.tribes1.Building.Building;
+import com.greenfox.tribes1.Exception.BuildingIdNotFoundException;
 import com.greenfox.tribes1.Exception.DateNotGivenException;
 import com.greenfox.tribes1.Progression.Progression;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import static org.aspectj.runtime.internal.Conversions.longValue;
 import java.util.function.Predicate;
 
 @Service
@@ -28,20 +36,29 @@ public class TimeService {
     return currentTime.after(timestamp);
   }
 
-  public Timestamp calculateBuildingTimeForNewBuildingOrTroop(Progression progression) {
+  public Timestamp calculateBuildingTimeForNewBuildingOrTroop(Progression progression) throws Exception {
     Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     Long buildingTime = buildingTime(progression);
-    return new Timestamp(currentTime.getTime() + TimeUnit.MINUTES.toMillis(buildingTime));
+    return new Timestamp(currentTime.getTime() + TimeUnit.MILLISECONDS.toMillis(buildingTime));
   }
 
-  public Long buildingTime(Progression progression) {
+  public Long buildingTime(Progression progression) throws Exception {
+    Long oneMinute = 60L * 1000L;
     if (progression.getLevel() == 0) {
-      return 1L;
-    } else if (progression.getType().equals("troop")) {
-      return progression.getLevel();
+      return oneMinute;
+    } else if (progression.getLevel() != 0 && progression.getType().equals("troop")) {
+
+     Long maxLevelBarrack =  progression.getKingdom()
+              .getBuildings().stream()
+              .filter(r -> r instanceof Barracks)
+              .map(Building::getLevel)
+              .max(Comparator.naturalOrder())
+              .orElseThrow(Exception::new);
+
+     Float troopCreationTimeMultiplier = (1 - (maxLevelBarrack * 0.05F));
+     return longValue(progression.getLevel() * oneMinute *  troopCreationTimeMultiplier);
     } else {
-      //TODO: time should be changed to 5 mins
-      return progression.getLevel() * 1;
+      return progression.getLevel() * 5 * oneMinute;
     }
   }
 

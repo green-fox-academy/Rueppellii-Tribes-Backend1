@@ -47,6 +47,7 @@ public class ProgressionService<T> implements Upgradable<Progression> {
 
   }
 
+<<<<<<< HEAD
   //TODO: do it without generics
 
   public void addBuildingToKingdom(Progression progression, Building newBuilding) throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
@@ -82,6 +83,9 @@ public class ProgressionService<T> implements Upgradable<Progression> {
   }
 
   public void saveProgression(ProgressionDTO progressionDTO) {
+=======
+  public void saveProgression(ProgressionDTO progressionDTO) throws Exception {
+>>>>>>> 9a878e28161ae955eeb9af6b7f5f02d2f4ed6f19
     Progression progressionToSave = createProgressionFromDTO(progressionDTO);
     progressionToSave.setFinished(timeService.calculateBuildingTimeForNewBuildingOrTroop(progressionToSave));
     progressionRepository.save(progressionToSave);
@@ -156,10 +160,59 @@ public class ProgressionService<T> implements Upgradable<Progression> {
     safeDeleteAllProgressionsWithExpiredTimestamp();
   }
 
+<<<<<<< HEAD
   public void finishBuildingUpgrade() {
     List<Progression> buildings = listOfThingsToCreateWithExpiredTimestamp("building");
     for (Progression building : buildings) {
       upgrade(building);
+=======
+  public void finishMineConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
+    List<Progression> mines = listOfThingsToCreateWithExpiredTimestamp("Mine");
+    for (Progression mine : mines) {
+      addBuildingToKingdom(mine, createNewBuilding(mine));
+    }
+  }
+
+  public void finishFarmConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
+    List<Progression> farms = listOfThingsToCreateWithExpiredTimestamp("Farm");
+    for (Progression farm : farms) {
+      addBuildingToKingdom(farm, createNewBuilding(farm));
+    }
+  }
+
+  public void finishBarracksConstructions() throws NotValidKingdomNameException, BuildingNotValidException, BuildingIdNotFoundException {
+    List<Progression> barracks = listOfThingsToCreateWithExpiredTimestamp("Barracks");
+    for (Progression barrack : barracks) {
+      addBuildingToKingdom(barrack, createNewBuilding(barrack));
+    }
+  }
+
+  public void finishTroopConstructions() throws NotValidKingdomNameException, TroopNotValidException, NotValidResourceException {
+    List<Progression> troops = listOfThingsToCreateWithExpiredTimestamp("troop");
+    for (Progression troop : troops) {
+      addTroopToKingdom(troop, createNewTroop(troop));
+    }
+  }
+
+  public void finishMineUpgrade() throws TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException {
+    List<Progression> mines = listOfThingsToUpgradeeWithExpiredTimestamp("Mine");
+    for (Progression mine : mines) {
+      upgradeMine(mine);
+    }
+  }
+
+  public void finishFarmUpgrade() throws TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException {
+    List<Progression> farms = listOfThingsToUpgradeeWithExpiredTimestamp("Farm");
+    for (Progression farm : farms) {
+      upgradeFarm(farm);
+    }
+  }
+
+  public void finishBarracksUpgrade() throws TroopIdNotFoundException, BuildingNotValidException, NotValidTypeException, BuildingIdNotFoundException {
+    List<Progression> barracks = listOfThingsToUpgradeeWithExpiredTimestamp("Barracks");
+    for (Progression barrack : barracks) {
+      upgradeBarracks(barrack);
+>>>>>>> 9a878e28161ae955eeb9af6b7f5f02d2f4ed6f19
     }
   }
 

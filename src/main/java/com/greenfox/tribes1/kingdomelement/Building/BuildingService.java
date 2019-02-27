@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BuildingService implements KingdomElementService<Building>, Upgradable<Building> {
+public class BuildingService implements KingdomElementService<Building>, Upgradable<Building>{
 
   private BuildingRepository buildingRepository;
   //private Predicate<Building> isValid = (a) -> (a != null);
@@ -43,12 +43,18 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
     save(buildingToUpgrade);
   }*/
 
+<<<<<<< HEAD:src/main/java/com/greenfox/tribes1/kingdomelement/Building/BuildingService.java
   @Override
   public void upgrade(Building building) {
     //TODO: atomicity, transactions (databases) --> rollback
     building.levelUp();
     save(Optional.of(building));
   }
+=======
+
+
+
+>>>>>>> 9a878e28161ae955eeb9af6b7f5f02d2f4ed6f19:src/main/java/com/greenfox/tribes1/Building/BuildingService.java
 
   @Override
   public Building findById(Long id) throws BuildingIdNotFoundException {
@@ -66,5 +72,11 @@ public class BuildingService implements KingdomElementService<Building>, Upgrada
   @Override
   public void refresh(Building building) {
     //TODO: IF any progression is over, create new Building();
+  }
+
+  @Override
+  public void upgrade(Building building) {
+    building.buildingUpgrade();
+    save(Optional.of(building));
   }
 }

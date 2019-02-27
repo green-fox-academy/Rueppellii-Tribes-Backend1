@@ -38,5 +38,11 @@ public abstract class Troop extends KingdomElement implements Updatable<Troop> {
   @JsonBackReference
   private Kingdom kingdom;
 
-  public abstract void levelUp();
+  public void levelUp(){
+    setLevel(getLevel()+1L);
+    setHP(getHP() * 1.1F);
+    setAttack(getAttack() * 5);
+    setHP(getHP() * 5);
+  }
+
 }

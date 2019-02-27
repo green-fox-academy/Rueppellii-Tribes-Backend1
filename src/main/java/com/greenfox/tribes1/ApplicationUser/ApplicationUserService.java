@@ -2,16 +2,24 @@ package com.greenfox.tribes1.ApplicationUser;
 
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserDTO;
 import com.greenfox.tribes1.ApplicationUser.DTO.ApplicationUserWithKingdomDTO;
+import com.greenfox.tribes1.Exception.RoleNotExistsException;
 import com.greenfox.tribes1.Exception.UsernameTakenException;
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import com.greenfox.tribes1.Kingdom.KingdomService;
+import com.greenfox.tribes1.Role.Role;
+import com.greenfox.tribes1.Role.RoleService;
+import com.greenfox.tribes1.Role.RoleType;
 import com.greenfox.tribes1.Security.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 
@@ -20,12 +28,14 @@ public class ApplicationUserService implements UserService {
   private ApplicationUserRepository applicationUserRepository;
   private BCryptPasswordEncoder encoder;
   private KingdomService kingdomService;
+  private RoleService roleService;
 
   @Autowired
-  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder encoder, KingdomService kingdomService) {
+  public ApplicationUserService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder encoder, KingdomService kingdomService, RoleService roleService) {
     this.applicationUserRepository = applicationUserRepository;
     this.encoder = encoder;
     this.kingdomService = kingdomService;
+    this.roleService = roleService;
   }
 
   @Override
@@ -33,7 +43,7 @@ public class ApplicationUserService implements UserService {
     return this.applicationUserRepository.findByUsername(username);
   }
 
-  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws UsernameTakenException {
+  public ApplicationUser registerNewUser(ApplicationUserDTO applicationUserDTO) throws RoleNotExistsException, UsernameTakenException {
     String userName = applicationUserDTO.getUsername();
 
     if (!applicationUserRepository.existsByUsername(userName)) {
@@ -46,6 +56,11 @@ public class ApplicationUserService implements UserService {
       kingdom.setApplicationUser(userToBeSaved);
 
       userToBeSaved.setKingdom(kingdom);
+
+      Role memberRole = roleService.findByRoleType(RoleType.MEMBER);
+      Set<Role> roles = new HashSet<>();
+      roles.add(memberRole);
+      userToBeSaved.setRoles(roles);
 
       kingdomService.setStarterBuildings(kingdom);
       kingdomService.setStarterResource(kingdom);
@@ -75,5 +90,13 @@ public class ApplicationUserService implements UserService {
 
   private Boolean isKingdomNameNullOrEmpty(String kingdomName) {
     return kingdomName == null || kingdomName.isEmpty();
+  }
+
+  public ResponseEntity deleteUser(Long id) {
+    if (applicationUserRepository.existsById(id)) {
+      applicationUserRepository.deleteById(id);
+      return ResponseEntity.ok().build();
+    }
+    return ResponseEntity.status(204).build();
   }
 }

@@ -122,4 +122,11 @@ public class ErrorHandlingAdvice {
   ErrorMsg upgradeError(UpgradeErrorException ex) {
     return new ErrorMsg("error", ex.getMessage());
   }
+
+  @ResponseBody
+  @ExceptionHandler(RoleNotExistsException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  ErrorMsg roleNotExists(RoleNotExistsException ex) {
+    return new ErrorMsg("error", ex.getMessage());
+  }
 }

@@ -19,8 +19,4 @@ public class SingleTroop extends Troop {
     this.setDefense(1L);
   }
 
-  @Override
-  public void levelUp() {
-
-  }
 }

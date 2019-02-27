@@ -23,18 +23,18 @@ public class Kingdom {
   private Long id;
   private String name;
 
-  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "kingdom", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
   @JsonManagedReference
   private List<Resource> resources;
 
   @OneToOne(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
   ApplicationUser applicationUser;
 
-  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "kingdom", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
   @JsonManagedReference
   private List<Troop> troops;
 
-  @OneToMany(mappedBy = "kingdom", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "kingdom", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
   @JsonManagedReference
   private List<Building> buildings;
 
