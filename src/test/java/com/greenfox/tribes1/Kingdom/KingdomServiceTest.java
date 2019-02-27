@@ -35,7 +35,7 @@ public class KingdomServiceTest {
   private String testUserName = "testuser";
   private String testUserpasswordassword = "password";
   private String testUserEmail = "testuser@user.com";
-  private ApplicationUser testApplicationUser = new ApplicationUser(testUserId, testUserName, testUserpasswordassword, testUserEmail, validKingdomNarnia);
+ // private ApplicationUser testApplicationUser = new ApplicationUser(testUserId, testUserName, testUserpasswordassword, testUserEmail, validKingdomNarnia);
   
   @Before
   public void init() {
