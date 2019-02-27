@@ -51,7 +51,7 @@ public class KingdomController {
   }
 
   @PostMapping("/kingdom/buildings")
-  public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException {
+  public ResponseEntity addBuilding(Authentication authentication, @RequestBody String type) throws Exception {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
     purchaseService.purchaseBuilding(currentKingdom);
     progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));
@@ -59,7 +59,7 @@ public class KingdomController {
   }
 
   @PutMapping("/kingdom/buildings/{id}")
-  public ResponseEntity upgradeBuilding(Authentication authentication, @PathVariable Long id) throws GoldNotEnoughException, NotValidResourceException, BuildingIdNotFoundException, UpgradeErrorException {
+  public ResponseEntity upgradeBuilding(Authentication authentication, @PathVariable Long id) throws Exception {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
     purchaseService.purchaseBuildingUpgrade(currentKingdom, id);
     progressionService.saveProgression(progressionService.createProgressionDTOforBuildingUpgrade(currentKingdom, id));
@@ -72,7 +72,7 @@ public class KingdomController {
   }
 
   @PostMapping("/kingdom/troop")
-  public ResponseEntity addTroop(Authentication authentication, @RequestBody String type) throws NotValidResourceException, GoldNotEnoughException, UpgradeErrorException {
+  public ResponseEntity addTroop(Authentication authentication, @RequestBody String type) throws Exception {
     Kingdom currentKingdom = kingdomService.getKindomFromAuth(authentication);
     purchaseService.purchaseTroop(currentKingdom);
     progressionService.saveProgression(progressionService.createProgressionDTOForCreation(currentKingdom, type));

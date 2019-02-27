@@ -38,7 +38,7 @@ public class ProgressionService {
     this.troopService = troopService;
   }
 
-  public void saveProgression(ProgressionDTO progressionDTO) {
+  public void saveProgression(ProgressionDTO progressionDTO) throws Exception {
     Progression progressionToSave = createProgressionFromDTO(progressionDTO);
     progressionToSave.setFinished(timeService.calculateBuildingTimeForNewBuildingOrTroop(progressionToSave));
     progressionRepository.save(progressionToSave);
@@ -140,6 +140,7 @@ public class ProgressionService {
     List<Progression> troops = listOfThingsToCreateWithExpiredTimestamp("Troop");
     for (Progression troop : troops) {
       addTroopToKingdom(troop, createNewTroop(troop));
+//      Todo: decrease resource/food method Csongi
     }
   }
 
