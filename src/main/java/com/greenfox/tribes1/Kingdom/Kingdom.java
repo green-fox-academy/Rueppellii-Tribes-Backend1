@@ -2,9 +2,9 @@ package com.greenfox.tribes1.Kingdom;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import com.greenfox.tribes1.Building.Building;
-import com.greenfox.tribes1.Resources.Resource;
-import com.greenfox.tribes1.Troop.Model.Troop;
+import com.greenfox.tribes1.kingdomelement.Building.Building;
+import com.greenfox.tribes1.kingdomelement.Resources.Resource;
+import com.greenfox.tribes1.kingdomelement.Troop.Model.Troop;
 import lombok.*;
 
 import javax.persistence.*;

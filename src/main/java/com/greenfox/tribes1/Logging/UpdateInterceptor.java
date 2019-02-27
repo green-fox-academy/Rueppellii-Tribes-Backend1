@@ -2,9 +2,8 @@ package com.greenfox.tribes1.Logging;
 
 import com.greenfox.tribes1.Kingdom.Kingdom;
 import com.greenfox.tribes1.Kingdom.KingdomService;
-import com.greenfox.tribes1.Resources.Resource;
-import com.greenfox.tribes1.Resources.ResourceService;
-import com.greenfox.tribes1.Security.Model.UserContext;
+import com.greenfox.tribes1.kingdomelement.Resources.Resource;
+import com.greenfox.tribes1.kingdomelement.Resources.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

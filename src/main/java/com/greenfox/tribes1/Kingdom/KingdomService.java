@@ -1,15 +1,15 @@
 package com.greenfox.tribes1.Kingdom;
 
-import com.greenfox.tribes1.Building.Building;
-import com.greenfox.tribes1.Building.BuildingFactory;
-import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Exception.NotValidKingdomNameException;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
-import com.greenfox.tribes1.Resources.Resource;
-import com.greenfox.tribes1.Resources.ResourceFactory;
-import com.greenfox.tribes1.Resources.ResourceType;
 import com.greenfox.tribes1.Security.Model.UserContext;
-import com.greenfox.tribes1.Troop.Model.Troop;
+import com.greenfox.tribes1.kingdomelement.Building.Building;
+import com.greenfox.tribes1.kingdomelement.Building.BuildingFactory;
+import com.greenfox.tribes1.kingdomelement.Building.BuildingType;
+import com.greenfox.tribes1.kingdomelement.Resources.Resource;
+import com.greenfox.tribes1.kingdomelement.Resources.ResourceFactory;
+import com.greenfox.tribes1.kingdomelement.Resources.ResourceType;
+import com.greenfox.tribes1.kingdomelement.Troop.Model.Troop;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,6 +28,7 @@ public class KingdomService {
     this.kingdomRepository = kingdomRepository;
   }
 
+  // TODO: Need refactor! We aren't using this method, only in old tests!
   public Kingdom saveKingdom(Kingdom kingdom) throws NotValidKingdomNameException {
     if (kingdom.getName() == null) {
       throw new NotValidKingdomNameException("The given name wasn't correct, or the field is empty!");
@@ -93,7 +94,7 @@ public class KingdomService {
     }
   }
 
-  public Kingdom getKindomFromAuth(Authentication authentication){
+  public Kingdom getKindomFromAuth(Authentication authentication) {
     UserContext userContext = (UserContext) authentication.getPrincipal();
     return findKingdomByApplicationUserName(userContext.getUsername());
   }

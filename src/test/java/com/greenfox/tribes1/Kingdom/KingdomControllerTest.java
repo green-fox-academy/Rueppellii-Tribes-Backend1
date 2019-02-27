@@ -1,12 +1,12 @@
 package com.greenfox.tribes1.Kingdom;
 
 import com.greenfox.tribes1.ApplicationUser.ApplicationUser;
-import com.greenfox.tribes1.Building.Building;
-import com.greenfox.tribes1.Building.BuildingFactory;
-import com.greenfox.tribes1.Building.BuildingType;
 import com.greenfox.tribes1.Kingdom.DTO.KingdomDTO;
 import com.greenfox.tribes1.Security.Model.JwtTokenFactory;
 import com.greenfox.tribes1.TestTokenProvider;
+import com.greenfox.tribes1.kingdomelement.Building.Building;
+import com.greenfox.tribes1.kingdomelement.Building.BuildingFactory;
+import com.greenfox.tribes1.kingdomelement.Building.BuildingType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -165,7 +165,7 @@ public class KingdomControllerTest {
   @Test
   public void getKingdomBuilding_StatusOk_ReturnsMine() throws Exception {
     token = testTokenProvider.createMockToken(username);
-    Building mine = BuildingFactory.createBuilding(BuildingType.mine);
+    Building mine = BuildingFactory.createBuilding(BuildingType.Mine);
     List<Building> buildingList = new ArrayList<>();
     buildingList.add(mine);
     testKingdom.setBuildings(buildingList);

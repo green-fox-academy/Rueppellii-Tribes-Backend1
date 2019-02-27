@@ -1,8 +1,8 @@
 package com.greenfox.tribes1.Kingdom.DTO;
 
-import com.greenfox.tribes1.Building.Building;
-import com.greenfox.tribes1.Resources.Resource;
-import com.greenfox.tribes1.Troop.Model.Troop;
+import com.greenfox.tribes1.kingdomelement.Building.Building;
+import com.greenfox.tribes1.kingdomelement.Resources.Resource;
+import com.greenfox.tribes1.kingdomelement.Troop.Model.Troop;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class KingdomDTO {
+
   private Long id;
   private String kingdomName;
   private String applicationUserName;
