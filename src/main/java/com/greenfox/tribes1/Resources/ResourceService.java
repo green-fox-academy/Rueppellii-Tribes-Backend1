@@ -45,4 +45,7 @@ public class ResourceService implements KingdomElementService<Resource> {
     }
   }
 
+  public void lvlUp(Resource resource) {
+    resource.setAmountPerMinute(resource.getAmountPerMinute() + 5L);
+  }
 }
