@@ -43,6 +43,10 @@ public class TroopFactory {
                 .map(f -> (Food) f)
                 .collect(Collectors.toList()));
 
+//troopUgprade(){
+
+decreaseResource();
+}
 
 
     food.setAmountPerMinute(food.getAmountPerMinute() - 1);

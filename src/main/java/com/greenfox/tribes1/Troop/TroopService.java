@@ -46,4 +46,5 @@ public class TroopService implements KingdomElementService<Troop>, Upgradable<Tr
     return (troopRepository.save(troop
             .orElseThrow(() -> new TroopNotValidException("Troop is not valid!"))));
   }
+
 }

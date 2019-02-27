@@ -42,4 +42,5 @@ public abstract class Resource implements Updatable {
             + getAmount());
     setUpdated_at(new Timestamp(System.currentTimeMillis()));
   }
+
 }
